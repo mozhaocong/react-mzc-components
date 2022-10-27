@@ -1,0 +1,74 @@
+@leftWidth: 20px;
+@currentIcoSize: 20px;
+@currentIcoSizeStyle: 4px solid #952d2dee;
+@icoSize: 15PX;
+@icoSizeStyle: 2px solid #952d2dee;
+@lineStyle: 2px solid #eee;
+@distanceLength: 60px;
+
+.timeline-components{
+  display: flex;
+  flex-direction:column;
+  .timeline-content-area-reverse{
+    padding:@distanceLength 0 0 !important;
+  }
+  .timeline-line-top-reverse{
+    height: @distanceLength !important;
+  }
+
+  .timeline-line-top{
+    height: 0;
+    width: 0;
+    border-left: @lineStyle;
+  }
+
+  .timeline-line{
+    height: 100%;
+    flex: 1;
+    border-left: @lineStyle;
+    width: 0;
+  }
+  .extend-line{
+    width:@leftWidth;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    flex: 1;
+    height: auto;
+  }
+
+  .timeline-block{
+    display: flex;
+    .timeline-ico{
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: 0 10px 0 0;
+      width: @leftWidth;
+      .current-ico-block.ico-block{
+        width: @currentIcoSize;
+        height: @currentIcoSize;
+        border-radius: 100%;
+        border: @currentIcoSizeStyle;
+      }
+      .ico-block{
+        width: @icoSize;
+        height: @icoSize;
+        border-radius: 100%;
+        border: @icoSizeStyle;
+      }
+    }
+    .timeline-content-area{
+      display: flex;
+      padding: 0 0 @distanceLength;
+      flex: 1;
+      .content-block{
+        width: 100%;
+        .content-title-time{
+          display: flex;
+          justify-content: space-between;
+        }
+      }
+    }
+  }
+}
