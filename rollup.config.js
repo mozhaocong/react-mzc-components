@@ -28,8 +28,8 @@ module.exports = [
 				exclude: 'node_modules/**',
 				plugins: ['@babel/plugin-transform-runtime']
 			}),
-			postcss({ plugins: [autoprefixer()] }),
-			terser()
+			postcss({ plugins: [autoprefixer()] })
+			// terser()
 		],
 		output: [
 			{

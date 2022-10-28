@@ -4,7 +4,7 @@ import { _FormType } from '../Form/indexType'
 import { Table } from 'antd'
 import { setOptionsDefData, useRequest } from './hooks'
 import { isArray, isTrue, deepClone } from 'html-mzc-tool'
-import CheckedTag, { listSearchType } from './model/CheckedTag'
+import CheckedTag, { baseSetChecked, listSearchType } from './model/CheckedTag'
 import Search from './model/Search'
 import { TableProps } from 'antd/lib/table/Table'
 import { getFormValueFromName, setSlotValueOther } from '../Form/uitls/tool'
@@ -146,6 +146,9 @@ let View = (props: searchTableType) => {
 View = React.memo(View)
 export default View as typeof View & {
 	setOptionsDefData: typeof setOptionsDefData
+	baseSetChecked: typeof baseSetChecked
 }
 // @ts-ignore
 View.setOptionsDefData = setOptionsDefData
+// @ts-ignore
+View.baseSetChecked = baseSetChecked
