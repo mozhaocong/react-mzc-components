@@ -13,7 +13,7 @@ const extensions = ['.js', '.ts', '.tsx']
 
 module.exports = [
 	{
-		input: './src/index.ts',
+		input: 'src/components/index.ts',
 		plugins: [
 			json(),
 			typescript({

@@ -16,11 +16,9 @@ const Search = (props: searchType) => {
 		<div>
 			<HtForm {...{ value, columns, ...attrs }} />
 			<div>
-				{/*// @ts-ignore*/}
 				<Button loading={attrs.loading} htmlType={'submit'} form={attrs.fId}>
 					搜索
 				</Button>
-				{/*// @ts-ignore*/}
 				<Button loading={attrs.loading} onClick={onResetClick}>
 					重置
 				</Button>

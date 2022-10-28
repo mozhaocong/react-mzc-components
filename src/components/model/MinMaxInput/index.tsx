@@ -3,13 +3,13 @@ import { InputNumber } from 'antd'
 import { isEmpty, isNil } from 'ramda'
 
 type props = {
-	onChange: (item: any) => void
-	value: ObjectMap
-	minProp: ObjectMap
-	maxProp: ObjectMap
-	disabled: boolean
-	style: ObjectMap
-	width: string
+	onChange?: (item: any) => void
+	value?: ObjectMap
+	minProp?: ObjectMap
+	maxProp?: ObjectMap
+	disabled?: boolean
+	style?: ObjectMap
+	width?: string
 }
 
 export default class minMaxInput extends Component<props> {

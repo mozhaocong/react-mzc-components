@@ -27,7 +27,7 @@ export function getFormValueFromName(value: ObjectMap, item: Array<string | numb
 }
 
 // 设置 form value 的值
-export function setNameToValue(
+export function setFormNameToValue(
 	value: ObjectMap,
 	setData: string | number | Array<string | number>,
 	setMethod: (item: any) => string | number | null | undefined
@@ -52,7 +52,7 @@ export function setSlotValueOther(item, valueOtherData, optionText) {
 	} else {
 		selectNameLabel = item.selectNane + 'Label'
 	}
-	valueOtherData.value = setNameToValue(valueOtherData.value, selectNameLabel, () => {
+	valueOtherData.value = setFormNameToValue(valueOtherData.value, selectNameLabel, () => {
 		return optionText
 	})
 }

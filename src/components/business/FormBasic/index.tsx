@@ -1,10 +1,8 @@
 import React, { forwardRef, useEffect, useMemo } from 'react'
 import { Select } from 'antd'
 import { SelectProps } from 'antd/lib/select'
-// @ts-ignore
 import { useDispatch, useSelector } from 'react-redux'
 import { isTrue } from 'html-mzc-tool'
-// @ts-ignore
 import { businessProp, getBasicDataList } from '@/store/features/business'
 
 interface propsType extends Omit<SelectProps, 'options'> {

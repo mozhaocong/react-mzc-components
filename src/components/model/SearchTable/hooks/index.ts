@@ -2,7 +2,7 @@ import Pagination from '../model/Pagination'
 import { ReactElement, useState } from 'react'
 import { isObject, isTrue, objectFilterEmpty } from 'html-mzc-tool'
 
-const optionsDefData = {
+let optionsDefData = {
 	apiSuccessfulVerification: (item: ObjectMap): boolean => {
 		return item?.code === 200
 	}, // 接口成功校验
@@ -16,6 +16,10 @@ const optionsDefData = {
 		current: 'page',
 		pageSize: 'size'
 	}
+}
+
+export function setOptionsDefData(item: typeof optionsDefData) {
+	optionsDefData = item
 }
 
 type optionsType = {

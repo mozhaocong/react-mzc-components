@@ -1,7 +1,7 @@
 import { debounce, deepClone, isTrue } from 'html-mzc-tool'
 import { Button, Col, Form, Row, Select } from 'antd'
 import React, { useRef, useState } from 'react'
-import { getFormValueFromName, setNameToValue, setSlotValueOther } from './tool'
+import { getFormValueFromName, setFormNameToValue, setSlotValueOther } from './tool'
 import { ColumnType } from 'antd/lib/table/interface'
 import { columnsItem, ColumnTypeForm, formListPublicProps, formName, formPublicProps, formTablePublicProps } from '../indexType'
 
@@ -30,7 +30,7 @@ function setValueMethod(item, stateData, pageSate, slotName) {
 		const slotNameData = pageSate[res]
 		const { selectNane, initialValue } = slotNameData
 		if (!isTrue(getFormValueFromName(value, selectNane))) {
-			value = setNameToValue(value, selectNane, res => {
+			value = setFormNameToValue(value, selectNane, res => {
 				if (!isTrue(res)) {
 					isInit = true
 					return initialValue.select
@@ -57,7 +57,7 @@ function selectChange(e, option, item, stateDate) {
 
 	setSlotValueOther(item, valueOtherData, option.children)
 
-	const returnData = setNameToValue(valueData.value, slotName, () => {
+	const returnData = setFormNameToValue(valueData.value, slotName, () => {
 		return undefined
 	})
 	setValue(returnData)
@@ -177,7 +177,7 @@ export class baseFormTableColumnsItem extends baseFormColumnsItem<ColumnTypeForm
 						onClick={() => {
 							data.splice(index, 1)
 							setValue(
-								setNameToValue(value, name, () => {
+								setFormNameToValue(value, name, () => {
 									return data
 								})
 							)
@@ -191,7 +191,7 @@ export class baseFormTableColumnsItem extends baseFormColumnsItem<ColumnTypeForm
 						onClick={() => {
 							data.push({})
 							setValue(
-								setNameToValue(value, name, () => {
+								setFormNameToValue(value, name, () => {
 									return data
 								})
 							)

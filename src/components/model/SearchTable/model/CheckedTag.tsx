@@ -1,7 +1,7 @@
 import React, { Fragment, useMemo } from 'react'
 import { deepClone, isString, isTrue, objectRecursiveMerge } from 'html-mzc-tool'
 import { Tag } from 'antd'
-import { getFormValueFromName, setNameToValue } from '../../Form/uitls/tool'
+import { getFormValueFromName, setFormNameToValue } from '../../Form/uitls/tool'
 
 type checkedName = string | number | Array<string | number>
 
@@ -50,12 +50,11 @@ export function baseSetChecked(config: {
 	function closeTag(e, item) {
 		const { onSearch } = item
 		e.preventDefault()
-		const data = setNameToValue(value, closeName, () => undefined)
+		const data = setFormNameToValue(value, closeName, () => undefined)
 		onSearch(data)
 	}
 	if (isTrue(selectLabel) && isTrue(option)) {
 		return (
-			// @ts-ignore
 			<Tag closable onClose={e => closeTag(e, item)}>
 				{selectLabel}: {option}
 			</Tag>
@@ -86,7 +85,7 @@ const CheckedTag = (props: { listSearch: listSearchType[]; onSearch: (item: Obje
 	function closeTag(e: any, item: tagItemType | { [index: string]: any }) {
 		e.preventDefault()
 		const { value, name } = item
-		const data = setNameToValue(value, name, () => undefined)
+		const data = setFormNameToValue(value, name, () => undefined)
 		onSearch(data)
 	}
 	function getTag(item: tagItemType) {
