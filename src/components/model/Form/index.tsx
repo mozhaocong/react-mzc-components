@@ -1,12 +1,12 @@
 import { Form, Row, Spin } from 'antd'
 import React, { useEffect, useRef } from 'react'
-import { useFormData, setFormColumnsSlotName } from './uitls'
+import { useFormData, setSlotComponents } from './uitls'
 import FormItem from './components/formItem'
 import FormList from './components/formList'
 import FormTable from './components/formTable'
 import { _FormType } from './indexType'
 import { isTrue } from 'html-mzc-tool'
-import { setFormNameToValue, setSlotValueOther } from '@/components/model/Form/uitls/tool'
+import { setFormNameToValue } from './uitls/tool'
 
 let _Form = (props: _FormType) => {
 	const {
@@ -118,9 +118,8 @@ export default _Form as typeof _Form & {
 	FormItem: typeof FormItem
 	FormTable: typeof FormTable
 	ShowText: typeof ShowText
-	setFormColumnsSlotName: typeof setFormColumnsSlotName
-	setSlotValueOther: typeof setSlotValueOther
 	setFormNameToValue: typeof setFormNameToValue
+	setSlotComponents: typeof setSlotComponents
 }
 
 const ShowText = props => {
@@ -138,8 +137,6 @@ _Form.FormTable = FormTable
 // @ts-ignore
 _Form.ShowText = ShowText
 // @ts-ignore
-_Form.setFormColumnsSlotName = setFormColumnsSlotName
-// @ts-ignore
-_Form.setSlotValueOther = setSlotValueOther
-// @ts-ignore
 _Form.setFormNameToValue = setFormNameToValue
+// @ts-ignore
+_Form.setSlotComponents = setSlotComponents

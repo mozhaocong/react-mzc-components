@@ -42,17 +42,3 @@ export function setFormNameToValue(
 		return value
 	}
 }
-
-// 设置 form slot valueOther的值
-export function setSlotValueOther(item, valueOtherData, optionText) {
-	let selectNameLabel: any
-	if (isArray(item.selectNane)) {
-		selectNameLabel = deepClone(item.selectNane)
-		selectNameLabel[selectNameLabel.length - 1] = selectNameLabel[selectNameLabel.length - 1] + 'Label'
-	} else {
-		selectNameLabel = item.selectNane + 'Label'
-	}
-	valueOtherData.value = setFormNameToValue(valueOtherData.value, selectNameLabel, () => {
-		return optionText
-	})
-}

@@ -71,5 +71,19 @@ export interface columnsItem<T = ObjectMap> extends FormItemProps {
 	customRender?: (item: T) => React.ReactElement
 	col?: ColProps
 	style?: ObjectMap
-	slotName?: string
+}
+
+export interface searchColumnsItem extends columnsItem<formPublicProps> {
+	selectSlot?: {
+		selectNane: formName
+		optionNane: formName
+		initialValue: {
+			select: string
+		}
+		placeholder?: string
+		component?: (item: formPublicProps) => React.ReactElement
+		slotList: { label: string; key: string; component?: (item: formPublicProps) => React.ReactElement }[]
+	}
+	setChecked?: (item: ObjectMap) => React.ReactElement | string | number
+	setSearchData?: (item: ObjectMap, nameData?: any) => ObjectMap
 }

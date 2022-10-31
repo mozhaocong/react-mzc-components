@@ -1,71 +1,66 @@
-import { debounce, deepClone, isTrue } from 'html-mzc-tool'
-import { Button, Col, Form, Row, Select } from 'antd'
+import { arrayGetData, deepClone, isArray, isTrue, objectRecursiveMerge } from 'html-mzc-tool'
+import { Button, Col, Form, Row, Select, Tag } from 'antd'
 import React, { useRef, useState } from 'react'
-import { getFormValueFromName, setFormNameToValue, setSlotValueOther } from './tool'
+import { getFormValueFromName, setFormNameToValue } from './tool'
 import { ColumnType } from 'antd/lib/table/interface'
-import { columnsItem, ColumnTypeForm, formListPublicProps, formName, formPublicProps, formTablePublicProps } from '../indexType'
+import { columnsItem, ColumnTypeForm, formListPublicProps, formName, formPublicProps, formTablePublicProps, searchColumnsItem } from '../indexType'
+import { tagItemType } from '../../SearchTable/model/CheckedTag'
 
 const { Option } = Select
 
-// 防抖 避免多少触发更新
-const setValueDebounce = debounce(setValueMethod, 10)
-
-function setDefaultSlotNameValueOtherData(item, initialValue, stateDate) {
-	const { slotList = [] } = item
-	let option = undefined
-	slotList.forEach(res => {
-		if (res.key === initialValue) {
-			option = { key: initialValue, value: initialValue, children: res.label }
-		}
-	})
-	selectChange(initialValue, option, item, stateDate)
-}
-
-function setValueMethod(item, stateData, pageSate, slotName) {
-	const { setValue } = stateData
-	let value = deepClone(stateData.value)
+export function setSlotValueMethod(item, stateData) {
+	const { setValue, value } = stateData
 	let isInit = false
-	if (!isTrue(slotName)) return
-	slotName.forEach(res => {
-		const slotNameData = pageSate[res]
-		const { selectNane, initialValue } = slotNameData
-		if (!isTrue(getFormValueFromName(value, selectNane))) {
-			value = setFormNameToValue(value, selectNane, res => {
-				if (!isTrue(res)) {
-					isInit = true
-					return initialValue.select
-				}
-				return res
-			})
-			setDefaultSlotNameValueOtherData(pageSate[res], initialValue.select, stateData)
+	const { selectNane, initialValue } = item
+	if (!isTrue(getFormValueFromName(value, selectNane))) {
+		const setData = setFormNameToValue(value, selectNane, res => {
+			if (!isTrue(res)) {
+				isInit = true
+				return initialValue.select
+			}
+			return res
+		})
+		if (isInit) {
+			setValue(setData)
 		}
-	})
-
-	if (isInit) {
-		setValue(value)
 	}
 }
 
-function selectChange(e, option, item, stateDate) {
-	const { valueData, setValue, valueOtherData } = stateDate
+// 设置 form slot valueOther的值
+export function setSlotValueOther(item, stateDate) {
+	const { valueOtherData, value } = stateDate
+	const slotListData = arrayGetData(item.slotList, { key: getFormValueFromName(value, item.selectNane) })
+	if (!isTrue(slotListData)) return
+	let selectNameLabel: any
+	if (isArray(item.selectNane)) {
+		selectNameLabel = deepClone(item.selectNane)
+		selectNameLabel[selectNameLabel.length - 1] = selectNameLabel[selectNameLabel.length - 1] + 'Label'
+	} else {
+		selectNameLabel = item.selectNane + 'Label'
+	}
+	valueOtherData.value = setFormNameToValue(valueOtherData.value, selectNameLabel, () => {
+		return slotListData[0].label
+	})
+}
+
+function selectChange(value: string, item, stateDate) {
+	const { valueData, setValue } = stateDate
 	let slotName = ''
 	item.slotList.forEach(res => {
-		if (res.key === e) {
+		if (res.key === value) {
 			slotName = res.name ?? item.optionNane
 		}
 	})
-
-	setSlotValueOther(item, valueOtherData, option.children)
-
-	const returnData = setFormNameToValue(valueData.value, slotName, () => {
-		return undefined
-	})
-	setValue(returnData)
+	if (isTrue(slotName)) {
+		const returnData = setFormNameToValue(valueData.value, slotName, () => {
+			return undefined
+		})
+		setValue(returnData)
+	}
 }
 
-export function setSlotComponents(item, stateData, pageSate, slotName) {
+export const setSlotComponents = (item, stateData) => {
 	const { value } = stateData
-	setValueDebounce(item, stateData, pageSate, slotName)
 	return (
 		<Col span={8}>
 			<Form.Item label={item.label} labelCol={{ span: 0 }} wrapperCol={{ span: 24 }}>
@@ -76,7 +71,13 @@ export function setSlotComponents(item, stateData, pageSate, slotName) {
 							name={item.selectNane}
 							noStyle
 							rules={[{ required: true, message: 'Province is required' }]}>
-							<Select placeholder={item.placeholder} onChange={(e, res) => selectChange(e, res, item, stateData)}>
+							<Select
+								placeholder={item.placeholder}
+								onChange={e => {
+									// 在setValueDebounce 中更新valueData的值
+									// setSlotValueOther(item, stateData, res.children)
+									selectChange(e, item, stateData)
+								}}>
 								{item.slotList.map(res => {
 									return (
 										<Option value={res.key} key={res.key}>
@@ -105,19 +106,6 @@ export function setSlotComponents(item, stateData, pageSate, slotName) {
 			</Form.Item>
 		</Col>
 	)
-}
-
-export function setFormColumnsSlotName(item, pageSate) {
-	const slotName = []
-	return item.map(res => {
-		if (res.slotName && pageSate[res.slotName]) {
-			slotName.push(res.slotName)
-			res.render = renderItem => {
-				return setSlotComponents(pageSate[res.slotName], renderItem, pageSate, slotName)
-			}
-		}
-		return res
-	})
 }
 
 type useFormDataConfig = {
@@ -158,8 +146,56 @@ export class baseFormColumnsItem<T = columnsItem<formPublicProps>> {
 	setColumns(item: Array<T>) {
 		this.data = item
 	}
-	serialNumber(item: { index: number; [index: string]: any }): React.ReactElement {
-		return <div>{item.index + 1}</div>
+}
+
+export class baseSearchColumnsItem<T = searchColumnsItem> {
+	data: Array<T>
+	setColumns(item: Array<T>) {
+		this.data = item
+	}
+	baseSetChecked(config: {
+		item: tagItemType
+		label?: string
+		text?: string
+		closeName: formName
+		propsName?: Array<string | number> | string | number
+		setOption?: (item: ObjectMap, nameData: any) => string | number | undefined
+		setLabel?: (item: ObjectMap, nameData: any) => string | number | undefined
+	}): React.ReactElement {
+		const { item, label = 'selectLabel', text = 'option', closeName = ['spPlatform', 'option'], propsName, setOption, setLabel } = config
+		const { value, valueOtherData } = item
+		const data = objectRecursiveMerge(value, valueOtherData.value)
+
+		let option
+		let selectLabel
+		let nameData = data
+		if (isTrue(propsName)) {
+			nameData = getFormValueFromName(data, propsName)
+		}
+		selectLabel = nameData[label]
+		option = nameData[text]
+		if (setOption) {
+			option = setOption(data, nameData)
+		}
+		if (setLabel) {
+			selectLabel = setLabel(data, nameData)
+		}
+
+		function closeTag(e, item) {
+			const { onSearch } = item
+			e.preventDefault()
+			const data = setFormNameToValue(value, closeName, () => undefined)
+			onSearch(data)
+		}
+		if (isTrue(selectLabel) && isTrue(option)) {
+			return (
+				<Tag closable onClose={e => closeTag(e, item)}>
+					{selectLabel}: {option}
+				</Tag>
+			)
+		} else {
+			return <></>
+		}
 	}
 }
 
@@ -201,6 +237,9 @@ export class baseFormTableColumnsItem extends baseFormColumnsItem<ColumnTypeForm
 				)}
 			</>
 		)
+	}
+	serialNumber(item: { index: number; [index: string]: any }): React.ReactElement {
+		return <div>{item.index + 1}</div>
 	}
 }
 
