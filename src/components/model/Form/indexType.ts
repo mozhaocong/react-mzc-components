@@ -9,7 +9,7 @@ import { ColProps } from 'antd/lib/grid/col'
 export interface _FormType extends FormProps {
 	fId?: string //form 的 Id
 	loading?: boolean
-	columns?: Array<columnsItem<formPublicProps>>
+	columns: Array<columnsItem<formPublicProps>>
 	col?: ColProps // 使用 row col 布局
 	style?: ObjectMap
 	onChange?: (item: ObjectMap) => void
