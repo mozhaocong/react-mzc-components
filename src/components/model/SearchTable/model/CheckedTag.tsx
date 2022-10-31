@@ -42,7 +42,7 @@ const CheckedTag = (props: { listSearch: listSearchType[]; onSearch: (item: Obje
 		let checkedData = ''
 		if (isTrue(setChecked)) {
 			checkedData = setChecked(item)
-			if (!isTrue(checkedData)) {
+			if (isTrue(checkedData)) {
 				if (isString(checkedData) || isNumber(checkedData)) {
 					nameData = checkedData
 				} else {

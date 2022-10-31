@@ -83,6 +83,9 @@ export interface searchColumnsItem extends columnsItem<formPublicProps> {
 		placeholder?: string
 		component?: (item: formPublicProps) => React.ReactElement
 		slotList: { label: string; key: string; component?: (item: formPublicProps) => React.ReactElement }[]
+		col?: ColProps // 使用 row col 布局
+		listSearch?: ColProps // 使用 row col 布局
+		wrapperCol?: ColProps // 使用 row col 布局
 	}
 	setChecked?: (item: ObjectMap) => React.ReactElement | string | number
 	setSearchData?: (item: ObjectMap, nameData?: any) => ObjectMap

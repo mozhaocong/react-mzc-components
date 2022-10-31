@@ -1,6 +1,6 @@
 {
   "name": "react-mzc-components",
-  "version": "1.0.11",
+  "version": "1.0.21",
   "description": "",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",

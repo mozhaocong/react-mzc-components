@@ -5,6 +5,7 @@ import { getFormValueFromName, setFormNameToValue } from './tool'
 import { ColumnType } from 'antd/lib/table/interface'
 import { columnsItem, ColumnTypeForm, formListPublicProps, formName, formPublicProps, formTablePublicProps, searchColumnsItem } from '../indexType'
 import { tagItemType } from '../../SearchTable/model/CheckedTag'
+import moment from 'moment/moment'
 
 const { Option } = Select
 
@@ -60,12 +61,13 @@ function selectChange(value: string, item, stateDate) {
 }
 
 export const setSlotComponents = (item, stateData) => {
+	const { col = { span: 6 }, labelCol = { span: 8 }, wrapperCol = { span: 12 } } = item
 	const { value } = stateData
 	return (
-		<Col span={8}>
+		<Col {...col}>
 			<Form.Item label={item.label} labelCol={{ span: 0 }} wrapperCol={{ span: 24 }}>
 				<Row>
-					<Col span={12}>
+					<Col {...labelCol}>
 						<Form.Item
 							initialValue={item.initialValue?.select}
 							name={item.selectNane}
@@ -95,7 +97,7 @@ export const setSlotComponents = (item, stateData) => {
 							})
 							.map(res => {
 								return (
-									<Col span={12} key={res.key}>
+									<Col {...wrapperCol} key={res.key}>
 										<Form.Item name={res.name ?? item.optionNane} initialValue={res.initialValue ?? item.initialValue?.option} noStyle>
 											{res.component ? res.component(stateData) : item.component(stateData)}
 										</Form.Item>
@@ -146,13 +148,16 @@ export class baseFormColumnsItem<T = columnsItem<formPublicProps>> {
 	setColumns(item: Array<T>) {
 		this.data = item
 	}
+	momentToArray(item: any[], format = 'YYYY-MM-DD') {
+		return isTrue(item)
+			? item.map(res => {
+					return moment(res).format(format)
+			  }) || []
+			: []
+	}
 }
 
-export class baseSearchColumnsItem<T = searchColumnsItem> {
-	data: Array<T>
-	setColumns(item: Array<T>) {
-		this.data = item
-	}
+export class baseSearchColumnsItem extends baseFormColumnsItem<searchColumnsItem> {
 	baseSetChecked(config: {
 		item: tagItemType
 		label?: string
