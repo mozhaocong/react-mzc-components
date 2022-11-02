@@ -113,7 +113,8 @@ module.exports = {
 	resolve: {
 		symlinks: false,
 		alias: {
-			'@': path.join(__dirname, '../src')
+			'@': path.join(__dirname, '../src'),
+			'@components': path.join(__dirname, '../components')
 		},
 		extensions: ['.tsx', '.ts', '.js', 'jsx'] //引入文件时无需加以上后缀
 	}

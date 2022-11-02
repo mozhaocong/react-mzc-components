@@ -17,6 +17,6 @@
     "allowSyntheticDefaultImports": true,
     "declaration": true
   },
-  "include": ["src/*", "src/**/*","build/*", "components/**/*" ,"components/*"],
+  "include": ["components/*"],
   "exclude": ["node_modules"]
 }

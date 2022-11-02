@@ -2,9 +2,7 @@ import { Button, Col, Input } from 'antd'
 import { debounce, deepClone, isTrue } from 'html-mzc-tool'
 import React from 'react'
 
-import { BaseFormColumnsItem, BaseFormTableColumnsItem, HtForm } from '@/components'
-import FormRadio from '@/components/business/FormRadio'
-import FormSelect from '@/components/business/FormSelect'
+import { BaseFormColumnsItem, BaseFormTableColumnsItem, FormRadio, FormSelect, HtForm } from '@/components'
 const { FormTable, FormItem, useFormData } = HtForm
 
 class formTable extends BaseFormTableColumnsItem {

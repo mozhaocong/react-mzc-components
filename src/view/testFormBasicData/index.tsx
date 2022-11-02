@@ -1,6 +1,6 @@
 import React from 'react'
 
-import FormBasic from '@/components/business/FormBasic'
+import { FormBasic } from '@/components'
 
 const View = () => {
 	return (

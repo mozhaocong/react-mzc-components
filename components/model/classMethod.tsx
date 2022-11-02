@@ -12,8 +12,7 @@ import {
 	formPublicProps,
 	formTablePublicProps,
 	searchColumnsItem
-} from '@/components/model/Form/indexType'
-
+} from './Form/indexType'
 import { getFormValueFromName, setFormNameToValue } from './Form/uitls/tool'
 import { listSearchType, tagItemType } from './SearchTable/model/CheckedTag'
 
