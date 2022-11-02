@@ -52,7 +52,7 @@ const CheckedTag = (props: { listSearch: listSearchType[]; onSearch: (item: Obje
 			}
 		}
 
-		if (!(isString(nameData) && isTrue(label))) {
+		if (!((isString(nameData) || isNumber(nameData)) && isTrue(label))) {
 			return <></>
 		}
 		return (

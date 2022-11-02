@@ -33,10 +33,11 @@ type searchTableType = {
 		defaultParams?: ObjectMap
 		setSearchData?: (item: ObjectMap) => ObjectMap
 	}
+	slot?: React.ReactElement
 }
 
 let View = (props: searchTableType) => {
-	const { search: propsSearch, table: propsTable, checkedListSearch, useRequest: propsUseRequest } = props
+	const { search: propsSearch, table: propsTable, checkedListSearch, useRequest: propsUseRequest, slot = <></> } = props
 	const { onFinish: propsOnFinish, columns, fId, ...searchAttrs } = propsSearch || {}
 	const { apiRequest, onSuccess, defaultParams = {}, setSearchData: propsSetSearchData } = propsUseRequest || {}
 
@@ -132,7 +133,6 @@ let View = (props: searchTableType) => {
 
 	return (
 		<div>
-			<div>View</div>
 			<Search
 				loading={loading}
 				fId={fId}
@@ -145,6 +145,7 @@ let View = (props: searchTableType) => {
 				onFinish={onFinish}
 				{...{ ...searchAttrs, onReset: onReset }}
 			/>
+			{slot}
 			<CheckedTag listSearch={listSearch} onSearch={onSearch} />
 			<Table loading={loading} pagination={false} dataSource={dataSource} {...propsTable} />
 			<Pagination />
