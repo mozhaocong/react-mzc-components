@@ -1,4 +1,4 @@
-import { arrayGetData, deepClone, isArray, isTrue, objectRecursiveMerge } from 'html-mzc-tool'
+import { arrayGetData, deepClone, isArray, isString, isTrue, objectRecursiveMerge } from 'html-mzc-tool'
 import { Button, Col, Form, Row, Select, Tag } from 'antd'
 import React, { useRef, useState } from 'react'
 import { getFormValueFromName, setFormNameToValue } from './tool'
@@ -160,8 +160,8 @@ export class baseFormColumnsItem<T = columnsItem<formPublicProps>> {
 export class baseSearchColumnsItem extends baseFormColumnsItem<searchColumnsItem> {
 	baseSetChecked(config: {
 		item: tagItemType
-		label?: string
-		text?: string
+		label?: formName
+		text?: formName
 		closeName: formName
 		propsName?: Array<string | number> | string | number
 		setOption?: (item: ObjectMap, nameData: any) => string | number | undefined
@@ -177,8 +177,8 @@ export class baseSearchColumnsItem extends baseFormColumnsItem<searchColumnsItem
 		if (isTrue(propsName)) {
 			nameData = getFormValueFromName(data, propsName)
 		}
-		selectLabel = nameData[label]
-		option = nameData[text]
+		selectLabel = getFormValueFromName(nameData, label)
+		option = getFormValueFromName(nameData, text)
 		if (setOption) {
 			option = setOption(data, nameData)
 		}
@@ -201,6 +201,43 @@ export class baseSearchColumnsItem extends baseFormColumnsItem<searchColumnsItem
 		} else {
 			return <></>
 		}
+	}
+	simpleInputChecked(config: { item: tagItemType; labelKey: formName; textKey: formName }) {
+		const { item, labelKey, textKey } = config
+		let label = labelKey
+		if (isString(labelKey)) {
+			label = label + 'Label'
+		}
+		return this.baseSetChecked({ label: label, item: item, text: textKey, closeName: textKey })
+	}
+	simpleRangePickerChecked(config: { item: tagItemType; labelKey: formName; textKey: formName }) {
+		const { item, labelKey, textKey } = config
+		let label = labelKey
+		if (isString(labelKey)) {
+			label = label + 'Label'
+		}
+		return this.baseSetChecked({
+			item,
+			label: label,
+			setOption: item => {
+				const textData = getFormValueFromName(item, textKey)
+				const data = this.momentToArray(textData)
+				return data.join(',')
+			},
+			closeName: textKey
+		})
+	}
+	simpleRangePickerSearchData(config: { item: tagItemType; mapKeys: formName; textKey: formName }) {
+		const { item, mapKeys, textKey } = config
+		const textData = getFormValueFromName(item, textKey)
+		const data = this.momentToArray(textData)
+		setFormNameToValue(item, mapKeys, () => {
+			return data.join(',')
+		})
+		setFormNameToValue(item, textKey, () => {
+			return undefined
+		})
+		return item
 	}
 }
 
