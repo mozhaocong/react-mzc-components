@@ -145,8 +145,8 @@ let View = (props: searchTableType) => {
 				onFinish={onFinish}
 				{...{ ...searchAttrs, onReset: onReset }}
 			/>
-			{slot}
 			<CheckedTag listSearch={listSearch} onSearch={onSearch} />
+			{slot}
 			<Table loading={loading} pagination={false} dataSource={dataSource} {...propsTable} />
 			<Pagination />
 		</div>
