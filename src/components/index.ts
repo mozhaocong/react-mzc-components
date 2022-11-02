@@ -1,5 +1,12 @@
 export { default as CheckBox } from './model/CheckBox'
-export { BaseFormColumnsItem, BaseFormListColumnsItem, BaseFormTableColumnsItem, BaseSearchColumnsItem, BaseTableColumns } from './model/classMethod'
+export {
+	BaseFormColumnsItem,
+	BaseFormListColumnsItem,
+	BaseFormTableColumnsItem,
+	BaseSearchCheckedListSearch,
+	BaseSearchColumnsItem,
+	BaseTableColumns
+} from './model/classMethod'
 export { default as HtForm } from './model/Form'
 export { default as MinMaxInput } from './model/MinMaxInput'
 export { default as Modal } from './model/Modal'
