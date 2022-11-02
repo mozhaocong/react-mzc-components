@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from 'react'
 import { Modal } from 'antd'
 import { ModalFuncProps, ModalProps } from 'antd/lib/modal/Modal'
 import { isTrue } from 'html-mzc-tool'
+import React, { useEffect, useState } from 'react'
+
 import { createElement } from './components/createElement'
 
 type createModal = {

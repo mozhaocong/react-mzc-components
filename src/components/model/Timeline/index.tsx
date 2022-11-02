@@ -1,7 +1,8 @@
-import React, { CSSProperties } from 'react'
+import './index.less'
+
 import { TimelineProps } from 'antd/lib/timeline/Timeline'
 import { isTrue } from 'html-mzc-tool'
-import './index.less'
+import React, { CSSProperties } from 'react'
 interface timelineProps extends TimelineProps {
 	value: { title: string; time: string; person: string; content?: string }[]
 	reverse?: boolean

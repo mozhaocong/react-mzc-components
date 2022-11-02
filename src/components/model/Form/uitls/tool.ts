@@ -1,4 +1,4 @@
-import { deepClone, isArray, isString, isTrue, arrayToObject, getArrayToObjectTargetValue } from 'html-mzc-tool'
+import { arrayToObject, deepClone, getArrayToObjectTargetValue, isArray, isString, isTrue } from 'html-mzc-tool'
 
 // 获取form name  fieldName:上级name，name:当前name
 export const getFormName = (fieldName, name) => {

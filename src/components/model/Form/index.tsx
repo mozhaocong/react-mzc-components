@@ -1,11 +1,12 @@
 import { Form, Row, Spin } from 'antd'
+import { isTrue } from 'html-mzc-tool'
 import React, { useEffect, useRef } from 'react'
-import { useFormData, setSlotComponents } from './uitls'
+
 import FormItem from './components/formItem'
 import FormList from './components/formList'
 import FormTable from './components/formTable'
 import { _FormType } from './indexType'
-import { isTrue } from 'html-mzc-tool'
+import { setSlotComponents, useFormData } from './uitls'
 import { setFormNameToValue } from './uitls/tool'
 
 let _Form = (props: _FormType) => {

@@ -1,6 +1,7 @@
-import React from 'react'
-import { isFunctionOfOther, isTrue } from 'html-mzc-tool'
 import { Col, Form } from 'antd'
+import { isFunctionOfOther, isTrue } from 'html-mzc-tool'
+import React from 'react'
+
 import { columnsItem } from '../indexType'
 
 const View = (props: columnsItem): React.ReactElement => {

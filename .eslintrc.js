@@ -3,11 +3,7 @@ module.exports = {
 	env: {
 		node: true
 	},
-	extends: [
-		'plugin:@typescript-eslint/recommended',
-		'prettier',
-		'plugin:react-hooks/recommended'
-	],
+	extends: ['plugin:@typescript-eslint/recommended', 'prettier', 'plugin:react-hooks/recommended'],
 	parser: '@typescript-eslint/parser',
 	parserOptions: {
 		ecmaVersion: 2020
@@ -15,7 +11,7 @@ module.exports = {
 	globals: {
 		__webpack_public_path__: true
 	},
-	plugins: ['react', 'react-hooks', '@typescript-eslint', 'prettier'],
+	plugins: ['react', 'react-hooks', '@typescript-eslint', 'simple-import-sort', 'prettier'],
 	rules: {
 		'react-hooks/exhaustive-deps': 0,
 		'prettier/prettier': 'error',
@@ -27,6 +23,8 @@ module.exports = {
 		'@typescript-eslint/explicit-module-boundary-types': 'off',
 		'@typescript-eslint/ban-ts-comment': 'off',
 		'@typescript-eslint/no-explicit-any': 'off',
-		'@typescript-eslint/no-var-requires': 'off'
+		'@typescript-eslint/no-var-requires': 'off',
+		'simple-import-sort/imports': 'error',
+		'simple-import-sort/exports': 'error'
 	}
 }

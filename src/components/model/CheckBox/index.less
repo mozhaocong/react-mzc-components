@@ -1,0 +1,45 @@
+@lineWidth: 25px;
+@lineStyle: 1px solid #eee;
+@icoAreaStyle: 20px;
+@icoSize: 10px;
+@icoStyle: 2px solid #9a2d2d;
+@currentIcoSize: 15px;
+@currentIcoStyle: 4px solid #9a2d2d;
+
+
+
+
+.checkBox-components{
+  display: flex;
+  .check-block{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    .ico-area{
+      width: 100%;
+      display: flex;
+      align-items: center;
+      height: @icoAreaStyle;
+      .check-line{
+        flex: 1px;
+        border-top: @lineStyle;
+      }
+      .current-ico.ico-block{
+        width: @currentIcoSize;
+        height: @currentIcoSize;
+        border-radius: 100%;
+        border: @currentIcoStyle;
+      }
+      .ico-block{
+        width: @icoSize;
+        height: @icoSize;
+        border-radius: 100%;
+        border: @icoStyle;
+      }
+    }
+    .label-area{
+      padding: 0 @lineWidth;
+    }
+  }
+
+}

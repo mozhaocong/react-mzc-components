@@ -1,10 +1,10 @@
-import React from 'react'
 import { FormProps } from 'antd/lib/form/Form'
-import { FormInstance } from 'antd/lib/form/hooks/useForm'
-import { GetRowKey } from 'rc-table/lib/interface'
 import { FormItemProps } from 'antd/lib/form/FormItem'
-import { ColumnType } from 'antd/lib/table/interface'
+import { FormInstance } from 'antd/lib/form/hooks/useForm'
 import { ColProps } from 'antd/lib/grid/col'
+import { ColumnType } from 'antd/lib/table/interface'
+import { GetRowKey } from 'rc-table/lib/interface'
+import React from 'react'
 
 export interface _FormType extends FormProps {
 	fId?: string //form 的 Id

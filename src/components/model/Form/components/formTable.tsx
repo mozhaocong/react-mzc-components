@@ -1,11 +1,13 @@
-import React, { useEffect, useMemo, useState } from 'react'
-import { isArray, isFunctionOfOther, isObject, isString, isTrue } from 'html-mzc-tool'
-import FormItem from './formItem'
-import { Table } from 'antd'
-import { getFormName, getFormValueFromName } from '../uitls/tool'
-import RForm from '../index'
 import './formTable.less'
+
+import { Table } from 'antd'
+import { isArray, isFunctionOfOther, isObject, isString, isTrue } from 'html-mzc-tool'
+import React, { useEffect, useMemo, useState } from 'react'
+
+import RForm from '../index'
 import { _FormTableType } from '../indexType'
+import { getFormName, getFormValueFromName } from '../uitls/tool'
+import FormItem from './formItem'
 
 const _FormTable = (props: _FormTableType) => {
 	const { value, columns, formName, rowKey, isForm = true, ...attrs } = props

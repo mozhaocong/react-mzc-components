@@ -1,5 +1,5 @@
-import React from 'react'
 import { Pagination, Spin } from 'antd'
+import React from 'react'
 
 export default (
 	props: any = {

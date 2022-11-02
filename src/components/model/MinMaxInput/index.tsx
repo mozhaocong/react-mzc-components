@@ -1,6 +1,6 @@
-import React, { Component } from 'react'
 import { InputNumber } from 'antd'
 import { isEmpty, isNil } from 'ramda'
+import React, { Component } from 'react'
 
 type props = {
 	onChange?: (item: any) => void

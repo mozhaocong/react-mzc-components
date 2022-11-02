@@ -1,9 +1,10 @@
-import React from 'react'
 import { Form } from 'antd'
+import React from 'react'
+
 import RForm from '../index'
-import FormItem from './formItem'
-import { getFormName } from '../uitls/tool'
 import { _FormListType } from '../indexType'
+import { getFormName } from '../uitls/tool'
+import FormItem from './formItem'
 
 const _FormList = (props: _FormListType) => {
 	const { formName = '', columns = [], isForm = true, ...attrs } = props
