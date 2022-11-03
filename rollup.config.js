@@ -4,6 +4,7 @@ import json from '@rollup/plugin-json'
 import { nodeResolve } from '@rollup/plugin-node-resolve' // 引入依赖包
 import autoprefixer from 'autoprefixer'
 import path from 'path'
+import externals from 'rollup-plugin-node-externals'
 // import dts from 'rollup-plugin-dts' // 生成组件库.d.ts文件，不过tsconfig配置 暂时用不到
 import postcss from 'rollup-plugin-postcss'
 import { terser } from 'rollup-plugin-terser'
@@ -15,6 +16,7 @@ module.exports = [
 	{
 		input: 'components/index.ts',
 		plugins: [
+			externals({ devDeps: false }),
 			json(),
 			typescript({
 				check: false,
@@ -24,9 +26,9 @@ module.exports = [
 			nodeResolve(),
 			commonjs(),
 			babel({
-				babelHelpers: 'runtime',
-				exclude: 'node_modules/**',
-				plugins: ['@babel/plugin-transform-runtime']
+				babelHelpers: 'bundled',
+				include: ['components/**'],
+				extensions //超级关键配置
 			}),
 			postcss({ plugins: [autoprefixer()] })
 			// terser()
@@ -48,7 +50,6 @@ module.exports = [
 			react: 'React',
 			antd: 'antd',
 			'html-mzc-tool': 'html-mzc-tool'
-		},
-		external: ['react', 'react-dom', 'classname', 'react-is', '**/node_modules/**', 'html-mzc-tool', 'React', 'react', 'antd']
+		}
 	}
 ]
