@@ -14,9 +14,10 @@
       "@/*": ["src/*"],
       "@components/*": ["components/*"]
     },
+    "rootDir": "./components",
     "allowSyntheticDefaultImports": true,
     "declaration": true
   },
-  "include": ["components/*"],
+  "include": ["components/*", "components/**/*"],
   "exclude": ["node_modules"]
 }
