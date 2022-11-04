@@ -30,7 +30,7 @@ export function getFormValueFromName(value: ObjectMap, item: Array<string | numb
 export function setFormNameToValue(
 	value: ObjectMap,
 	setData: string | number | Array<string | number>,
-	setMethod: (item: any) => string | number | null | undefined
+	setMethod: (item: any) => string | number | null | undefined | any[]
 ) {
 	if (isArray(setData)) {
 		return arrayToObject(value, setData, setMethod)

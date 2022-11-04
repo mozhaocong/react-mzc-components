@@ -73,6 +73,8 @@ export interface columnsItem<T = ObjectMap> extends FormItemProps {
 	style?: ObjectMap
 }
 
+export type slotListType = { label: string; key: string; name?: string; component?: (item: formPublicProps) => React.ReactElement }[]
+
 export interface searchColumnsItem extends columnsItem<formPublicProps> {
 	selectSlot?: {
 		selectNane: formName
@@ -82,7 +84,7 @@ export interface searchColumnsItem extends columnsItem<formPublicProps> {
 		}
 		placeholder?: string
 		component?: (item: formPublicProps) => React.ReactElement
-		slotList: { label: string; key: string; component?: (item: formPublicProps) => React.ReactElement }[]
+		slotList: slotListType
 		col?: ColProps // 使用 row col 布局
 		listSearch?: ColProps // 使用 row col 布局
 		wrapperCol?: ColProps // 使用 row col 布局

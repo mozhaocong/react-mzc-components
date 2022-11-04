@@ -1,8 +1,10 @@
-import { Button, Tag } from 'antd'
+import { Button, DatePicker, Input, Tag } from 'antd'
 import { ColumnType } from 'antd/lib/table/interface'
 import { isString, isTrue, objectRecursiveMerge } from 'html-mzc-tool'
 import moment from 'moment'
 import React from 'react'
+
+const { RangePicker } = DatePicker
 
 import {
 	columnsItem,
@@ -11,7 +13,8 @@ import {
 	formName,
 	formPublicProps,
 	formTablePublicProps,
-	searchColumnsItem
+	searchColumnsItem,
+	slotListType
 } from './Form/indexType'
 import { getFormValueFromName, setFormNameToValue } from './Form/uitls/tool'
 import { listSearchType, tagItemType } from './SearchTable/model/CheckedTag'
@@ -30,7 +33,86 @@ export class BaseFormColumnsItem<T = columnsItem<formPublicProps>> {
 	}
 }
 
+type simpleSlotType = { slotList: slotListType; selectSlotOption?: ObjectMap; defaultSelect?: string; name?: string; placeholder?: string }
+
 export class BaseSearchColumnsItem extends BaseFormColumnsItem<searchColumnsItem> {
+	simpleInputSlot(item: simpleSlotType) {
+		const { slotList, selectSlotOption = {}, defaultSelect, name, placeholder } = item
+		if (!isTrue(slotList)) return
+		const slotListFirst = slotList?.[0]?.key
+		const slotListFirstKey = slotListFirst + 'Key'
+		const slotListFirstValue = slotListFirst + 'Value'
+		return {
+			name: name ?? slotListFirstKey,
+			selectSlot: {
+				...selectSlotOption,
+				selectNane: slotListFirstKey, // form表单的Name
+				optionNane: slotListFirstValue,
+				initialValue: {
+					select: defaultSelect ?? slotListFirst
+				},
+				placeholder: placeholder,
+				component: () => {
+					return <Input />
+				},
+				slotList: slotList
+			},
+			setChecked: (item: any) => {
+				return this.simpleInputChecked({
+					item,
+					labelKey: slotListFirstKey,
+					textKey: slotListFirstValue
+				})
+			},
+			setSearchData: (item: any) => {
+				const key = item[slotListFirstKey]
+				item[key] = item[slotListFirstValue]
+				delete item[slotListFirstKey]
+				delete item[slotListFirstValue]
+				return item
+			}
+		}
+	}
+
+	simpleRangePickerSlot(item: simpleSlotType) {
+		const { slotList, selectSlotOption = {}, defaultSelect, name, placeholder } = item
+		if (!isTrue(slotList)) return
+		const slotListFirst = slotList?.[0]?.key
+		const slotListFirstKey = slotListFirst + 'Key'
+		const slotListFirstValue = slotListFirst + 'Value'
+		const slotListFirstMapKeys = slotListFirst + 'mapKeys'
+		return {
+			name: name ?? slotListFirstKey,
+			selectSlot: {
+				...selectSlotOption,
+				selectNane: slotListFirstKey, // form表单的Name
+				optionNane: slotListFirstValue,
+				initialValue: {
+					select: defaultSelect ?? slotListFirst
+				},
+				placeholder: placeholder,
+				component: () => {
+					return <RangePicker format='YYYY-MM-DD' />
+				},
+				slotList: slotList
+			},
+			setChecked: (item: any) => {
+				return this.simpleRangePickerChecked({ item, labelKey: slotListFirstKey, textKey: slotListFirstValue })
+			},
+			setSearchData: (item: any) => {
+				if (!isTrue(item[slotListFirstValue])) return
+				const data = this.simpleRangePickerSearchData({ item, mapKeys: slotListFirstMapKeys, textKey: slotListFirstValue })
+				const key = data[slotListFirstKey]
+				data[`${key}Start`] = data[slotListFirstMapKeys][0]
+				data[`${key}End`] = data[slotListFirstMapKeys][1]
+				delete data[slotListFirstKey]
+				delete data[slotListFirstMapKeys]
+				delete data[slotListFirstValue]
+				return data
+			}
+		}
+	}
+
 	baseSetChecked(config: {
 		item: tagItemType
 		label?: formName
@@ -101,13 +183,14 @@ export class BaseSearchColumnsItem extends BaseFormColumnsItem<searchColumnsItem
 		})
 	}
 	simpleRangePickerSearchData(config: { item: tagItemType; mapKeys: formName; textKey: formName }) {
-		const { item, mapKeys, textKey } = config
+		const { mapKeys, textKey } = config
+		let { item } = config
 		const textData = getFormValueFromName(item, textKey)
 		const data = this.momentToArray(textData)
-		setFormNameToValue(item, mapKeys, () => {
-			return data.join(',')
+		item = setFormNameToValue(item, mapKeys, () => {
+			return data
 		})
-		setFormNameToValue(item, textKey, () => {
+		item = setFormNameToValue(item, textKey, () => {
 			return undefined
 		})
 		return item
