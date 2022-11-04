@@ -100,7 +100,10 @@ export class BaseSearchColumnsItem extends BaseFormColumnsItem<searchColumnsItem
 				return this.simpleRangePickerChecked({ item, labelKey: slotListFirstKey, textKey: slotListFirstValue })
 			},
 			setSearchData: (item: any) => {
-				if (!isTrue(item[slotListFirstValue])) return
+				if (!isTrue(item[slotListFirstValue])) {
+					delete item[slotListFirstKey]
+					return item
+				}
 				const data = this.simpleRangePickerSearchData({ item, mapKeys: slotListFirstMapKeys, textKey: slotListFirstValue })
 				const key = data[slotListFirstKey]
 				data[`${key}Start`] = data[slotListFirstMapKeys][0]
