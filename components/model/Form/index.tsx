@@ -28,6 +28,7 @@ let _Form = (props: _FormType) => {
 		valueOtherData = {},
 		publicProps = {},
 		onFinish: propsOnFinish,
+		fields,
 		...attrs
 	} = props
 	let [form] = Form.useForm()
@@ -49,6 +50,7 @@ let _Form = (props: _FormType) => {
 	}, [])
 
 	useEffect(() => {
+		if (isTrue(fields)) return
 		const data = form.getFieldsValue()
 
 		// form 数据和value保持一致， 所以以value为主
@@ -70,17 +72,22 @@ let _Form = (props: _FormType) => {
 		<div style={style}>
 			<Spin spinning={loading ?? false}>
 				<Form
-					{...{ labelCol, wrapperCol, ...attrs }}
+					{...{ labelCol, wrapperCol, ...attrs, fields }}
 					form={form}
 					id={fId || 'fromID'}
 					onFinish={onFinish}
 					autoComplete='off'
 					onValuesChange={() => {
+						if (isTrue(fields)) return
 						if (onChange) {
 							onChange(form.getFieldsValue())
 						}
-						if (propsForm) {
-							propsForm(form)
+					}}
+					onFieldsChange={(_, allFields) => {
+						if (isTrue(fields)) {
+							if (onChange) {
+								onChange(allFields)
+							}
 						}
 					}}>
 					<Row style={{ margin: 0 }}>
