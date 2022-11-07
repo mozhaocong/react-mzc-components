@@ -1,6 +1,6 @@
 // 采购需求单
 
-import { axiosGet } from 'html-mzc-tool'
+import { useSimpleCheckDom } from '@components/model/reactHook'
 import React from 'react'
 
 import { BaseSearchColumnsItem, BaseTableColumns, Input, SearchTable } from '@/components'
@@ -8,7 +8,10 @@ import { BaseSearchColumnsItem, BaseTableColumns, Input, SearchTable } from '@/c
 import { getSlotConfigData } from './config'
 
 function orders(data = {}) {
-	return axiosGet('http://crm_test.htwig.com/order/api/orders', data)
+	console.log(data)
+	return new Promise(resolve => {
+		resolve({ data: [] })
+	})
 }
 
 class SearchColumn extends BaseSearchColumnsItem {
@@ -45,20 +48,35 @@ class TableColumns extends BaseTableColumns {
 }
 
 const Index: React.FC = () => {
+	const { setSearchData, checkedListSearch, CheckDom } = useSimpleCheckDom({
+		name: 'sagas',
+		label: '嘎说',
+		options: [
+			{ label: '1', value: 1 },
+			{ label: '2', value: 2 },
+			{ label: '3', value: 3 }
+		]
+	})
+
 	return (
 		<SearchTable
 			search={{
 				fId: 'searchTest',
 				columns: new SearchColumn().data
 			}}
+			slot={CheckDom}
 			table={{ columns: new TableColumns().data, rowKey: 'no' }}
 			useRequest={{
 				apiRequest: orders,
 				onSuccess(item, response) {
 					console.log(item, response)
 					return item?.data?.data
+				},
+				setSearchData(item) {
+					return setSearchData(item)
 				}
 			}}
+			checkedListSearch={checkedListSearch}
 		/>
 	)
 }
