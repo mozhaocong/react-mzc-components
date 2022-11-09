@@ -1,6 +1,6 @@
 import { Button, DatePicker, Input, Tag } from 'antd'
 import { ColumnType } from 'antd/lib/table/interface'
-import { isString, isTrue, objectRecursiveMerge } from 'html-mzc-tool'
+import { arrayGetData, isArray, isString, isTrue, objectRecursiveMerge } from 'html-mzc-tool'
 import moment from 'moment'
 import React from 'react'
 
@@ -122,14 +122,16 @@ export class BaseSearchColumnsItem extends BaseFormColumnsItem<searchColumnsItem
 		text?: formName
 		closeName: formName
 		propsName?: Array<string | number> | string | number
-		setOption?: (item: ObjectMap, nameData: any) => string | number | undefined
+		setOption?: (item: ObjectMap, nameData: any) => string | number | undefined | any[]
 		setLabel?: (item: ObjectMap, nameData: any) => string | number | undefined
+		multiple?: boolean
+		option?: { value: string; label: string }[]
 	}): React.ReactElement {
-		const { item, label = 'selectLabel', text = 'option', closeName = ['spPlatform', 'option'], propsName, setOption, setLabel } = config
+		const { item, label, text, closeName, propsName, setOption, setLabel, multiple = false, option: optionData } = config
 		const { value, valueOtherData } = item
 		const data = objectRecursiveMerge(value, valueOtherData.value)
 
-		let option
+		let option: any
 		let selectLabel
 		let nameData = data
 		if (isTrue(propsName)) {
@@ -150,16 +152,68 @@ export class BaseSearchColumnsItem extends BaseFormColumnsItem<searchColumnsItem
 			const data = setFormNameToValue(value, closeName, () => undefined)
 			onSearch(data)
 		}
+
+		function multipleCloseTag(e, item, res) {
+			const { onSearch } = item
+			e.preventDefault()
+			const data = setFormNameToValue(value, closeName, data => {
+				data = data.filter(dataItem => {
+					return dataItem !== res
+				})
+				return data
+			})
+			onSearch(data)
+		}
+
+		if (multiple && (!isArray(option) || !isTrue(optionData) || !isArray(optionData))) {
+			return <></>
+		} else if (!multiple && !isString(option)) return <></>
 		if (isTrue(selectLabel) && isTrue(option)) {
-			return (
-				<Tag closable onClose={e => closeTag(e, item)}>
-					{selectLabel}: {option}
-				</Tag>
-			)
+			if (multiple) {
+				return (
+					<span>
+						<span> {selectLabel}: </span>
+						{option.map((res, index) => {
+							return (
+								<Tag closable key={index} onClose={e => multipleCloseTag(e, item, res)}>
+									{arrayGetData(optionData, { value: res })?.[0]?.label}
+								</Tag>
+							)
+						})}
+					</span>
+				)
+			} else {
+				return (
+					<span>
+						<span> {selectLabel}: </span>
+						<Tag closable onClose={e => closeTag(e, item)}>
+							{option}
+						</Tag>
+					</span>
+				)
+			}
 		} else {
 			return <></>
 		}
 	}
+
+	simpleMultipleChecked(config: {
+		option: { value: string; label: string }[]
+		item: tagItemType
+		labelKey?: formName
+		labelText?: string
+		textKey: formName
+	}) {
+		const { item, labelKey, textKey, labelText, option } = config
+		let setLabel: any
+		if (isTrue(labelText)) {
+			setLabel = () => {
+				return labelText
+			}
+		}
+		return this.baseSetChecked({ label: labelKey, item: item, text: textKey, closeName: textKey, multiple: true, setLabel, option })
+	}
+
 	simpleInputChecked(config: { item: tagItemType; labelKey: formName; textKey: formName }) {
 		const { item, labelKey, textKey } = config
 		let label = labelKey
@@ -168,6 +222,7 @@ export class BaseSearchColumnsItem extends BaseFormColumnsItem<searchColumnsItem
 		}
 		return this.baseSetChecked({ label: label, item: item, text: textKey, closeName: textKey })
 	}
+
 	simpleRangePickerChecked(config: { item: tagItemType; labelKey: formName; textKey: formName }) {
 		const { item, labelKey, textKey } = config
 		let label = labelKey
@@ -185,6 +240,7 @@ export class BaseSearchColumnsItem extends BaseFormColumnsItem<searchColumnsItem
 			closeName: textKey
 		})
 	}
+
 	simpleRangePickerSearchData(config: { item: tagItemType; mapKeys: formName; textKey: formName }) {
 		const { mapKeys, textKey } = config
 		let { item } = config
@@ -279,7 +335,7 @@ export class BaseSearchCheckedListSearch {
 		}
 		return (
 			<span>
-				<span>{label}</span>
+				<span>{label}: </span>
 				{options.map((res, index) => {
 					return (
 						<Tag closable onClose={e => closeTag(e, res)} key={index}>

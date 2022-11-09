@@ -15,7 +15,7 @@ export const getFormName = (fieldName, name) => {
 }
 
 // 获取 Form value 的name， name 是数组或者字符
-export function getFormValueFromName(value: ObjectMap, item: Array<string | number> | string | number) {
+export function getFormValueFromName(value: ObjectMap, item: Array<string | number> | string | number): any {
 	if (!(isTrue(value) && isTrue(item))) {
 		return ''
 	}

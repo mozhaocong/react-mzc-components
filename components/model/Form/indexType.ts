@@ -47,6 +47,7 @@ export interface formPublicProps {
 	valueData: ObjectMap
 	setValue: (item: ObjectMap) => void
 	publicProps: ObjectMap
+	valueOtherData: ObjectMap
 }
 export interface formListPublicProps extends formPublicProps {
 	res: ObjectMap // 当前条数据的值

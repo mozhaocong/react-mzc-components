@@ -60,7 +60,6 @@ const _FormTable = (props: _FormTableType) => {
 			if (isTrue(title)) {
 				item.title = setRulesTitle(title, rules)
 			}
-			console.log('label', title, rules)
 			if (isTrue(item.render)) {
 				const oldRender = item.render
 				// @ts-ignore

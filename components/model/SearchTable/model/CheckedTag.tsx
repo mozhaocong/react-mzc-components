@@ -56,9 +56,12 @@ const CheckedTag = (props: { listSearch: listSearchType[]; onSearch: (item: Obje
 			return <></>
 		}
 		return (
-			<Tag closable onClose={e => closeTag(e, item)}>
-				{label}: {nameData}
-			</Tag>
+			<span>
+				<span>{label}:</span>
+				<Tag closable onClose={e => closeTag(e, item)}>
+					{nameData}
+				</Tag>
+			</span>
 		)
 	}
 
@@ -71,4 +74,4 @@ const CheckedTag = (props: { listSearch: listSearchType[]; onSearch: (item: Obje
 	)
 }
 
-export default CheckedTag
+export default React.memo(CheckedTag)

@@ -1,9 +1,10 @@
 // 采购需求单
 
+import { configBusinessDataOptions } from '@components/business/FormSelect/config'
 import { useSimpleCheckDom } from '@components/model/reactHook'
 import React from 'react'
 
-import { BaseSearchColumnsItem, BaseTableColumns, Input, SearchTable } from '@/components'
+import { BaseSearchColumnsItem, BaseTableColumns, FormSelect, Input, SearchTable } from '@/components'
 
 import { getSlotConfigData } from './config'
 
@@ -24,7 +25,17 @@ class SearchColumn extends BaseSearchColumnsItem {
 			{ label: '商品品牌', name: 'brand', component: () => <Input /> },
 			{ label: '商品品类', name: 'no1', component: () => <Input /> },
 			{ label: '采购数量', name: 'no2', component: () => <Input /> },
-			{ label: '特殊标记', name: 'customer_name', component: () => <Input /> }
+			{
+				label: '特殊标记',
+				name: 'customer_name',
+				component: item => {
+					return <FormSelect prop={'baseEffective'} mode={'multiple'} />
+				},
+				setChecked: (item: any) => {
+					const option = configBusinessDataOptions['baseEffective']
+					return this.simpleMultipleChecked({ option: option, item, labelText: '特殊标记', textKey: 'customer_name' })
+				}
+			}
 		])
 	}
 }
