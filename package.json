@@ -1,13 +1,13 @@
 {
   "name": "react-mzc-components",
-  "version": "1.0.5",
+  "version": "1.0.7",
   "description": "",
   "scripts": {
     "build": "webpack",
     "start": "webpack serve --open",
     "dev": "webpack serve  --config build/webpack.dev.conf.js ",
     "build:rollup": "rollup -c",
-    "push": "npm publish",
+    "push": "rollup -c && npm publish",
     "lint": "eslint src --fix"
   },
   "main": "lib/index.js",
@@ -22,7 +22,7 @@
   ],
   "peerDependencies": {
     "antd": "^4.23.6",
-    "html-mzc-tool": "^1.0.60",
+    "html-mzc-tool": "^1.0.72",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
@@ -32,7 +32,7 @@
     "axios": "^0.27.2",
     "core-js": "^3.26.0",
     "dayjs": "^1.11.4",
-    "html-mzc-tool": "^1.0.60",
+    "html-mzc-tool": "^1.0.73",
     "moment": "^2.29.4",
     "ramda": "^0.28.0",
     "react": "^18.2.0",

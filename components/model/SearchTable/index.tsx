@@ -1,6 +1,6 @@
 import { Table } from 'antd'
 import { TableProps } from 'antd/lib/table/Table'
-import { debounce, deepClone, isArray, isTrue } from 'html-mzc-tool'
+import { debounce, deepClone, isArray, isTrue, objectFilterNull } from 'html-mzc-tool'
 import React, { useEffect, useMemo, useState } from 'react'
 
 import HtForm from '../Form'
@@ -45,9 +45,11 @@ let View = (props: searchTableType) => {
 	const [dataSource, setDataSource] = useState([])
 	const [searchData, setSearchData] = useState({})
 
-	function onFinish(value) {
-		const data = deepClone(value)
+	function onFinish(values) {
+		const data = objectFilterNull(values)
+		console.log('values', values, data)
 		setSearchData(data)
+
 		search(data)
 		if (isTrue(propsOnFinish)) {
 			propsOnFinish(data)
@@ -80,7 +82,7 @@ let View = (props: searchTableType) => {
 				data = propsSetSearchData(data)
 			}
 
-			return data
+			return objectFilterNull(data)
 		}
 	})
 	useEffect(() => {

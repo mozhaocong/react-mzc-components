@@ -1,5 +1,5 @@
 import { Form, Row, Spin } from 'antd'
-import { isTrue } from 'html-mzc-tool'
+import { diffFormData, isTrue } from 'html-mzc-tool'
 import React, { useEffect, useRef } from 'react'
 
 import FormItem from './components/formItem'
@@ -7,7 +7,7 @@ import FormList from './components/formList'
 import FormTable from './components/formTable'
 import { _FormType } from './indexType'
 import { setSlotComponents, useFormData } from './uitls'
-import { setFormNameToValue } from './uitls/tool'
+import { formDataToParameters, getFormValueFromName, setFormExtraData, setFormNameToValue } from './uitls/tool'
 
 let _Form = (props: _FormType) => {
 	const {
@@ -80,7 +80,8 @@ let _Form = (props: _FormType) => {
 					onValuesChange={() => {
 						if (isTrue(fields)) return
 						if (onChange) {
-							onChange(form.getFieldsValue())
+							onChange(diffFormData(form.getFieldsValue(), value))
+							// onChange(form.getFieldsValue())
 						}
 					}}
 					onFieldsChange={(_, allFields) => {
@@ -128,6 +129,9 @@ export default _Form as typeof _Form & {
 	ShowText: typeof ShowText
 	setFormNameToValue: typeof setFormNameToValue
 	setSlotComponents: typeof setSlotComponents
+	getFormValueFromName: typeof getFormValueFromName
+	setFormExtraData: typeof setFormExtraData
+	formDataToParameters: typeof formDataToParameters
 }
 
 const ShowText = props => {
@@ -148,3 +152,9 @@ _Form.ShowText = ShowText
 _Form.setFormNameToValue = setFormNameToValue
 // @ts-ignore
 _Form.setSlotComponents = setSlotComponents
+// @ts-ignore
+_Form.getFormValueFromName = getFormValueFromName
+// @ts-ignore
+_Form.setFormExtraData = setFormExtraData
+// @ts-ignore
+_Form.formDataToParameters = formDataToParameters
