@@ -1,17 +1,19 @@
 import { forEach, keys } from 'ramda'
 
+import { purchaseObject } from './purchase'
+import { settleCenterObject, settleCenterStatusKey, settleCenterStatusLabel } from './settleCenter'
+export type { settleCenterStatusKey, settleCenterStatusLabel }
+
 type businessOptObjectType = typeof businessOptObject
 export type configBusinessDataOptionsType = {
 	[T in keyof businessOptObjectType]: any[]
 }
 export const businessOptObject = {
-	supplierSplitType: {
-		1: '大货采购',
-		2: '加工采购'
-	},
-	supplierOfferType: {
-		1: '我方提供原料',
-		2: '不提供原料'
+	...settleCenterObject,
+	...purchaseObject,
+	baseYesNo: {
+		1: '是',
+		0: '否'
 	},
 	baseStatus: {
 		0: '禁用',
@@ -24,20 +26,20 @@ export const businessOptObject = {
 }
 
 function getOptions(data: any): any {
-	const _obj = {}
-	forEach(key => {
-		const list = []
+	const _object = {}
+	forEach((key: any) => {
+		const list: any[] = []
 		const item = data[key]
-		forEach(key => {
+		forEach((key: any) => {
 			const a = Number(key)
 			list.push({
 				value: isNaN(a) ? key : a,
 				label: item[key]
 			})
 		}, keys(item))
-		_obj[key] = list
+		_object[key] = list
 	}, keys(data))
-	return _obj
+	return _object
 }
 
 export const configBusinessDataOptions: configBusinessDataOptionsType = getOptions(businessOptObject) as configBusinessDataOptionsType

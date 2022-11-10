@@ -33,7 +33,7 @@ class formTable extends BaseFormTableColumnsItem {
 				dataIndex: 'a6',
 				title: '优惠类型',
 				width: 200,
-				render: () => <FormSelect prop={'supplierOfferType'} />
+				render: () => <FormSelect prop={'supplementOrderPurchaseType'} />
 			},
 			{
 				dataIndex: 'a7',
@@ -107,7 +107,7 @@ class form extends BaseFormColumnsItem {
 			{
 				name: 'c2',
 				label: '拆分类型',
-				component: () => <FormRadio prop={'supplierSplitType'} />
+				component: () => <FormRadio prop={'supplementOrderPurchaseType'} />
 			},
 			{ name: 'c3', label: '送货仓库', component: () => <Input /> },
 			{ name: 'c4', label: '采购约定交期', component: () => <Input /> },
