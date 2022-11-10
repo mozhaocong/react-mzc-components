@@ -15,7 +15,7 @@ const _FormTable = (props: _FormTableType) => {
 	const [formValue, setFormValue] = useState([])
 	useEffect(() => {
 		const formData = getFormValueFromName(value, formName)
-		if (isArray(formData) && formValue.length !== formData.length) {
+		if (isArray(formData) && formValue?.length !== formData?.length) {
 			setData(
 				formData.map((item: any, index) => {
 					item.key = isTrue(rowKey) ? isFunctionOfOther(rowKey, item) : index
@@ -23,7 +23,9 @@ const _FormTable = (props: _FormTableType) => {
 				})
 			)
 		}
-		setFormValue(formData)
+		if (isTrue(formData) || isArray(formData)) {
+			setFormValue(formData)
+		}
 	}, [value, formName])
 
 	function setRulesTitle(title, rules) {
@@ -58,7 +60,7 @@ const _FormTable = (props: _FormTableType) => {
 		return columns.map(item => {
 			const { dataIndex, title, rules } = item
 			if (isTrue(title)) {
-				item.title = setRulesTitle(title, rules)
+				item.title = () => setRulesTitle(title, rules)
 			}
 			if (isTrue(item.render)) {
 				const oldRender = item.render
