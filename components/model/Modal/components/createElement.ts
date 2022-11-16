@@ -1,4 +1,4 @@
-import { cloneElement } from 'react'
+import React, { cloneElement } from 'react'
 import { createRoot } from 'react-dom/client'
 
 declare global {
@@ -10,7 +10,7 @@ declare global {
 }
 
 let uuid = 0
-export function createElement(item: any) {
+export function createElement(item: React.ReactElement) {
 	return new Promise((resolve, reject) => {
 		const element = document.createElement('div')
 		function createResolve(item?) {

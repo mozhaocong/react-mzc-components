@@ -6,6 +6,24 @@ import React from 'react'
 
 const { RangePicker } = DatePicker
 
+function momentValueToString(value: any, format = 'YYYY-MM-DD') {
+	return isTrue(value) ? moment(value).format(format) : ''
+}
+
+function serialNumber(item: { index: number; pageSize?: number; current?: number; [index: string]: any }): React.ReactElement {
+	let { index, current, pageSize } = item
+	index = index ? index * 1 : 0
+	current = current ? current * 1 : 0
+	pageSize = pageSize ? pageSize * 1 : 0
+	let currentPageSize = 0
+	if (current) {
+		currentPageSize = (current - 1) * pageSize
+	}
+
+	const returnData = index + 1 + currentPageSize
+	return <div>{returnData}</div>
+}
+
 import {
 	columnsItem,
 	ColumnTypeForm,
@@ -31,6 +49,7 @@ export class BaseFormColumnsItem<T = columnsItem<formPublicProps>> {
 			  }) || []
 			: []
 	}
+	momentValueToString = momentValueToString
 }
 
 type simpleSlotType = { slotList: slotListType; selectSlotOption?: ObjectMap; defaultSelect?: string; name?: string; placeholder?: string }
@@ -295,9 +314,7 @@ export class BaseFormTableColumnsItem extends BaseFormColumnsItem<ColumnTypeForm
 			</>
 		)
 	}
-	serialNumber(item: { index: number; [index: string]: any }): React.ReactElement {
-		return <div>{item.index + 1}</div>
-	}
+	serialNumber = serialNumber
 }
 
 export class BaseTableColumns {
@@ -305,6 +322,8 @@ export class BaseTableColumns {
 	setColumns(item: Array<ColumnType<any>>) {
 		this.data = item
 	}
+	momentValueToString = momentValueToString
+	serialNumber = serialNumber
 }
 
 interface simpleCheckBoxSetCheckedType {

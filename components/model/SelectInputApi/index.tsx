@@ -2,8 +2,6 @@ import { Select, Spin } from 'antd'
 import { SelectProps } from 'antd/lib/select'
 import { isTrue } from 'html-mzc-tool'
 import React, { forwardRef, useEffect, useState } from 'react'
-import { Simulate } from 'react-dom/test-utils'
-import change = Simulate.change
 
 type valueType = string | number
 
