@@ -101,7 +101,6 @@ function dragMethod(dragDom, item?: () => boolean) {
 }
 
 const View = (props: ModalProps) => {
-	console.log('props', props)
 	const { children, wrapClassName: propsWrapClassName, ...attrs } = props
 	const [wrapClassName, setWrapClassName] = useState('')
 	const [isOpen, setIsOpen] = useState(false)

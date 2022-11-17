@@ -82,7 +82,7 @@ export function useRequest(request: (item: ObjectMap) => Promise<any>, options: 
 		}
 		if (optionsDefData.apiSuccessfulVerification(item)) {
 			const optionsData = { ...optionsDefData, ...options }
-			let paginationReqData: any = {}
+			let paginationReqData: any = item
 			if (isTrue(optionsData.paginationReq)) {
 				paginationReqData = item
 				optionsData.paginationReq.forEach((res: any) => {
