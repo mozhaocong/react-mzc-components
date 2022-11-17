@@ -190,7 +190,7 @@ export class BaseSearchColumnsItem extends BaseFormColumnsItem<searchColumnsItem
 		if (isTrue(selectLabel) && isTrue(option)) {
 			if (multiple) {
 				return (
-					<span>
+					<span className={'checked-span'}>
 						<span> {selectLabel}: </span>
 						{option.map((res, index) => {
 							return (
@@ -203,7 +203,7 @@ export class BaseSearchColumnsItem extends BaseFormColumnsItem<searchColumnsItem
 				)
 			} else {
 				return (
-					<span>
+					<span className={'checked-span'}>
 						<span> {selectLabel}: </span>
 						<Tag closable onClose={e => closeTag(e, item)}>
 							{option}
@@ -353,7 +353,7 @@ export class BaseSearchCheckedListSearch {
 			setOptions(filterOptions)
 		}
 		return (
-			<span>
+			<span className={'checked-span'}>
 				<span>{label}: </span>
 				{options.map((res, index) => {
 					return (

@@ -1,4 +1,6 @@
-import { Table } from 'antd'
+import './index.less'
+
+import { Button, Table } from 'antd'
 import { TableProps } from 'antd/lib/table/Table'
 import { debounce, deepClone, isArray, isTrue, objectFilterNull } from 'html-mzc-tool'
 import React, { useEffect, useMemo, useState } from 'react'
@@ -43,20 +45,19 @@ let View = (props: searchTableType) => {
 
 	const { value, valueData, setValue, valueOtherData } = useFormData({})
 	const [dataSource, setDataSource] = useState([])
-	const [searchData, setSearchData] = useState({})
+	// 搜索后显示搜索结果
+	// const [searchCheckedData, setSearchCheckedData] = useState({})
 
 	function onFinish(values) {
 		const data = objectFilterNull(values)
-		console.log('values', values, data)
-		setSearchData(data)
-
+		// setSearchCheckedData(data)
 		search(data)
 		if (isTrue(propsOnFinish)) {
 			propsOnFinish(data)
 		}
 	}
 	function onReset() {
-		setSearchData({})
+		// setSearchCheckedData({})
 		setValue({})
 		search({})
 	}
@@ -112,10 +113,25 @@ let View = (props: searchTableType) => {
 	}, [value])
 
 	// 只监听 searchData 和 checkedListSearch 所以搜索时记得更新searchData
+	// const listSearch = useMemo(() => {
+	// 	let listData: listSearchType[] = [
+	// 		{
+	// 			value: searchCheckedData,
+	// 			columns: columns as any,
+	// 			valueOtherData
+	// 		}
+	// 	]
+	// 	if (isTrue(checkedListSearch)) {
+	// 		listData = [...checkedListSearch, ...listData]
+	// 	}
+	// 	return listData
+	// }, [searchCheckedData, checkedListSearch])
+
+	// 输入直接更新
 	const listSearch = useMemo(() => {
 		let listData: listSearchType[] = [
 			{
-				value: searchData,
+				value: value,
 				columns: columns as any,
 				valueOtherData
 			}
@@ -124,7 +140,7 @@ let View = (props: searchTableType) => {
 			listData = [...checkedListSearch, ...listData]
 		}
 		return listData
-	}, [searchData, checkedListSearch])
+	}, [value, checkedListSearch])
 
 	function onSearch(value) {
 		// 改变CheckedTag的值
@@ -134,23 +150,37 @@ let View = (props: searchTableType) => {
 	}
 
 	return (
-		<div>
-			<Search
-				loading={loading}
-				fId={fId}
-				value={value}
-				valueData={valueData}
-				setValue={setValue}
-				columns={searchColumns}
-				valueOtherData={valueOtherData}
-				onChange={setValue}
-				onFinish={onFinish}
-				{...{ ...searchAttrs, onReset: onReset }}
-			/>
-			<CheckedTag listSearch={listSearch} onSearch={onSearch} />
-			{slot}
-			<Table loading={loading} pagination={false} dataSource={dataSource} {...propsTable} />
-			<Pagination />
+		<div className={'search-table-components'}>
+			<div className={'search-search-block'}>
+				<Search
+					loading={loading}
+					fId={fId}
+					value={value}
+					valueData={valueData}
+					setValue={setValue}
+					columns={searchColumns}
+					valueOtherData={valueOtherData}
+					onChange={setValue}
+					onFinish={onFinish}
+					{...{ ...searchAttrs }}
+				/>
+				<div className={'search-checkedTag-button-block'}>
+					<CheckedTag listSearch={listSearch} onSearch={onSearch} />
+					<div className={'search-button-block'}>
+						<Button loading={loading} htmlType={'submit'} form={fId}>
+							搜索
+						</Button>
+						<Button loading={loading} onClick={onReset}>
+							重置
+						</Button>
+					</div>
+				</div>
+			</div>
+			<div className={'search-table-block'}>
+				{slot}
+				<Table loading={loading} pagination={false} dataSource={dataSource} {...propsTable} />
+				<Pagination />
+			</div>
 		</div>
 	)
 }

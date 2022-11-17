@@ -2,11 +2,19 @@
 
 import { configBusinessDataOptions } from '@components/business/FormSelect/config'
 import { useSimpleCheckDom } from '@components/model/reactHook'
+import { Button } from 'antd'
 import React from 'react'
 
 import { BaseSearchColumnsItem, BaseTableColumns, FormSelect, Input, SearchTable } from '@/components'
 
 import { getSlotConfigData } from './config'
+
+export const defaultSearchSlotLayout = {
+	col: { span: 6 }
+}
+export const defaultSearchLayout = {
+	col: { span: 6 }
+}
 
 function orders(data = {}) {
 	console.log(data)
@@ -19,9 +27,11 @@ class SearchColumn extends BaseSearchColumnsItem {
 	constructor() {
 		super()
 		this.setColumns([
-			...getSlotConfigData({ name: 'purchaseParentOrderNoKey' }), // 母单号
+			{ ...getSlotConfigData({ name: 'purchaseParentOrderNoKey' })[0], ...defaultSearchSlotLayout }, // 母单号
+			// ...getSlotConfigData({ name: 'purchaseParentOrderNoKey' }),
 			{ label: '属性检索', name: 'spuProperties', component: () => <Input /> },
-			...getSlotConfigData({ name: 'receiptTimeKey' }), // 收货时间
+			// ...getSlotConfigData({ name: 'receiptTimeKey' }), // 收货时间
+			{ ...getSlotConfigData({ name: 'receiptTimeKey' })[0], ...defaultSearchSlotLayout }, // 母单号
 			{ label: '商品品牌', name: 'brand', component: () => <Input /> },
 			{ label: '商品品类', name: 'no1', component: () => <Input /> },
 			{ label: '采购数量', name: 'no2', component: () => <Input /> },
@@ -61,7 +71,7 @@ class TableColumns extends BaseTableColumns {
 const Index: React.FC = () => {
 	const { setSearchData, checkedListSearch, CheckDom } = useSimpleCheckDom({
 		name: 'sagas',
-		label: '嘎说',
+		label: '采购状态',
 		options: [
 			{ label: '1', value: 1 },
 			{ label: '2', value: 2 },
@@ -69,13 +79,23 @@ const Index: React.FC = () => {
 		]
 	})
 
+	const SearchTableSlot = (
+		<div style={{ display: 'flex', justifyContent: 'space-between' }}>
+			<div>
+				<Button>新建采购单</Button>
+			</div>
+			{CheckDom}
+		</div>
+	)
+
 	return (
 		<SearchTable
 			search={{
+				...defaultSearchLayout,
 				fId: 'searchTest',
 				columns: new SearchColumn().data
 			}}
-			slot={CheckDom}
+			slot={SearchTableSlot}
 			table={{ columns: new TableColumns().data, rowKey: 'no' }}
 			useRequest={{
 				apiRequest: orders,

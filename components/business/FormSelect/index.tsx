@@ -1,6 +1,7 @@
 import { Select } from 'antd'
 import { SelectProps } from 'antd/lib/select'
 import { isTrue } from 'html-mzc-tool'
+import { isNil } from 'ramda'
 import React, { forwardRef, useMemo } from 'react'
 
 import { configBusinessDataOptions, configBusinessDataOptionsType } from './config'
@@ -12,6 +13,13 @@ interface propsType extends Omit<SelectProps, 'options'> {
 
 const View = forwardRef((props: propsType, ref) => {
 	const { prop, filter, ...attrs } = props
+
+	if (attrs.mode) {
+		if (attrs.mode === 'multiple' && isNil(attrs.value)) {
+			attrs.value = []
+		}
+	}
+
 	const options = useMemo(() => {
 		let data = configBusinessDataOptions[prop] || []
 		if (isTrue(filter)) {

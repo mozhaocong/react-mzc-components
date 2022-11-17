@@ -56,7 +56,7 @@ const CheckedTag = (props: { listSearch: listSearchType[]; onSearch: (item: Obje
 			return <></>
 		}
 		return (
-			<span>
+			<span className={'checked-span'}>
 				<span>{label}:</span>
 				<Tag closable onClose={e => closeTag(e, item)}>
 					{nameData}
@@ -67,6 +67,7 @@ const CheckedTag = (props: { listSearch: listSearchType[]; onSearch: (item: Obje
 
 	return (
 		<div>
+			<span className={'checked-span'}>全部结果 {'>'}</span>
 			{listTag.map((item, index) => {
 				return <Fragment key={index}>{getTag(item)}</Fragment>
 			})}
