@@ -137,5 +137,4 @@ const View = (props: ModalProps) => {
 
 export { View as default }
 View.createModal = createModal
-View.createModal = createModal
 View.createElement = createElement
