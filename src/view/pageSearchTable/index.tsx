@@ -3,6 +3,7 @@
 import { axiosGet } from 'html-mzc-tool'
 import React from 'react'
 
+import { searchPurchase } from '@/api/scm/purchase'
 import { BaseSearchColumnsItem, BaseTableColumns, Input, SearchTable } from '@/components'
 
 import { getSlotConfigData } from './config'
@@ -53,7 +54,7 @@ const Index: React.FC = () => {
 			}}
 			table={{ columns: new TableColumns().data, rowKey: 'no' }}
 			useRequest={{
-				apiRequest: orders,
+				apiRequest: searchPurchase,
 				onSuccess(item, response) {
 					console.log(item, response)
 					return item?.data?.data
