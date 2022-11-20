@@ -68,9 +68,9 @@ export const setSlotComponents = (item, stateData) => {
 }
 
 const SlotObject = (item, stateData) => {
-	const { selectSlot, name } = item
+	const { selectSlot } = item
 	const { col = { span: 6 }, labelCol = { span: 8 }, wrapperCol = { span: 12 }, ...config } = selectSlot
-	const { slotList = [], initialValue, component } = config
+	const { slotList = [], initialValue, component, name } = config
 	const { select } = initialValue
 	const selectName = [name, 'select']
 	const optionName = [name, 'option']

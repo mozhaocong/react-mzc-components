@@ -13,8 +13,7 @@ export class SlotConfigData extends BaseSearchColumnsItem {
 			{
 				name: 'purchaseParentOrderNoKey',
 				selectSlot: {
-					selectNane: 'purchaseParentOrderNoKey', // form表单的Name
-					optionNane: 'purchaseParentOrderNoValue',
+					name: 'purchaseParentOrderNoKey',
 					initialValue: {
 						select: getSlotKey({ label: '母单号' })
 					},
@@ -25,19 +24,18 @@ export class SlotConfigData extends BaseSearchColumnsItem {
 					slotList: getSlotListKey([{ label: '母单号' }, { label: 'SPU' }, { label: 'SKU' }])
 				},
 				setChecked: (item: any) => {
-					console.log('setChecked', item)
 					return this.simpleInputChecked({
-						item,
-						labelKey: 'purchaseParentOrderNoKey',
-						textKey: 'purchaseParentOrderNoValue'
+						item
 					})
+				},
+				setSearchData: (item: any) => {
+					return this.simpleInputSearchData({ item, name: 'purchaseParentOrderNoKey' })
 				}
 			},
 			{
 				name: 'receiptTimeKey',
 				selectSlot: {
-					selectNane: 'receiptTimeKey', // form表单的Name
-					optionNane: 'receiptTimeValue',
+					name: 'receiptTimeKey',
 					initialValue: {
 						select: getSlotKey({ label: '收货时间' })
 					},
@@ -47,10 +45,10 @@ export class SlotConfigData extends BaseSearchColumnsItem {
 					slotList: getSlotListKey([{ label: '收货时间' }, { label: '质检时间' }, { label: '入库时间' }, { label: '退货时间' }])
 				},
 				setChecked: (item: any) => {
-					return this.simpleRangePickerChecked({ item, labelKey: 'receiptTimeKey', textKey: 'receiptTimeValue' })
+					return this.simpleRangePickerChecked({ item })
 				},
 				setSearchData: (item: any) => {
-					return this.simpleRangePickerSearchData({ item, mapKeys: 'testD3', textKey: 'receiptTimeValue' })
+					return this.simpleRangePickerSearchData({ item, name: 'receiptTimeKey' })
 				}
 			}
 		])

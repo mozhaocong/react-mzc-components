@@ -54,7 +54,6 @@ const CheckedTag = (props: { listSearch: listSearchType[] }) => {
 		if (!((isString(nameData) || isNumber(nameData)) && isTrue(label))) {
 			return <></>
 		}
-		console.log('nameData nameData nameData', nameData)
 		return (
 			<span className={'checked-span'}>
 				<span>{label}:</span>

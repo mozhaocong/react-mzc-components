@@ -44,4 +44,4 @@ function getData(item: any, getData: any): ObjectMap[] {
 }
 
 const getDataCurry = curry(getData)
-export const getSlotConfigData = getDataCurry(new SlotConfigData().data)
+export const getSlotConfigData: any = getDataCurry(new SlotConfigData().data)

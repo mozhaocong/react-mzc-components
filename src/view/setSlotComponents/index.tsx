@@ -5,8 +5,8 @@ import { HtForm, Input } from '@/components'
 const { useFormData } = HtForm
 
 const data = {
-	name: 'purchaseParentOrderNoKey',
 	selectSlot: {
+		name: 'purchaseParentOrderNoKey',
 		initialValue: {
 			select: 'a'
 		},

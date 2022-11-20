@@ -6,12 +6,14 @@ import { debounce, deepClone, isArray, isTrue, objectFilterNull } from 'html-mzc
 import React, { useEffect, useMemo, useState } from 'react'
 
 import HtForm from '../Form'
-import { _FormType, searchColumnsItem } from '../Form/indexType'
-import { setSlotComponents, setSlotValueMethod, setSlotValueOther } from '../Form/uitls'
+import { _FormType } from '../Form/indexType'
+import { setSlotValueMethod, setSlotValueOther } from '../Form/uitls'
 import { getFormValueFromName } from '../Form/uitls/tool'
 import { setOptionsDefData, useRequest } from './hooks'
+import { searchColumnsItem } from './indexType'
 import CheckedTag, { listSearchType } from './model/CheckedTag'
 import Search from './model/Search'
+import { setSlotComponents } from './model/setSlotComponents'
 
 const { useFormData } = HtForm
 
@@ -98,7 +100,8 @@ let View = (props: searchTableType) => {
 			if (isTrue(item.selectSlot)) {
 				mapList.push(item)
 				item.render = stateData => {
-					return setSlotComponents(item.selectSlot, stateData)
+					// return setSlotComponents(item.selectSlot, stateData)
+					return setSlotComponents(item, stateData)
 				}
 			}
 			return item
@@ -107,10 +110,10 @@ let View = (props: searchTableType) => {
 		return data
 	}, [columns])
 
-	useEffect(() => {
-		const stateData = { value, setValue, valueOtherData }
-		selectSlotMethodWatchDebounce(selectSlotValueOther, stateData)
-	}, [value])
+	// useEffect(() => {
+	// 	const stateData = { value, setValue, valueOtherData }
+	// 	selectSlotMethodWatchDebounce(selectSlotValueOther, stateData)
+	// }, [value])
 
 	// 只监听 searchData 和 checkedListSearch 所以搜索时记得更新searchData
 	// const listSearch = useMemo(() => {

@@ -73,23 +73,3 @@ export interface columnsItem<T = ObjectMap> extends FormItemProps {
 	col?: ColProps
 	style?: ObjectMap
 }
-
-export type slotListType = { label: string; key: string; name?: string; component?: (item: formPublicProps) => React.ReactElement }[]
-
-export interface searchColumnsItem extends columnsItem<formPublicProps> {
-	selectSlot?: {
-		selectNane: formName
-		optionNane: formName
-		initialValue: {
-			select: string
-		}
-		placeholder?: string
-		component?: (item: formPublicProps) => React.ReactElement
-		slotList: slotListType
-		col?: ColProps // 使用 row col 布局
-		listSearch?: ColProps // 使用 row col 布局
-		wrapperCol?: ColProps // 使用 row col 布局
-	}
-	setChecked?: (item: ObjectMap) => React.ReactElement | string | number
-	setSearchData?: (item: ObjectMap, nameData?: any) => ObjectMap
-}

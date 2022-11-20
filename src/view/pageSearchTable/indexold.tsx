@@ -26,8 +26,7 @@ class searchColumn extends BaseSearchColumnsItem {
 			{
 				name: 'rangePicker',
 				selectSlot: {
-					selectNane: ['rangePicker', 'type'], // form表单的Name
-					optionNane: ['rangePicker', 'value'],
+					name: 'rangePicker',
 					initialValue: {
 						select: 'createTime'
 					},
@@ -42,7 +41,7 @@ class searchColumn extends BaseSearchColumnsItem {
 				setChecked: (item: any) => {
 					return this.baseSetChecked({
 						item: item,
-						label: 'typeLabel',
+						labelKey: 'typeLabel',
 						setOption: (item, nameData) => {
 							const data = this.momentToArray(nameData?.value)
 							// nameData?.value?.map(res => {
