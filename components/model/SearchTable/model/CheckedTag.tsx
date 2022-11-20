@@ -4,7 +4,7 @@ import React, { Fragment, useMemo } from 'react'
 
 import { getFormValueFromName, setFormNameToValue } from '../../Form/uitls/tool'
 
-type columnType = { label: string; name: string; setChecked?: any }
+type columnType = { label?: string; name: string; setChecked?: any }
 
 export type listSearchType = {
 	value: ObjectMap
@@ -54,6 +54,7 @@ const CheckedTag = (props: { listSearch: listSearchType[] }) => {
 		if (!((isString(nameData) || isNumber(nameData)) && isTrue(label))) {
 			return <></>
 		}
+		console.log('nameData nameData nameData', nameData)
 		return (
 			<span className={'checked-span'}>
 				<span>{label}:</span>

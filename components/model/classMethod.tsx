@@ -338,6 +338,7 @@ interface simpleCheckListSearchType extends simpleCheckBoxSetCheckedType {
 	name: string
 }
 
+// checkBox 的 checkedTag 配置
 export class BaseSearchCheckedListSearch {
 	data: listSearchType[]
 	setColumns(item: listSearchType[]) {
