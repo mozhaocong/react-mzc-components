@@ -4,17 +4,22 @@ import React, { Fragment, useMemo } from 'react'
 
 import { getFormValueFromName, setFormNameToValue } from '../../Form/uitls/tool'
 
+type columnType = { label: string; name: string; setChecked?: any }
+
 export type listSearchType = {
 	value: ObjectMap
 	columns: columnType[]
 	valueOtherData?: { value: ObjectMap }
+	onClose?: (item: any) => void
+	[index: string]: any
 }
 
-type columnType = { label: string; name: string; setChecked?: any }
-export type tagItemType = Omit<listSearchType, 'columns'> & columnType & { onSearch: (item) => void; nameData: any }
+type getTagType = tagItemType & columnType & { nameData: any }
 
-const CheckedTag = (props: { listSearch: listSearchType[]; onSearch: (item: ObjectMap) => void }) => {
-	const { listSearch, onSearch } = props
+export type tagItemType = listSearchType
+
+const CheckedTag = (props: { listSearch: listSearchType[] }) => {
+	const { listSearch } = props
 	const listTag = useMemo(() => {
 		const data = []
 		listSearch.forEach(item => {
@@ -23,7 +28,7 @@ const CheckedTag = (props: { listSearch: listSearchType[]; onSearch: (item: Obje
 			columns.forEach(res => {
 				const nameData = getFormValueFromName(value, res.name)
 				if (isTrue(nameData)) {
-					data.push(deepClone({ ...attrs, ...res, value, nameData, onSearch }))
+					data.push(deepClone({ ...attrs, ...res, value, nameData }))
 				}
 			})
 		})
@@ -31,13 +36,7 @@ const CheckedTag = (props: { listSearch: listSearchType[]; onSearch: (item: Obje
 	}, [listSearch])
 	if (!isTrue(listTag)) return <></>
 
-	function closeTag(e: any, item: tagItemType | { [index: string]: any }) {
-		e.preventDefault()
-		const { value, name } = item
-		const data = setFormNameToValue(value, name, () => undefined)
-		onSearch(data)
-	}
-	function getTag(item: tagItemType) {
+	function getTag(item: getTagType) {
 		const { label, setChecked } = item
 		let { nameData } = item
 		let checkedData = ''
@@ -63,6 +62,13 @@ const CheckedTag = (props: { listSearch: listSearchType[]; onSearch: (item: Obje
 				</Tag>
 			</span>
 		)
+	}
+
+	function closeTag(e: any, item: getTagType) {
+		e.preventDefault()
+		const { value, name, onClose } = item
+		const data = setFormNameToValue(value, name, () => undefined)
+		onClose(data)
 	}
 
 	return (

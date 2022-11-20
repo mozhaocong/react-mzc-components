@@ -166,14 +166,14 @@ export class BaseSearchColumnsItem extends BaseFormColumnsItem<searchColumnsItem
 		}
 
 		function closeTag(e, item) {
-			const { onSearch } = item
+			const { onClose } = item
 			e.preventDefault()
 			const data = setFormNameToValue(value, closeName, () => undefined)
-			onSearch(data)
+			onClose(data)
 		}
 
 		function multipleCloseTag(e, item, res) {
-			const { onSearch } = item
+			const { onClose } = item
 			e.preventDefault()
 			const data = setFormNameToValue(value, closeName, data => {
 				data = data.filter(dataItem => {
@@ -181,7 +181,7 @@ export class BaseSearchColumnsItem extends BaseFormColumnsItem<searchColumnsItem
 				})
 				return data
 			})
-			onSearch(data)
+			onClose(data)
 		}
 
 		if (multiple && (!isArray(option) || !isTrue(optionData) || !isArray(optionData))) {

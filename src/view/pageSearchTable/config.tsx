@@ -25,6 +25,7 @@ export class SlotConfigData extends BaseSearchColumnsItem {
 					slotList: getSlotListKey([{ label: '母单号' }, { label: 'SPU' }, { label: 'SKU' }])
 				},
 				setChecked: (item: any) => {
+					console.log('setChecked', item)
 					return this.simpleInputChecked({
 						item,
 						labelKey: 'purchaseParentOrderNoKey',

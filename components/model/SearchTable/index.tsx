@@ -133,7 +133,8 @@ let View = (props: searchTableType) => {
 			{
 				value: value,
 				columns: columns as any,
-				valueOtherData
+				valueOtherData,
+				onClose: onSearch
 			}
 		]
 		if (isTrue(checkedListSearch)) {
@@ -165,7 +166,7 @@ let View = (props: searchTableType) => {
 					{...{ ...searchAttrs }}
 				/>
 				<div className={'search-checkedTag-button-block'}>
-					<CheckedTag listSearch={listSearch} onSearch={onSearch} />
+					<CheckedTag listSearch={listSearch} />
 					<div className={'search-button-block'}>
 						<Button loading={loading} htmlType={'submit'} form={fId}>
 							搜索
