@@ -25,6 +25,7 @@ type propertiesType = dataType & Omit<UploadProps, 'onChange' | 'defaultFileList
 const View = forwardRef((properties: propertiesType, reference) => {
 	const { bizType, value = [], onChange, ...attributes } = properties
 
+	// 正在加载的图片
 	const apiList = useRef<any[]>([])
 	const [valueApiObject, setValueApiObject] = useState<ObjectMap>({})
 	const [uploadValue, setUploadValue] = useState<any[]>([])
@@ -33,16 +34,19 @@ const View = forwardRef((properties: propertiesType, reference) => {
 		apiList.current = [...apiList.current, ...item]
 		const result = await request(listFileByCode, { fileCodeList: item })
 		const data: ObjectMap = {}
+
 		result?.list?.forEach((response: any) => {
 			data[response.fileCode] = response
 		})
 		setValueApiObject({ ...valueApiObject, ...data })
+
+		// 这里有异步问题 最好等上面那执行完在操作
+		apiList.current = apiList.current.filter(res => {
+			return !item.includes(res)
+		})
 	}
 
 	useEffect(() => {
-		apiList.current = apiList.current.filter(item => {
-			return !valueApiObject[item]
-		})
 		if (!isTrue(value)) return
 		const valueData: any[] = []
 		for (const item of value) {
