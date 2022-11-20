@@ -5,7 +5,9 @@ type axiosPostType = (item: ObjectMap) => Promise<any>
 export const searchPurchase: axiosPostType = async item => {
 	console.log('item', item)
 	return await new Promise((resolve, reject) => {
-		resolve({ data: {} })
+		setTimeout(() => {
+			resolve({ data: {} })
+		}, 1000)
 	})
 	// return await axiosPost(url + '/scm/scm/purchase/searchPurchase', item)
 }

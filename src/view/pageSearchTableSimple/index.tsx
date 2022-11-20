@@ -3,9 +3,13 @@
 import { configBusinessDataOptions } from '@components/business/FormSelect/config'
 import { useSimpleCheckDom } from '@components/model/reactHook'
 import { Button } from 'antd'
-import React from 'react'
+import React, { useRef, useState } from 'react'
 
+import { searchPurchase } from '@/api/scm/purchase'
 import { BaseSearchColumnsItem, BaseTableColumns, FormSelect, Input, SearchTable } from '@/components'
+const { useSearchRef } = SearchTable
+
+import { getSlotListKey } from '@/view/_module/list/searchListData'
 
 import { getSlotConfigData } from './config'
 
@@ -16,22 +20,23 @@ export const defaultSearchLayout = {
 	col: { span: 6 }
 }
 
-function orders(data = {}) {
-	console.log(data)
-	return new Promise(resolve => {
-		resolve({ data: [] })
-	})
-}
-
 class SearchColumn extends BaseSearchColumnsItem {
 	constructor() {
 		super()
 		this.setColumns([
-			{ ...getSlotConfigData({ name: 'purchaseParentOrderNoKey' })[0], ...defaultSearchSlotLayout }, // 母单号
+			this.simpleInputSlot({
+				slotList: getSlotListKey([{ label: '母单号' }, { label: 'SPU' }, { label: 'SKU' }]),
+				selectSlotOption: defaultSearchSlotLayout
+			}),
+			this.simpleRangePickerSlot({
+				slotList: getSlotListKey([{ label: '收货时间' }, { label: '质检时间' }, { label: '入库时间' }, { label: '退货时间' }]),
+				selectSlotOption: defaultSearchSlotLayout
+			}),
+			// { ...getSlotConfigData({ name: 'purchaseParentOrderNoKey' })[0], ...defaultSearchSlotLayout }, // 母单号
 			// ...getSlotConfigData({ name: 'purchaseParentOrderNoKey' }),
 			{ label: '属性检索', name: 'spuProperties', component: () => <Input /> },
 			// ...getSlotConfigData({ name: 'receiptTimeKey' }), // 收货时间
-			{ ...getSlotConfigData({ name: 'receiptTimeKey' })[0], ...defaultSearchSlotLayout }, // 母单号
+			// { ...getSlotConfigData({ name: 'receiptTimeKey' })[0], ...defaultSearchSlotLayout }, // 母单号
 			{ label: '商品品牌', name: 'brand', component: () => <Input /> },
 			{ label: '商品品类', name: 'no1', component: () => <Input /> },
 			{ label: '采购数量', name: 'no2', component: () => <Input /> },
@@ -69,14 +74,23 @@ class TableColumns extends BaseTableColumns {
 }
 
 const Index: React.FC = () => {
+	const searchRef = useSearchRef()
+	const [loading, setLoading] = useState(false)
+	const data = useRef<any>({})
 	const { setSearchData, checkedListSearch, CheckDom } = useSimpleCheckDom({
+		loading: loading,
 		name: 'sagas',
 		label: '采购状态',
 		options: [
 			{ label: '1', value: 1 },
 			{ label: '2', value: 2 },
 			{ label: '3', value: 3 }
-		]
+		],
+		onChange: item => {
+			data.current = item
+			console.log(searchRef)
+			searchRef?.current?.refresh()
+		}
 	})
 
 	const SearchTableSlot = (
@@ -89,26 +103,35 @@ const Index: React.FC = () => {
 	)
 
 	return (
-		<SearchTable
-			search={{
-				...defaultSearchLayout,
-				fId: 'searchTest',
-				columns: new SearchColumn().data
-			}}
-			slot={SearchTableSlot}
-			table={{ columns: new TableColumns().data, rowKey: 'no' }}
-			useRequest={{
-				apiRequest: orders,
-				onSuccess(item, response) {
-					console.log(item, response)
-					return item?.data?.data
-				},
-				setSearchData(item) {
-					return setSearchData(item)
-				}
-			}}
-			checkedListSearch={checkedListSearch}
-		/>
+		<div>
+			<SearchTable
+				searchRef={searchRef}
+				search={{
+					...defaultSearchLayout,
+					fId: 'searchTest',
+					columns: new SearchColumn().data
+				}}
+				slot={SearchTableSlot}
+				table={{ columns: new TableColumns().data, rowKey: 'no' }}
+				useRequest={{
+					apiRequest: searchPurchase,
+					defaultParams: {
+						test1: 1
+					},
+					onSuccess: (item, response) => {
+						return item?.data?.data
+					},
+					onCallBack: () => {
+						setLoading(false)
+					},
+					setSearchData: item => {
+						setLoading(true)
+						return setSearchData(item)
+					}
+				}}
+				checkedListSearch={checkedListSearch}
+			/>
+		</div>
 	)
 }
 

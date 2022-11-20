@@ -1,5 +1,5 @@
 import { Input } from 'antd'
-import { axiosGet, isTrue } from 'html-mzc-tool'
+import { isTrue } from 'html-mzc-tool'
 import React, { useMemo, useState } from 'react'
 
 import { searchPurchase } from '@/api/scm/purchase'

@@ -28,8 +28,10 @@ type optionsType = {
 	customizeRun?: (item: ObjectMap) => Promise<any>
 	defaultParams?: ObjectMap
 	onSuccess?: (item: ObjectMap) => void
+	onCallBack?: () => void
 }
 
+// 设置页码 使用 run
 export function useRequest(request: (item: ObjectMap) => Promise<any>, options: optionsType = {}) {
 	const [loading, setLoading] = useState(false)
 	const [current, setCurrent] = useState(1)
@@ -65,6 +67,7 @@ export function useRequest(request: (item: ObjectMap) => Promise<any>, options: 
 			...(options.defaultParams || {}),
 			...data
 		})
+
 		setParam(params)
 		let item: any = {}
 
@@ -77,6 +80,8 @@ export function useRequest(request: (item: ObjectMap) => Promise<any>, options: 
 		} else {
 			item = await request(params)
 		}
+
+		options?.onCallBack?.()
 		if (!isTrue(item)) {
 			throw '请求接口错误'
 		}

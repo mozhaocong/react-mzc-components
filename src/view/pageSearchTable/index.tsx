@@ -1,7 +1,7 @@
 // 采购需求单
 
 import { axiosGet } from 'html-mzc-tool'
-import React from 'react'
+import React, { useRef } from 'react'
 
 import { searchPurchase } from '@/api/scm/purchase'
 import { BaseSearchColumnsItem, BaseTableColumns, Input, SearchTable } from '@/components'

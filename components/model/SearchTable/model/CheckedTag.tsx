@@ -34,7 +34,7 @@ const CheckedTag = (props: { listSearch: listSearchType[] }) => {
 		})
 		return data
 	}, [listSearch])
-	if (!isTrue(listTag)) return <></>
+	if (!isTrue(listTag)) return <div></div>
 
 	function getTag(item: getTagType) {
 		const { label, setChecked } = item

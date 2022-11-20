@@ -1,5 +1,6 @@
+import { Spin } from 'antd'
 import { isTrue } from 'html-mzc-tool'
-import React, { useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 
 import CheckBox from './CheckBox'
 import { BaseSearchCheckedListSearch } from './classMethod'
@@ -8,6 +9,8 @@ interface setCheckDomType {
 	name: string
 	options: Array<{ label: string; value: any }>
 	label: string
+	onChange?: (item: ObjectMap) => void
+	loading?: boolean
 }
 
 export function useSimpleCheckDom(item: setCheckDomType): {
@@ -15,9 +18,19 @@ export function useSimpleCheckDom(item: setCheckDomType): {
 	CheckDom: React.ReactElement
 	setSearchData: (item) => ObjectMap
 } {
-	const { name, options: itemOptions, label } = item
+	const { name, options: itemOptions, label, loading = false, onChange } = item
 	const [value, setValue] = useState<any[]>([])
 	const [options, setOptions] = useState<any[]>([])
+	const [defaultValue, setDefaultValue] = useState([''])
+	useEffect(() => {
+		if (JSON.stringify(defaultValue) !== JSON.stringify(value)) {
+			if (onChange) {
+				onChange(value)
+			}
+		}
+		setDefaultValue(value)
+	}, [value])
+
 	const checkedListSearch = useMemo(() => {
 		if (!isTrue(value)) {
 			const data = { value: '', label: '全部' }
@@ -33,14 +46,16 @@ export function useSimpleCheckDom(item: setCheckDomType): {
 		return new SearchCheckedListSearch().data
 	}, [value])
 	const CheckDom = (
-		<CheckBox
-			value={value}
-			onChange={(item, optionsItem: any) => {
-				setValue(item)
-				setOptions(optionsItem)
-			}}
-			options={itemOptions}
-		/>
+		<Spin spinning={loading}>
+			<CheckBox
+				value={value}
+				onChange={(item, optionsItem: any) => {
+					setValue(item)
+					setOptions(optionsItem)
+				}}
+				options={itemOptions}
+			/>
+		</Spin>
 	)
 
 	function setSearchData(item: any): ObjectMap {

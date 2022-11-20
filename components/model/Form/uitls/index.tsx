@@ -1,45 +1,10 @@
 import { Col, Form, Row, Select } from 'antd'
-import { arrayGetData, deepClone, isArray, isTrue } from 'html-mzc-tool'
+import { isTrue } from 'html-mzc-tool'
 import React, { useRef, useState } from 'react'
 
 import { getFormValueFromName, setFormNameToValue } from './tool'
 
 const { Option } = Select
-
-export function setSlotValueMethod(item, stateData) {
-	const { setValue, value } = stateData
-	let isInit = false
-	const { selectNane, initialValue } = item
-	if (!isTrue(getFormValueFromName(value, selectNane))) {
-		const setData = setFormNameToValue(value, selectNane, res => {
-			if (!isTrue(res)) {
-				isInit = true
-				return initialValue.select
-			}
-			return res
-		})
-		if (isInit) {
-			setValue(setData)
-		}
-	}
-}
-
-// 设置 form slot valueOther的值
-export function setSlotValueOther(item, stateDate) {
-	const { valueOtherData, value } = stateDate
-	const slotListData = arrayGetData(item.slotList, { key: getFormValueFromName(value, item.selectNane) })
-	if (!isTrue(slotListData)) return
-	let selectNameLabel: any
-	if (isArray(item.selectNane)) {
-		selectNameLabel = deepClone(item.selectNane)
-		selectNameLabel[selectNameLabel.length - 1] = selectNameLabel[selectNameLabel.length - 1] + 'Label'
-	} else {
-		selectNameLabel = item.selectNane + 'Label'
-	}
-	valueOtherData.value = setFormNameToValue(valueOtherData.value, selectNameLabel, () => {
-		return slotListData[0].label
-	})
-}
 
 function selectChange(value: string, item, stateDate) {
 	const { valueData, setValue } = stateDate
