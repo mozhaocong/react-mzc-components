@@ -1,7 +1,8 @@
-import { Input, Tag } from 'antd'
+import { Input } from 'antd'
 import { axiosGet, isTrue } from 'html-mzc-tool'
 import React, { useMemo, useState } from 'react'
 
+import { searchPurchase } from '@/api/scm/purchase'
 import { BaseSearchCheckedListSearch, BaseSearchColumnsItem, CheckBox, SearchTable } from '@/components'
 
 class searchColumn extends BaseSearchColumnsItem {
@@ -19,9 +20,6 @@ class searchColumn extends BaseSearchColumnsItem {
 			{ label: '发货方式', name: 'delivery_type', component: () => <Input /> }
 		])
 	}
-}
-function orders(data = {}) {
-	return axiosGet('http://crm_test.htwig.com/order/api/orders', data)
 }
 
 const tableColumns = [
@@ -149,8 +147,8 @@ const View = () => {
 			table={{ columns: tableColumns, rowKey: 'no' }}
 			useRequest={{
 				// defaultParams: { is_simple: 0 },
-				apiRequest: orders,
-				onSuccess(item, res) {
+				apiRequest: searchPurchase,
+				onSuccess(item) {
 					return item?.data?.data
 				}
 			}}

@@ -30,14 +30,12 @@ export class BaseSearchColumnsItem extends BaseFormColumnsItem<searchColumnsItem
 		if (!isTrue(slotList)) return
 		const slotListFirst = slotList?.[0]?.key
 		const slotListFirstKey = slotListFirst + 'Key'
-		const slotListFirstValue = slotListFirst + 'Value'
+		const selectSlotName = name ?? slotListFirstKey
 		return {
-			name: name ?? slotListFirstKey,
+			name: selectSlotName,
 			selectSlot: {
-				name: name ?? slotListFirstKey,
+				name: selectSlotName,
 				...selectSlotOption,
-				selectNane: slotListFirstKey, // form表单的Name
-				optionNane: slotListFirstValue,
 				initialValue: {
 					select: defaultSelect ?? slotListFirst
 				},
@@ -53,11 +51,7 @@ export class BaseSearchColumnsItem extends BaseFormColumnsItem<searchColumnsItem
 				})
 			},
 			setSearchData: (item: any) => {
-				const key = item[slotListFirstKey]
-				item[key] = item[slotListFirstValue]
-				delete item[slotListFirstKey]
-				delete item[slotListFirstValue]
-				return item
+				return this.simpleInputSearchData({ item, name: selectSlotName })
 			}
 		}
 	}
@@ -67,15 +61,12 @@ export class BaseSearchColumnsItem extends BaseFormColumnsItem<searchColumnsItem
 		if (!isTrue(slotList)) return
 		const slotListFirst = slotList?.[0]?.key
 		const slotListFirstKey = slotListFirst + 'Key'
-		const slotListFirstValue = slotListFirst + 'Value'
-		const slotListFirstMapKeys = slotListFirst + 'mapKeys'
+		const selectSlotName = name ?? slotListFirstKey
 		return {
-			name: name ?? slotListFirstKey,
+			name: selectSlotName,
 			selectSlot: {
-				name: name ?? slotListFirstKey,
+				name: selectSlotName,
 				...selectSlotOption,
-				selectNane: slotListFirstKey, // form表单的Name
-				optionNane: slotListFirstValue,
 				initialValue: {
 					select: defaultSelect ?? slotListFirst
 				},
@@ -86,25 +77,15 @@ export class BaseSearchColumnsItem extends BaseFormColumnsItem<searchColumnsItem
 				slotList: slotList
 			},
 			setChecked: (item: any) => {
-				return this.simpleRangePickerChecked({ item, labelKey: slotListFirstKey, textKey: slotListFirstValue })
+				return this.simpleRangePickerChecked({ item })
 			},
 			setSearchData: (item: any) => {
-				if (!isTrue(item[slotListFirstValue])) {
-					delete item[slotListFirstKey]
-					return item
-				}
-				const data = this.simpleRangePickerSearchData({ item, name: '' })
-				const key = data[slotListFirstKey]
-				data[`${key}Start`] = data[slotListFirstMapKeys][0]
-				data[`${key}End`] = data[slotListFirstMapKeys][1]
-				delete data[slotListFirstKey]
-				delete data[slotListFirstMapKeys]
-				delete data[slotListFirstValue]
-				return data
+				return this.simpleRangePickerSearchData({ item, name: selectSlotName })
 			}
 		}
 	}
 
+	// 最基础的 设置Checked 的方法
 	baseSetChecked(config: baseSetCheckedType): React.ReactElement {
 		const { item, labelKey, textKey, closeName, propsName, setOption, setLabel, multiple = false, option: optionData } = config
 		const { value, valueOtherData } = item
@@ -199,7 +180,6 @@ export class BaseSearchColumnsItem extends BaseFormColumnsItem<searchColumnsItem
 			nameData,
 			selectSlot: { slotList = [] }
 		} = item
-
 		const textKey = getFormName(name, 'option')
 		const label = arrayGetData(slotList, { key: nameData.select })?.[0].label || ''
 		return { textKey, label }
@@ -220,7 +200,6 @@ export class BaseSearchColumnsItem extends BaseFormColumnsItem<searchColumnsItem
 			setLabel: () => label,
 			setOption: value => {
 				const textData = getFormValueFromName(value, textKey)
-				console.log(textData)
 				const data = this.momentToArray(textData)
 				return data.join(',')
 			},
