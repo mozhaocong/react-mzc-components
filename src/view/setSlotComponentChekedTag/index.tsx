@@ -1,8 +1,8 @@
 import CheckedTag from '@components/model/SearchTable/model/CheckedTag'
 import { setSlotComponents } from '@components/model/SearchTable/model/setSlotComponents'
-import { Tag } from 'antd'
-import { arrayGetData, isTrue } from 'html-mzc-tool'
-import React from 'react'
+import { Button, Tag } from 'antd'
+import { arrayGetData, deepClone, isTrue } from 'html-mzc-tool'
+import React, { useState } from 'react'
 
 import { HtForm, Input } from '@/components'
 const { useFormData } = HtForm
@@ -10,6 +10,7 @@ const { useFormData } = HtForm
 const data = {
 	name: 'purchaseParentOrderNoKey',
 	selectSlot: {
+		name: 'purchaseParentOrderNoKey',
 		initialValue: {
 			select: 'a'
 		},
@@ -60,14 +61,16 @@ const listSearchColumns = [
 const View = () => {
 	const { ...attrs } = useFormData({})
 	const { setValue, value } = attrs
+	const [value1, setValue1] = useState({})
 	return (
 		<div>
 			<div>{JSON.stringify(value)}</div>
 			<HtForm onChange={setValue} columns={[{ render: index => setSlotComponents(data, index) }]} {...attrs} />
+
 			<CheckedTag
 				listSearch={[
 					{
-						value: value,
+						value: value1,
 						columns: listSearchColumns,
 						slotComponents: data,
 						onClose: item => {
@@ -76,6 +79,12 @@ const View = () => {
 					}
 				]}
 			/>
+			<Button
+				onClick={() => {
+					setValue1(deepClone(value))
+				}}>
+				1111
+			</Button>
 		</div>
 	)
 }
