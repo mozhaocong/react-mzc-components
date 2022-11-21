@@ -1,10 +1,10 @@
 import { ModalProps } from 'antd/lib/modal/Modal'
 import React, { useRef, useState } from 'react'
 
-import { HtForm, Modal } from '@/components'
-
 import { useAsyncState } from '../../utils'
+import HtForm from '../Form'
 import { _FormType } from '../Form/indexType'
+import Modal from '../Modal'
 const { useFormData } = HtForm
 interface propertiesType {
 	formConfig: Omit<_FormType, 'onFinish' | 'value'> & {
