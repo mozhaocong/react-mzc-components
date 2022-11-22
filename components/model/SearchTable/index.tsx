@@ -36,6 +36,7 @@ type searchTableType = {
 	searchRef?: { current: any }
 	slot?: React.ReactElement
 	loading?: boolean
+	onLoadingChange?: (item: boolean) => void
 }
 
 let View = (props: searchTableType) => {
@@ -46,7 +47,8 @@ let View = (props: searchTableType) => {
 		useRequest: propsUseRequest,
 		slot = <></>,
 		searchRef,
-		loading: propsLoading
+		loading: propsLoading,
+		onLoadingChange
 	} = props
 	const { onFinish: propsOnFinish, columns, fId, defaultValue = {}, ...searchAttrs } = propsSearch || {}
 	const { apiRequest, onSuccess, defaultParams = {}, setSearchData: propsSetSearchData, onCallBack, manual = true } = propsUseRequest || {}
@@ -116,6 +118,12 @@ let View = (props: searchTableType) => {
 			search(value)
 		}
 	}, [])
+
+	useEffect(() => {
+		if (onLoadingChange) {
+			onLoadingChange(loading)
+		}
+	}, [loading])
 
 	if (searchRef) {
 		searchRef.current = {

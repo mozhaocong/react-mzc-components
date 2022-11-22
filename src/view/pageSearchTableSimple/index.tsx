@@ -3,7 +3,7 @@
 import { configBusinessDataOptions } from '@components/business/FormSelect/config'
 import { useSimpleCheckDom } from '@components/model/reactHook'
 import { Button } from 'antd'
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 
 import { searchPurchase } from '@/api/scm/purchase'
 import { BaseSearchColumnsItem, BaseTableColumns, FormSelect, Input, SearchTable } from '@/components'
@@ -77,6 +77,9 @@ const Index: React.FC = () => {
 	const searchRef = useSearchRef()
 	const [loading, setLoading] = useState(false)
 	const data = useRef<any>({})
+	useEffect(() => {
+		console.log('searchRef', JSON.stringify(searchRef.current))
+	}, [searchRef])
 	const { setSearchData, checkedListSearch, CheckDom } = useSimpleCheckDom({
 		loading: loading,
 		name: 'sagas',
@@ -111,6 +114,7 @@ const Index: React.FC = () => {
 					fId: 'searchTest',
 					columns: new SearchColumn().data
 				}}
+				onLoadingChange={setLoading}
 				slot={SearchTableSlot}
 				table={{ columns: new TableColumns().data, rowKey: 'no' }}
 				useRequest={{
@@ -122,10 +126,10 @@ const Index: React.FC = () => {
 						return item?.data?.data
 					},
 					onCallBack: () => {
-						setLoading(false)
+						// setLoading(false)
 					},
 					setSearchData: item => {
-						setLoading(true)
+						// setLoading(true)
 						return setSearchData(item)
 					}
 				}}

@@ -19,12 +19,19 @@ const App = () => {
 	return (
 		<div>
 			{/*<HtSelect options={configBusinessDataOptions.integralType} />*/}
-			<HtForm propsForm={seForm} columns={formData} value={value} onChange={setValue} setValue={setValue} valueData={valueData} />
+			<HtForm
+				propsForm={seForm}
+				columns={formData}
+				value={value}
+				onChange={setValue}
+				setValue={setValue}
+				valueData={valueData}
+				publicProps={{ allowClear: true }}
+			/>
 			<div>{JSON.stringify(value)}</div>
 			<Button
 				onClick={() => {
 					console.log('value', valueData)
-
 					setValue({ ...value, tata: 1 })
 				}}>
 				value

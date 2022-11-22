@@ -1,6 +1,6 @@
 import { Col, Form } from 'antd'
-import { isFunctionOfOther, isTrue } from 'html-mzc-tool'
-import React from 'react'
+import { isFunctionOfOther, isObject, isTrue } from 'html-mzc-tool'
+import React, { cloneElement } from 'react'
 
 import { columnsItem } from '../indexType'
 
@@ -19,6 +19,11 @@ const View = (props: columnsItem): React.ReactElement => {
 		return <></>
 	}
 
+	let componentPublicProps = {}
+	if (isObject(publicProps?.publicProps)) {
+		componentPublicProps = publicProps?.publicProps
+	}
+
 	return (
 		<Col {...col} key={JSON.stringify(name)}>
 			{isTrue(customRender) ? (
@@ -32,7 +37,9 @@ const View = (props: columnsItem): React.ReactElement => {
 					name={name}
 					label={isFunctionOfOther(label)}
 					{...attrs}>
-					{component(publicProps)}
+					{cloneElement(component(publicProps), {
+						...componentPublicProps
+					})}
 				</Form.Item>
 			)}
 		</Col>
