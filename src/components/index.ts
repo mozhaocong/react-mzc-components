@@ -13,6 +13,7 @@ export {
 export { default as HtForm } from '@components/model/Form'
 export { default as MinMaxInput } from '@components/model/MinMaxInput'
 export { default as Modal } from '@components/model/Modal'
+export { default as Search } from '@components/model/Search'
 export { default as SearchTable } from '@components/model/SearchTable'
 export { default as SelectApiParams } from '@components/model/SelectApiParams'
 export { default as SelectInputApi } from '@components/model/SelectInputApi'

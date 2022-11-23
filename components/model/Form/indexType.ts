@@ -66,6 +66,7 @@ export interface formTablePublicProps extends Omit<formPublicProps, 'formRef'> {
 
 export interface columnsItem<T = ObjectMap> extends FormItemProps {
 	publicProps?: T
+	props?: ObjectMap
 	display?: (item: T) => boolean
 	render?: (item: T, ...attrs: any) => React.ReactElement
 	component?: (item: T) => React.ReactElement

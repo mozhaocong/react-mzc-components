@@ -10,7 +10,7 @@ export type listSearchType = {
 	value: ObjectMap
 	columns: columnType[]
 	valueOtherData?: { value: ObjectMap }
-	onClose?: (item: any) => void
+	onClose?: (item: any, name?: any) => void
 	[index: string]: any
 }
 
@@ -68,7 +68,7 @@ const CheckedTag = (props: { listSearch: listSearchType[] }) => {
 		e.preventDefault()
 		const { value, name, onClose } = item
 		const data = setFormNameToValue(value, name, () => undefined)
-		onClose(data)
+		onClose(data, name)
 	}
 
 	return (

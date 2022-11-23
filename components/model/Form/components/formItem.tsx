@@ -5,7 +5,21 @@ import React, { cloneElement } from 'react'
 import { columnsItem } from '../indexType'
 
 const View = (props: columnsItem): React.ReactElement => {
-	const { extra, style, name, labelAlign, label, publicProps = {}, display, render, component, col = { span: 8 }, customRender, ...attrs } = props
+	const {
+		extra,
+		style,
+		name,
+		labelAlign,
+		label,
+		publicProps = {},
+		props: itemProps,
+		display,
+		render,
+		component,
+		col = { span: 8 },
+		customRender,
+		...attrs
+	} = props
 
 	if (display) {
 		if (display(publicProps) === false) {
@@ -15,7 +29,7 @@ const View = (props: columnsItem): React.ReactElement => {
 	if (render) {
 		return render(publicProps)
 	}
-	if (!component) {
+	if (!component && !customRender) {
 		return <></>
 	}
 
@@ -26,12 +40,18 @@ const View = (props: columnsItem): React.ReactElement => {
 
 	function setElement() {
 		const data = component(publicProps)
-		if (isString(data)) {
+		try {
+			if (isString(data)) {
+				return data
+			} else {
+				return cloneElement(data, {
+					...componentPublicProps,
+					...(itemProps || {}),
+					...(data?.props || {})
+				})
+			}
+		} catch (e) {
 			return data
-		} else {
-			return cloneElement(data, {
-				...componentPublicProps
-			})
 		}
 	}
 
