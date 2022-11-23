@@ -15,7 +15,7 @@ interface propertiesType {
 }
 const { createElement } = Modal
 
-const View: React.FC<propertiesType & createElementProps> = properties => {
+let _FormModal: React.FC<propertiesType & createElementProps> = properties => {
 	const { getContainer, createResolve, createReject, formConfig, modalConfig } = properties
 	const { onFinish: propertiesOnFinish, defaultValue = {}, ...propertiesFormAttributes } = formConfig
 	const { ...attributes } = useFormData(defaultValue)
@@ -61,8 +61,12 @@ const View: React.FC<propertiesType & createElementProps> = properties => {
 	)
 }
 
-export default React.memo(View)
-
-export function createFormModal(item: propertiesType): Promise<any> {
-	return createElement(<View {...item} />)
+_FormModal = React.memo(_FormModal)
+export default _FormModal as typeof _FormModal & {
+	createFormModal: typeof createFormModal
 }
+function createFormModal(item: propertiesType): Promise<any> {
+	return createElement(<_FormModal {...item} />)
+}
+// @ts-ignore
+_FormModal.createFormModal = createFormModal
