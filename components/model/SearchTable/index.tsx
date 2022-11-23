@@ -156,6 +156,7 @@ let View = (props: searchTableType) => {
 				value: searchCheckedData,
 				columns: columns as any,
 				valueOtherData,
+				valueData,
 				onClose: onSearch
 			}
 		]

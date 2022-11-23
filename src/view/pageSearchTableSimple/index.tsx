@@ -1,6 +1,6 @@
 // 采购需求单
 
-import { configBusinessDataOptions } from '@components/business/FormSelect/config'
+import { businessOptObject, configBusinessDataOptions } from '@components/business/FormSelect/config'
 import { useSimpleCheckDom } from '@components/model/reactHook'
 import { Button } from 'antd'
 import React, { useEffect, useRef, useState } from 'react'
@@ -10,8 +10,6 @@ import { BaseSearchColumnsItem, BaseTableColumns, FormSelect, Input, SearchTable
 const { useSearchRef } = SearchTable
 
 import { getSlotListKey } from '@/view/_module/list/searchListData'
-
-import { getSlotConfigData } from './config'
 
 export const defaultSearchSlotLayout = {
 	col: { span: 6 }
@@ -26,7 +24,12 @@ class SearchColumn extends BaseSearchColumnsItem {
 		this.setColumns([
 			this.simpleInputSlot({
 				slotList: getSlotListKey([{ label: '母单号' }, { label: 'SPU' }, { label: 'SKU' }]),
-				selectSlotOption: defaultSearchSlotLayout
+				selectSlotOption: defaultSearchSlotLayout,
+				setCheckedValue: (nameValue, item) => {
+					console.log(item)
+					return businessOptObject['supplementOrderPurchaseType'][nameValue]
+				},
+				component: () => <FormSelect prop={'supplementOrderPurchaseType'} />
 			}),
 			this.simpleRangePickerSlot({
 				slotList: getSlotListKey([{ label: '收货时间' }, { label: '质检时间' }, { label: '入库时间' }, { label: '退货时间' }]),

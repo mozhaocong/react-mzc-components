@@ -1,5 +1,5 @@
 import { DatePicker, Input, Tag } from 'antd'
-import { arrayGetData, isArray, isString, isTrue, objectRecursiveMerge } from 'html-mzc-tool'
+import { arrayGetData, isArray, isNumber, isString, isTrue, objectRecursiveMerge } from 'html-mzc-tool'
 import React from 'react'
 
 import { formName } from '../Form/indexType'
@@ -24,13 +24,20 @@ type baseSetCheckedType = {
 	option?: { value: string; label: string }[] // 多选的配置数组
 }
 
+type simpleInputSlotType = simpleSlotType & {
+	component?: (item) => React.ReactElement
+	setCheckedValue?: (nameValue: any, item: ObjectMap) => string | number | undefined | any[]
+	setSearchData?: (item: ObjectMap, nameKey: string) => ObjectMap
+}
+
 export class BaseSearchColumnsItem extends BaseFormColumnsItem<searchColumnsItem> {
-	simpleInputSlot(item: simpleSlotType): any {
-		const { slotList, selectSlotOption = {}, defaultSelect, name, placeholder } = item
+	simpleInputSlot(item: simpleInputSlotType): any {
+		const { slotList, selectSlotOption = {}, defaultSelect, name, placeholder, component, setCheckedValue, setSearchData } = item
 		if (!isTrue(slotList)) return
 		const slotListFirst = slotList?.[0]?.key
 		const slotListFirstKey = slotListFirst + 'Key'
 		const selectSlotName = name ?? slotListFirstKey
+
 		return {
 			name: selectSlotName,
 			selectSlot: {
@@ -40,18 +47,35 @@ export class BaseSearchColumnsItem extends BaseFormColumnsItem<searchColumnsItem
 					select: defaultSelect ?? slotListFirst
 				},
 				placeholder: placeholder,
-				component: () => {
-					return <Input />
-				},
+				component: component
+					? component
+					: () => {
+							return <Input />
+					  },
 				slotList: slotList
 			},
 			setChecked: (item: any) => {
+				const data: ObjectMap = {}
+				if (setCheckedValue) {
+					data.setOption = () => {
+						if (isTrue(item?.nameData?.option)) {
+							return setCheckedValue(item?.nameData?.option, item)
+						} else {
+							return undefined
+						}
+					}
+				}
 				return this.simpleInputChecked({
-					item
+					item,
+					...data
 				})
 			},
 			setSearchData: (item: any) => {
-				return this.simpleInputSearchData({ item, name: selectSlotName })
+				const { data, mapKey } = this.simpleInputSearchData({ item, name: selectSlotName })
+				if (setSearchData) {
+					return setSearchData(data, mapKey)
+				}
+				return data
 			}
 		}
 	}
@@ -125,9 +149,9 @@ export class BaseSearchColumnsItem extends BaseFormColumnsItem<searchColumnsItem
 			onClose(data)
 		}
 
-		if (multiple && (!isArray(option) || !isTrue(optionData) || !isArray(optionData))) {
+		if (multiple && !isArray(option)) {
 			return <></>
-		} else if (!multiple && !isString(option)) return <></>
+		} else if (!multiple && !(isString(option) || isNumber(option))) return <></>
 		if (isTrue(selectLabel) && isTrue(option)) {
 			if (multiple) {
 				return (
@@ -230,7 +254,7 @@ export class BaseSearchColumnsItem extends BaseFormColumnsItem<searchColumnsItem
 				return textData
 			})
 		}
-		return item
+		return { data: item, mapKey }
 	}
 
 	// 设置 slotComponent 的 RangePicker 的 搜索数据
