@@ -1,10 +1,11 @@
-import { columnsItem, ColumnTypeForm, formListPublicProps, formName, formPublicProps, formTablePublicProps } from '@components/model/Form/indexType'
-import { getFormValueFromName, setFormNameToValue } from '@components/model/Form/uitls/tool'
 import { Button } from 'antd'
 import { ColumnType } from 'antd/lib/table/interface'
 import { isTrue } from 'html-mzc-tool'
 import moment from 'moment/moment'
 import React from 'react'
+
+import { columnsItem, ColumnTypeForm, formListPublicProps, formName, formPublicProps, formTablePublicProps } from '../Form/indexType'
+import { getFormValueFromName, setFormNameToValue } from '../Form/uitls/tool'
 
 function momentValueToString(value: any, format = 'YYYY-MM-DD') {
 	return isTrue(value) ? moment(value).format(format) : ''

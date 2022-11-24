@@ -1,7 +1,8 @@
-import { getFormValueFromName, setFormNameToValue } from '@components/model/Form/uitls/tool'
 import { Col, Form, Row, Select } from 'antd'
 import { arrayGetData, deepClone, isArray, isTrue } from 'html-mzc-tool'
 import React from 'react'
+
+import { getFormValueFromName, setFormNameToValue } from '../../..//Form/uitls/tool'
 
 const { Option } = Select
 

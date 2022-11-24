@@ -1,6 +1,7 @@
-import { columnsItem, formName, formPublicProps } from '@components/model/Form/indexType'
 import { ColProps } from 'antd/lib/grid/col'
 import React from 'react'
+
+import { columnsItem, formName, formPublicProps } from '../Form/indexType'
 
 export type slotListType = { label: string; key: string; name?: string; component?: (item: formPublicProps) => React.ReactElement }[]
 
