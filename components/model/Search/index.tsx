@@ -1,6 +1,6 @@
 import { Col, Form, Input, Row } from 'antd'
 import { deepClone, isString } from 'html-mzc-tool'
-import React, { cloneElement } from 'react'
+import React, { cloneElement, useMemo } from 'react'
 
 import HtForm from '../Form'
 import { _FormType } from '../Form/indexType'
@@ -81,7 +81,11 @@ type propsType = Omit<_FormType, 'columns'> & {
 
 let _Search: React.FC<propsType> = props => {
 	const { columns = [], ...attrs } = props
-	return <HtForm {...attrs} columns={setData(columns)} />
+
+	const columnsData = useMemo(() => {
+		return setData(columns)
+	}, [columns])
+	return <HtForm {...attrs} columns={columnsData} />
 }
 
 _Search = React.memo(_Search)

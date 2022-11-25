@@ -2,7 +2,7 @@ import { Col, Form, Row, Select } from 'antd'
 import { arrayGetData, deepClone, isArray, isTrue } from 'html-mzc-tool'
 import React from 'react'
 
-import { getFormValueFromName, setFormNameToValue } from '../../..//Form/uitls/tool'
+import { getFormName, getFormValueFromName, setFormNameToValue } from '../../..//Form/uitls/tool'
 
 const { Option } = Select
 
@@ -41,20 +41,14 @@ export function setSlotValueOther(item, stateDate) {
 	})
 }
 
-function selectChange(value: string, item, stateDate) {
+function selectChange(item, stateDate) {
 	const { valueData, setValue } = stateDate
-	let slotName = ''
-	item.slotList.forEach(res => {
-		if (res.key === value) {
-			slotName = res.name ?? item.optionNane
-		}
+	const { name } = item
+	const setName = getFormName(name, 'option')
+	const returnData = setFormNameToValue(valueData.value, setName, () => {
+		return undefined
 	})
-	if (isTrue(slotName)) {
-		const returnData = setFormNameToValue(valueData.value, slotName, () => {
-			return undefined
-		})
-		setValue(returnData)
-	}
+	setValue(returnData)
 }
 
 export const setSlotComponents = (item, stateData) => {
@@ -82,8 +76,8 @@ const SlotObject = (item, stateData) => {
 			<Col {...labelCol}>
 				<Form.Item initialValue={select} name={selectName} noStyle rules={[{ required: true, message: 'Province is required' }]}>
 					<Select
-						onChange={e => {
-							// selectChange(e, item, stateData)
+						onChange={() => {
+							selectChange(item, stateData)
 						}}>
 						{slotList.map(res => {
 							return (
