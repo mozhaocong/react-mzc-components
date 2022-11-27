@@ -20,39 +20,39 @@ for (const key in selectObjectMap) {
 }
 const data: any[] = [
 	['tes1', { props: { allowClear: true }, component: 'input', name: 'test1' }],
-	['tes2', { name: 'test2', props: {}, component: () => <Input /> }],
-	[
-		{ name: 'test3', component: 'componentsInput', col: { span: 6 }, props: { allowClear: true } },
-		{ name: 'test4', component: 'componentsInput' }
-	],
-	[
-		{
-			name: 'test5',
-			component: () => <Select />,
-			props: {
-				options: optionList
-			},
-			col: { span: 6 }
-		},
-		{ name: 'test6', component: 'componentsInput' }
-	],
-	[
-		{
-			name: 'test7',
-			component: () => <Select />,
-			props: {
-				options: optionList
-			},
-			col: { span: 6 }
-		},
-		{
-			name: 'test8',
-			component: () => <Select />,
-			props: {
-				options: optionList
-			}
-		}
-	]
+	['tes2', { name: 'test2', props: {}, component: () => <Input /> }]
+	// [
+	// 	{ name: 'test3', component: 'componentsInput', col: { span: 6 }, props: { allowClear: true } },
+	// 	{ name: 'test4', component: 'componentsInput' }
+	// ],
+	// [
+	// 	{
+	// 		name: 'test5',
+	// 		component: () => <Select />,
+	// 		props: {
+	// 			options: optionList
+	// 		},
+	// 		col: { span: 6 }
+	// 	},
+	// 	{ name: 'test6', component: 'componentsInput' }
+	// ],
+	// [
+	// 	{
+	// 		name: 'test7',
+	// 		component: () => <Select />,
+	// 		props: {
+	// 			options: optionList
+	// 		},
+	// 		col: { span: 6 }
+	// 	},
+	// 	{
+	// 		name: 'test8',
+	// 		component: () => <Select />,
+	// 		props: {
+	// 			options: optionList
+	// 		}
+	// 	}
+	// ]
 ]
 
 const SearchDom = () => {

@@ -1,14 +1,21 @@
-import { businessOptObject, configBusinessDataOptions } from '@components/business/FormSelect/config'
-import CheckedTag from '@components/model/SearchTable/model/CheckedTag'
-import { Input } from 'antd'
-import { deepClone, isString } from 'html-mzc-tool'
-import React, { useEffect, useMemo, useState } from 'react'
+import { Button, Input, Select } from 'antd'
+import React, { useMemo, useRef, useState } from 'react'
 
-import { FormSelect, Search } from '@/components'
+import { Search, SearchChecked } from '@/components'
 
 const { setComponentMapData } = Search
 
 setComponentMapData({ componentsInput: <Input /> })
+const selectObjectMap = {
+	CARGO: '大货采购单',
+	PROCESS: '加工采购单',
+	RETURN_GOODS: '退货单',
+	SAMPLE_GOODS: '样品单'
+}
+const optionList = []
+for (const key in selectObjectMap) {
+	optionList.push({ label: selectObjectMap[key], value: key })
+}
 
 const columnsData: any[] = [
 	['tes1', { props: { allowClear: true }, component: 'input', name: 'test1' }],
@@ -18,25 +25,28 @@ const columnsData: any[] = [
 		{ name: 'test4', component: 'componentsInput' }
 	],
 	[
-		{ name: 'test5', component: () => <FormSelect prop={'supplementOrderPurchaseType'} />, col: { span: 6 }, props: { allowClear: true } },
+		{ name: 'test5', component: () => <Select style={{ width: '100%' }} options={optionList} />, col: { span: 6 }, props: { allowClear: true } },
 		{ name: 'test6', component: 'componentsInput' }
 	],
 	[
-		{ name: 'test7', component: () => <FormSelect prop={'supplementOrderPurchaseType'} />, col: { span: 6 }, props: { allowClear: true } },
-		{ name: 'test8', component: () => <FormSelect prop={'supplementOrderPurchaseType'} /> }
+		{ name: 'test7', component: () => <Select style={{ width: '100%' }} options={optionList} />, col: { span: 6 }, props: { allowClear: true } },
+		{ name: 'test8', component: () => <Select style={{ width: '100%' }} options={optionList} /> }
 	]
 ]
 
-const selectOption = configBusinessDataOptions['supplementOrderPurchaseType']
-// console.log('selectOption', selectOption)
-const selectObjectMap = businessOptObject['supplementOrderPurchaseType']
-// console.log('selectObjectMap', selectObjectMap)
-
 const View = () => {
 	const [value, setValue] = useState<any>({})
+	const searchDomRef = useRef<ObjectMap>()
+	const [test, setTest] = useState({})
+
+	const listSearch = useMemo(() => {
+		return [{ value: test, onClose: setTest, columns: [{ name: 'test1', label: '测试1' }] }]
+	}, [test])
 	return (
 		<div>
-			<SearchDom
+			<SearchChecked
+				propsRef={searchDomRef}
+				listSearch={listSearch}
 				value={value}
 				onChange={setValue}
 				columns={columnsData}
@@ -51,84 +61,41 @@ const View = () => {
 				}}
 				valueMap={() => {
 					const data = {
-						test8: selectObjectMap[value?.test8]
+						// test8: selectObjectMap[value?.test8],
+						test8: () => {
+							return (
+								<span className={'checked-span'}>
+									test8自定义组件
+									<Button
+										onClick={() => {
+											setValue({ ...value, test8: undefined })
+											setTimeout(() => {
+												searchDomRef.current?.onSubmit?.()
+											}, 10)
+										}}>
+										删除
+									</Button>
+									<Button
+										onClick={() => {
+											searchDomRef.current?.onReset?.()
+										}}>
+										重置
+									</Button>
+								</span>
+							)
+						}
 					}
 					return data
 				}}
 			/>
-			<div>----------------</div>
-			{JSON.stringify(value)}
-		</div>
-	)
-}
-
-type SearchDomType = {
-	value: ObjectMap
-	onChange: any
-	columns: any[]
-	labelMap?: () => ObjectMap
-	valueMap?: () => ObjectMap
-	formProps?: ObjectMap
-}
-
-const SearchDom: React.FC<SearchDomType> = props => {
-	const { value, onChange, formProps, valueMap, labelMap, columns } = props
-	const [checkValue, setCheckValue] = useState({})
-
-	const searchColumns = useMemo(() => {
-		return columns
-	}, [columns])
-
-	const checkValueColumns = useMemo(() => {
-		const data = []
-		searchColumns.forEach(item => {
-			if (isString(item[0])) {
-				data.push({ name: item[1].name, label: item[0] })
-			} else {
-				data.push({ name: item[1].name, ...SearchMapCheckedTagLabel(item[1].name) })
-			}
-		})
-		return data
-	}, [searchColumns, value])
-
-	useEffect(() => {
-		let data = deepClone(value)
-		data = { ...data, ...SearchMapCheckedTagValue() }
-		setCheckValue(data)
-	}, [value])
-
-	function SearchMapCheckedTagLabel(key: string) {
-		// const { test3, test5, test7 } = value
-		// const data = {
-		// 	test4: { label: test3 },
-		// 	test6: { label: selectObjectMap[test5] },
-		// 	test8: { label: selectObjectMap[test7] }
-		// }
-		return labelMap()?.[key] || {}
-	}
-	function SearchMapCheckedTagValue() {
-		// const data = {
-		// 	test8: selectObjectMap[value?.test8]
-		// }
-		return valueMap() || {}
-	}
-
-	return (
-		<div>
-			<Search value={value} onChange={onChange} columns={searchColumns} {...formProps} />
-			<CheckedTag
-				listSearch={[
-					{
-						value: checkValue,
-						columns: checkValueColumns,
-						onClose: (item, name) => {
-							const data = deepClone(value)
-							data[name] = undefined
-							onChange(data)
-						}
-					}
-				]}
+			<Input
+				onChange={item => {
+					setTest({ test1: item.target.value })
+				}}
 			/>
+			<div>----------------</div>
+			<div>value {JSON.stringify(value)}</div>
+			<div>test {JSON.stringify(test)}</div>
 		</div>
 	)
 }

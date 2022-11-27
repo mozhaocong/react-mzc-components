@@ -97,14 +97,13 @@ let View = (props: searchTableType) => {
 		},
 		setSearchData(item) {
 			let data = deepClone(item)
-			if (isTrue(selectSlotValueOther)) {
-				selectSlotValueOther.forEach(res => {
-					const nameData = getFormValueFromName(data, res.name)
-					if (isTrue(nameData) && res.setSearchData) {
-						data = res.setSearchData(data, nameData)
-					}
-				})
-			}
+			// 查询 columns 有setSearchData 就调用
+			columns.forEach(res => {
+				const nameData = getFormValueFromName(data, res.name)
+				if (isTrue(nameData) && res.setSearchData) {
+					data = res.setSearchData(data, nameData)
+				}
+			})
 			if (propsSetSearchData) {
 				data = propsSetSearchData(data)
 			}

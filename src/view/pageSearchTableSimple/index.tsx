@@ -37,7 +37,15 @@ class SearchColumn extends BaseSearchColumnsItem {
 			}),
 			// { ...getSlotConfigData({ name: 'purchaseParentOrderNoKey' })[0], ...defaultSearchSlotLayout }, // 母单号
 			// ...getSlotConfigData({ name: 'purchaseParentOrderNoKey' }),
-			{ label: '属性检索', name: 'spuProperties', component: () => <Input /> },
+			{
+				label: '属性检索',
+				name: 'spuProperties',
+				component: () => <Input />,
+				setSearchData: (item, nameData) => {
+					console.log('setSearchData', item, nameData)
+					return item
+				}
+			},
 			// ...getSlotConfigData({ name: 'receiptTimeKey' }), // 收货时间
 			// { ...getSlotConfigData({ name: 'receiptTimeKey' })[0], ...defaultSearchSlotLayout }, // 母单号
 			{ label: '商品品牌', name: 'brand', component: () => <Input /> },
