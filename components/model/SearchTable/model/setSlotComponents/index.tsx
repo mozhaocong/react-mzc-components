@@ -2,7 +2,7 @@ import { Col, Form, Row, Select } from 'antd'
 import { arrayGetData, deepClone, isArray, isTrue } from 'html-mzc-tool'
 import React from 'react'
 
-import { getFormName, getFormValueFromName, setFormNameToValue } from '../../..//Form/uitls/tool'
+import { getFormName, getFormValueFromName, setFormNameToValue } from '../../../Form/uitls/tool'
 
 const { Option } = Select
 

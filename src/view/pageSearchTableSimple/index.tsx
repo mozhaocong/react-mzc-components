@@ -127,6 +127,7 @@ const Index: React.FC = () => {
 				}}
 				onLoadingChange={setLoading}
 				slot={SearchTableSlot}
+				// tableSlot={() => <div>123456</div>}
 				table={{ columns: new TableColumns().data, rowKey: 'no' }}
 				useRequest={{
 					apiRequest: searchPurchase,

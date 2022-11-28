@@ -18,4 +18,4 @@ export { default as SelectApiParams } from './model/SelectApiParams'
 export { default as SelectInputApi } from './model/SelectInputApi'
 export { default as Timeline } from './model/Timeline'
 // 不建议用
-export { default as Search } from './model/Search'
+// export { default as Search } from './model/Search'

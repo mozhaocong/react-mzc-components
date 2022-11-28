@@ -23,7 +23,8 @@ type searchTableType = {
 		Required<Pick<searchType, 'columns' | 'fId'>> & {
 			defaultValue?: ObjectMap
 		}
-	table: Omit<TableProps<any>, 'pagination' | 'loading' | 'dataSource'> & Required<Pick<TableProps<any>, 'columns' | 'rowKey'>>
+	table?: Omit<TableProps<any>, 'pagination' | 'loading' | 'dataSource'> & Required<Pick<TableProps<any>, 'columns' | 'rowKey'>>
+	tableSlot?: () => React.ReactElement
 	checkedListSearch?: listSearchType[]
 	useRequest: {
 		manual?: boolean
@@ -48,7 +49,8 @@ let View = (props: searchTableType) => {
 		slot = <></>,
 		searchRef,
 		loading: propsLoading,
-		onLoadingChange
+		onLoadingChange,
+		tableSlot
 	} = props
 	const { onFinish: propsOnFinish, columns, fId, defaultValue = {}, ...searchAttrs } = propsSearch || {}
 	const { apiRequest, onSuccess, defaultParams = {}, setSearchData: propsSetSearchData, onCallBack, manual = true } = propsUseRequest || {}
@@ -219,7 +221,7 @@ let View = (props: searchTableType) => {
 			</div>
 			<div className={'search-table-block'}>
 				{slot}
-				<Table loading={propsLoading ?? loading} pagination={false} dataSource={dataSource} {...propsTable} />
+				{tableSlot ? tableSlot() : <Table loading={propsLoading ?? loading} pagination={false} dataSource={dataSource} {...propsTable} />}
 				<Pagination />
 			</div>
 		</div>

@@ -1,11 +1,11 @@
 import './index.less'
 
-import CheckedTag from '@components/model/SearchTable/model/CheckedTag'
 import { Button } from 'antd'
 import { deepClone, isFunction, isString, isTrue } from 'html-mzc-tool'
 import React, { useEffect, useMemo, useState } from 'react'
 
-import { Search } from '@/components'
+import Search from '../Search'
+import CheckedTag from '../SearchTable/model/CheckedTag'
 
 type SearchDomType = {
 	value: ObjectMap
