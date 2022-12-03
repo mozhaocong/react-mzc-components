@@ -6,20 +6,30 @@ import React, { useEffect, useMemo, useState } from 'react'
 
 import { FormSelect, Search } from '@/components'
 
+import { BaseFormColumnsItem } from '../../../es'
+
 const { setComponentMapData } = Search
 
 setComponentMapData({ componentsInput: <Input /> })
 
+class datatest extends BaseFormColumnsItem {
+	constructor() {
+		super()
+		this.setColumns([{ labelCol: { span: 4 }, wrapperCol: { span: 4 } }])
+	}
+}
+
+// col
 const data: any[] = [
-	['tes1', { props: { allowClear: true }, component: 'input', name: 'test1' }],
+	['tes1', { props: { allowClear: true }, component: 'input', name: 'test1', labelCol: { span: 4 }, wrapperCol: { span: 4 }, col: { span: 12 } }],
 	['tes2', { name: 'test2', props: {}, component: () => <Input /> }],
 	[
 		{ name: 'test3', component: 'componentsInput', col: { span: 6 }, props: { allowClear: true } },
 		{ name: 'test4', component: 'componentsInput' }
 	],
 	[
-		{ name: 'test5', component: () => <FormSelect prop={'supplementOrderPurchaseType'} />, col: { span: 6 }, props: { allowClear: true } },
-		{ name: 'test6', component: 'componentsInput' }
+		{ name: 'test5', component: () => <FormSelect prop={'supplementOrderPurchaseType'} />, col: { span: 4 }, props: { allowClear: true } },
+		{ name: 'test6', component: 'componentsInput', col: { span: 4 } }
 	],
 	[
 		{ name: 'test7', component: () => <FormSelect prop={'supplementOrderPurchaseType'} />, col: { span: 6 }, props: { allowClear: true } },
@@ -76,7 +86,7 @@ const SearchDom = () => {
 
 	return (
 		<div>
-			<Search value={value} onChange={setValue} columns={searchColumns} />
+			<Search col={{ span: 6 }} value={value} onChange={setValue} columns={searchColumns} />
 			<CheckedTag
 				listSearch={[
 					{

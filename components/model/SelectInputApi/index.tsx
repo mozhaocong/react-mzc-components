@@ -1,6 +1,6 @@
 import { Select, Spin } from 'antd'
 import { SelectProps } from 'antd/lib/select'
-import { isTrue } from 'html-mzc-tool'
+import { arrayGetDataList, isTrue } from 'html-mzc-tool'
 import React, { forwardRef, useEffect, useState } from 'react'
 
 type valueType = string | number
@@ -58,7 +58,20 @@ const View: React.FC<propertiesType> = forwardRef((properties: propertiesType, r
 
 	async function getApi(parameters: ObjectMap): Promise<void> {
 		const data = await apiRequest(parameters)
-		const optionsData = callBack(data) || []
+		let optionsData = callBack(data) || []
+		// mode特殊类型
+		if (attributes?.mode === 'multiple') {
+			const attributesValue = attributes.value || []
+			const valueList = attributesValue.map((item: any) => {
+				return { value: item }
+			})
+			const optionList = arrayGetDataList(options, valueList)
+			const filterData: any[] = optionsData.filter(item => {
+				return !attributesValue.includes(item.value)
+			})
+			optionsData = [...optionList, ...filterData]
+		}
+		// 重置数据
 		if (!isTrue(optionsData) && properties.onChange) {
 			if (isTrue(properties.value)) {
 				properties.onChange(undefined, { value: undefined, label: undefined })
@@ -82,6 +95,7 @@ const View: React.FC<propertiesType> = forwardRef((properties: propertiesType, r
 						onInputKeyDown,
 						showArrow: false,
 						notFoundContent: null,
+						defaultActiveFirstOption: attributes?.mode !== 'multiple',
 						options
 					}}
 				/>

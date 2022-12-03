@@ -62,7 +62,7 @@ const _FormTable = (props: _FormTableType) => {
 			if (isTrue(title)) {
 				item.title = () => setRulesTitle(title, rules)
 			}
-			if (isTrue(item.render)) {
+			if (isTrue(item.render) && isTrue(formValueData)) {
 				const oldRender = item.render
 				// @ts-ignore
 				item.render = (text, record, index) => {

@@ -93,6 +93,7 @@ let View = (props: searchTableType) => {
 		},
 		onSuccess(item) {
 			const apiData = onSuccess(item, { current, pageSize })
+			setDataSource([])
 			if (isTrue(apiData) && isArray(apiData)) {
 				setDataSource(apiData)
 			}
