@@ -71,7 +71,7 @@ export default class minMaxInput extends Component<props> {
 				<InputNumber
 					disabled={disabled}
 					value={minValue}
-					style={{ width: width ?? '140px' }}
+					style={{ width: width ?? '80px' }}
 					onBlur={this.minMaxBlur}
 					onChange={this.mixChange}
 					{...{ min: 0, ...minProp }}
@@ -80,7 +80,7 @@ export default class minMaxInput extends Component<props> {
 				<InputNumber
 					value={maxValue}
 					disabled={disabled}
-					style={{ width: width ?? '140px' }}
+					style={{ width: width ?? '80px' }}
 					onBlur={this.minMaxBlur}
 					onChange={this.maxChange}
 					{...{ min: 1, ...maxProp }}

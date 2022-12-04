@@ -6,16 +6,16 @@ import { Button } from 'antd'
 import React, { useEffect, useRef, useState } from 'react'
 
 import { searchPurchase } from '@/api/scm/purchase'
-import { BaseSearchColumnsItem, BaseTableColumns, FormSelect, Input, SearchTable } from '@/components'
+import { BaseSearchColumnsItem, BaseTableColumns, FormSelect, Input, MinMaxInput, SearchTable } from '@/components'
 const { useSearchRef } = SearchTable
 
 import { getSlotListKey } from '@/view/_module/list/searchListData'
 
 export const defaultSearchSlotLayout = {
-	col: { span: 6 }
+	col: { flex: '360px' }
 }
 export const defaultSearchLayout = {
-	col: { span: 6 }
+	col: { flex: '360px' }
 }
 
 class SearchColumn extends BaseSearchColumnsItem {
@@ -35,6 +35,8 @@ class SearchColumn extends BaseSearchColumnsItem {
 				slotList: getSlotListKey([{ label: '收货时间' }, { label: '质检时间' }, { label: '入库时间' }, { label: '退货时间' }]),
 				selectSlotOption: defaultSearchSlotLayout
 			}),
+			{ label: '数量', name: 'nub', component: () => <MinMaxInput /> },
+
 			// { ...getSlotConfigData({ name: 'purchaseParentOrderNoKey' })[0], ...defaultSearchSlotLayout }, // 母单号
 			// ...getSlotConfigData({ name: 'purchaseParentOrderNoKey' }),
 			{

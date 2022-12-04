@@ -59,7 +59,7 @@ export function useSimpleCheckDom(item: setCheckDomType): {
 	)
 
 	function setSearchData(item: any): ObjectMap {
-		item[name] = value.join(',')
+		item[name] = value
 		return item
 	}
 

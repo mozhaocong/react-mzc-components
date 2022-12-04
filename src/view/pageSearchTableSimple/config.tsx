@@ -2,7 +2,7 @@ import { arrayGetData, isTrue } from 'html-mzc-tool'
 import { curry } from 'ramda'
 import React from 'react'
 
-import { BaseSearchColumnsItem, DatePicker, Input } from '@/components'
+import { BaseSearchColumnsItem, DatePicker, Input, MinMaxInput } from '@/components'
 import { getSlotKey, getSlotListKey } from '@/view/_module/list/searchListData'
 const { RangePicker } = DatePicker
 
@@ -10,10 +10,14 @@ export class SlotConfigData extends BaseSearchColumnsItem {
 	constructor() {
 		super()
 		this.setColumns([
-			this.simpleInputSlot({ slotList: getSlotListKey([{ label: '母单号' }, { label: 'SPU' }, { label: 'SKU' }]) }),
+			this.simpleInputSlot({
+				slotList: getSlotListKey([{ label: '母单号' }, { label: 'SPU' }, { label: 'SKU' }]),
+				selectSlotOption: { col: { flex: '360px' } }
+			}),
 			this.simpleRangePickerSlot({
 				slotList: getSlotListKey([{ label: '收货时间' }, { label: '质检时间' }, { label: '入库时间' }, { label: '退货时间' }])
-			})
+			}),
+			{ label: '数量', name: 'nub', component: () => <MinMaxInput /> }
 
 			// {
 			// 	name: 'receiptTimeKey',

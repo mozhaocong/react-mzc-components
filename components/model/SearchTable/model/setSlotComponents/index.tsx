@@ -52,7 +52,8 @@ function selectChange(item, stateDate) {
 }
 
 export const setSlotComponents = (item, stateData) => {
-	const { col = { span: 6 }, labelCol = { span: 8 }, wrapperCol = { span: 12 } } = item
+	const { selectSlot } = item
+	const { col = { span: 6 } } = selectSlot
 	return (
 		<Col {...col}>
 			<Form.Item label={item.label} labelCol={{ span: 0 }} wrapperCol={{ span: 24 }}>

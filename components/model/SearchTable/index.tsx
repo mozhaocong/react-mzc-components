@@ -81,7 +81,6 @@ let View = (props: searchTableType) => {
 				// data[name] = slotList?.[0]?.key
 			}
 		})
-		console.log(data, value)
 		setSearchCheckedData(data)
 		setValue(data)
 		search({})
