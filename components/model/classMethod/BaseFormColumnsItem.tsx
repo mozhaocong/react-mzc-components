@@ -44,7 +44,7 @@ export class BaseFormListColumnsItem extends BaseFormColumnsItem<columnsItem<for
 
 export class BaseFormTableColumnsItem extends BaseFormColumnsItem<ColumnTypeForm<formTablePublicProps>> {
 	actionButton(item: formTablePublicProps, name: formName): React.ReactElement {
-		const { value, index, setValue } = item
+		const { value, index, setValue, valueData } = item
 		const data = getFormValueFromName(value, name)
 		return (
 			<>
@@ -54,7 +54,7 @@ export class BaseFormTableColumnsItem extends BaseFormColumnsItem<ColumnTypeForm
 						onClick={() => {
 							data.splice(index, 1)
 							setValue(
-								setFormNameToValue(value, name, () => {
+								setFormNameToValue(valueData.value, name, () => {
 									return data
 								})
 							)
@@ -68,7 +68,7 @@ export class BaseFormTableColumnsItem extends BaseFormColumnsItem<ColumnTypeForm
 						onClick={() => {
 							data.push({})
 							setValue(
-								setFormNameToValue(value, name, () => {
+								setFormNameToValue(valueData.value, name, () => {
 									return data
 								})
 							)

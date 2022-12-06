@@ -62,11 +62,11 @@ const View = (props: columnsItem): React.ReactElement => {
 			) : (
 				<Form.Item
 					style={style}
-					extra={isFunctionOfOther(extra)}
+					extra={isFunctionOfOther(extra, publicProps)}
 					labelAlign={labelAlign}
 					className='htFromItem'
 					name={name}
-					label={isFunctionOfOther(label)}
+					label={isFunctionOfOther(label, publicProps)}
 					{...attrs}>
 					{setElement()}
 				</Form.Item>

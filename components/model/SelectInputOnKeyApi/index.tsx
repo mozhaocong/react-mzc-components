@@ -1,7 +1,7 @@
 import { Select, Spin } from 'antd'
 import { SelectProps } from 'antd/lib/select'
-import { arrayGetDataList, debounce, isTrue } from 'html-mzc-tool'
-import React, { forwardRef, useEffect, useMemo, useState } from 'react'
+import { arrayGetDataList, isTrue } from 'html-mzc-tool'
+import React, { forwardRef, useEffect, useState } from 'react'
 
 type valueType = string | number
 
@@ -19,14 +19,13 @@ interface propertiesType extends Omit<SelectProps, 'options'> {
 // eslint-disable-next-line react/display-name
 const View: React.FC<propertiesType> = forwardRef((properties: propertiesType, reference) => {
 	const { apiRequest, setParams, callBack, isReset, ...attributes } = properties
-
 	const [options, setOptions] = useState<callBack[]>([])
+
+	const [searchData, setSearchData] = useState('')
 
 	const [loading, setLoading] = useState(false)
 
 	const [isResetComponents, setIsResetComponents] = useState(true)
-
-	const [changeOptions, setChangeOptions] = useState<ObjectMap>({})
 
 	useEffect(() => {
 		if (isReset?.(properties.value)) {
@@ -37,26 +36,29 @@ const View: React.FC<propertiesType> = forwardRef((properties: propertiesType, r
 	}, [isReset, properties.value])
 
 	function onSearch(item: any): void {
-		// setSearchData(item)
-		if (isTrue(item)) {
-			const prams = setParams(item)
-			debounceGetApi(prams)
-		}
+		setSearchData(item)
 	}
 
 	function resetComponents(): void {
 		setIsResetComponents(false)
+		setSearchData('')
 		setTimeout(() => {
 			setIsResetComponents(true)
 		}, 10)
 	}
 
-	async function getApi(parameters: ObjectMap): Promise<void> {
-		setLoading(true)
-		const data = await apiRequest(parameters)
-		setLoading(false)
-		let optionsData = callBack(data) || []
+	async function onInputKeyDown(event: any): Promise<void> {
+		if (event.keyCode === 13) {
+			setLoading(true)
+			const prams = setParams(searchData)
+			await getApi(prams)
+			setLoading(false)
+		}
+	}
 
+	async function getApi(parameters: ObjectMap): Promise<void> {
+		const data = await apiRequest(parameters)
+		let optionsData = callBack(data) || []
 		// mode特殊类型
 		if (attributes?.mode === 'multiple') {
 			const attributesValue = attributes.value || []
@@ -68,40 +70,15 @@ const View: React.FC<propertiesType> = forwardRef((properties: propertiesType, r
 				return !attributesValue.includes(item.value)
 			})
 			optionsData = [...optionList, ...filterData]
-		} else {
-			// if (isTrue(attributes.value)) {
-			//   const optionList: any = arrayGetData(options, {
-			//     value: attributes.value,
-			//   })
-			//   const filterData = optionsData.filter((item) => {
-			//     return item.value !== attributes.value
-			//   })
-			//   optionsData = [...optionList, ...filterData]
-			// }
 		}
-		//
-		if (!isTrue(optionsData) && properties.onChange && !isTrue(properties.value)) {
-			properties.onChange(undefined, { value: undefined, label: undefined })
+		// 重置数据
+		if (!isTrue(optionsData) && properties.onChange) {
+			if (isTrue(properties.value)) {
+				properties.onChange(undefined, { value: undefined, label: undefined })
+			}
+			resetComponents()
 		}
 		setOptions(optionsData)
-	}
-
-	const debounceGetApi = useMemo(() => {
-		return debounce(getApi, 300)
-	}, [attributes.value])
-
-	function onBlur(): void {
-		if (attributes?.mode !== 'multiple' && isTrue(attributes.value) && isTrue(changeOptions)) {
-			// @ts-expect-error
-			setOptions([{ ...changeOptions }])
-		}
-	}
-
-	function onChange(event_: any, option: any): void {
-		if (attributes.onChange) {
-			attributes.onChange(event_, option)
-		}
-		setChangeOptions(option)
 	}
 	return (
 		<Spin spinning={loading}>
@@ -115,12 +92,10 @@ const View: React.FC<propertiesType> = forwardRef((properties: propertiesType, r
 						showSearch: true,
 						filterOption: false,
 						onSearch,
-						// onInputKeyDown,
-						onBlur,
-						onChange,
+						onInputKeyDown,
 						showArrow: false,
 						notFoundContent: null,
-						// defaultActiveFirstOption: attributes?.mode !== 'multiple',
+						defaultActiveFirstOption: attributes?.mode !== 'multiple',
 						options
 					}}
 				/>

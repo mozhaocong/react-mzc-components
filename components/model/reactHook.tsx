@@ -59,8 +59,12 @@ export function useSimpleCheckDom(item: setCheckDomType): {
 	)
 
 	function setSearchData(item: any): ObjectMap {
-		item[name] = value
-		return item
+		if (isTrue(value) && !isTrue(value[0])) {
+			return item
+		} else {
+			item[name] = value
+			return item
+		}
 	}
 
 	return { checkedListSearch, CheckDom, setSearchData }

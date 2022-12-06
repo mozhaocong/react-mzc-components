@@ -64,7 +64,8 @@ export interface formTablePublicProps extends Omit<formPublicProps, 'formRef'> {
 	item: ObjectMap
 }
 
-export interface columnsItem<T = ObjectMap> extends FormItemProps {
+export interface columnsItem<T = ObjectMap> extends Omit<FormItemProps, 'label'> {
+	label?: ((item: T) => React.ReactElement | string | number) | string | number
 	publicProps?: T
 	props?: ObjectMap
 	display?: (item: T) => boolean

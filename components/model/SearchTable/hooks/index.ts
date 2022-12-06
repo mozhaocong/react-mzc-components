@@ -41,8 +41,8 @@ export function useRequest(request: (item: ObjectMap) => Promise<any>, options: 
 
 	function resetPagination(is = true) {
 		return {
-			[optionsDefData.setPaginationParam.current]: is ? '' : current,
-			[optionsDefData.setPaginationParam.pageSize]: is ? '' : pageSize
+			[optionsDefData.setPaginationParam.current]: is ? 1 : current,
+			[optionsDefData.setPaginationParam.pageSize]: is ? 50 : pageSize
 		}
 	}
 
@@ -101,9 +101,13 @@ export function useRequest(request: (item: ObjectMap) => Promise<any>, options: 
 			}
 
 			if (isTrue(paginationReqData) && isObject(paginationReqData)) {
+				let total = paginationReqData[optionsData?.paginationConfig?.total]
+				if (total) {
+					total = total * 1
+				}
 				setCurrent(paginationReqData[optionsData?.paginationConfig?.current] ?? 1)
 				setPageSize(paginationReqData[optionsData?.paginationConfig?.pageSize] ?? 1)
-				setTotal(paginationReqData[optionsData?.paginationConfig?.total] ?? '')
+				setTotal(total || '')
 			}
 
 			if (options.onSuccess) {

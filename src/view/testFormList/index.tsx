@@ -20,7 +20,10 @@ const App: React.FC = () => {
 
 	const data = [
 		{
-			label: 'Sight',
+			label: item => {
+				console.log(item)
+				return <div>1</div>
+			},
 			name: 'Sight',
 			component: item => {
 				return (

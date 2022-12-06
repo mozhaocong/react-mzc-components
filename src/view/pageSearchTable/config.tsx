@@ -24,7 +24,7 @@ export class SlotConfigData extends BaseSearchColumnsItem {
 					slotList: getSlotListKey([{ label: '母单号' }, { label: 'SPU' }, { label: 'SKU' }])
 				},
 				setChecked: (item: any) => {
-					return this.simpleInputChecked({
+					return this.simpleSlotInputChecked({
 						item
 					})
 				},
@@ -45,7 +45,7 @@ export class SlotConfigData extends BaseSearchColumnsItem {
 					slotList: getSlotListKey([{ label: '收货时间' }, { label: '质检时间' }, { label: '入库时间' }, { label: '退货时间' }])
 				},
 				setChecked: (item: any) => {
-					return this.simpleRangePickerChecked({ item })
+					return this.simpleSlotRangePickerChecked({ item })
 				},
 				setSearchData: (item: any) => {
 					return this.simpleRangePickerSearchData({ item, name: 'receiptTimeKey' })

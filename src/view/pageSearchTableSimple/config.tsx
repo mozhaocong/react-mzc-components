@@ -33,7 +33,7 @@ export class SlotConfigData extends BaseSearchColumnsItem {
 			// 		slotList: getSlotListKey([{ label: '收货时间' }, { label: '质检时间' }, { label: '入库时间' }, { label: '退货时间' }])
 			// 	},
 			// 	setChecked: (item: any) => {
-			// 		return this.simpleRangePickerChecked({ item, labelKey: 'receiptTimeKey', textKey: 'receiptTimeValue' })
+			// 		return this.simpleSlotRangePickerChecked({ item, labelKey: 'receiptTimeKey', textKey: 'receiptTimeValue' })
 			// 	},
 			// 	setSearchData: (item: any) => {
 			// 		return this.simpleRangePickerSearchData({ item, mapKeys: 'testD3', textKey: 'receiptTimeValue' })

@@ -65,7 +65,7 @@ export class BaseSearchColumnsItem extends BaseFormColumnsItem<searchColumnsItem
 						}
 					}
 				}
-				return this.simpleInputChecked({
+				return this.simpleSlotInputChecked({
 					item,
 					...data
 				})
@@ -101,7 +101,7 @@ export class BaseSearchColumnsItem extends BaseFormColumnsItem<searchColumnsItem
 				slotList: slotList
 			},
 			setChecked: (item: any) => {
-				return this.simpleRangePickerChecked({ item })
+				return this.simpleSlotRangePickerChecked({ item })
 			},
 			setSearchData: (item: any) => {
 				return this.simpleRangePickerSearchData({ item, name: selectSlotName })
@@ -209,19 +209,35 @@ export class BaseSearchColumnsItem extends BaseFormColumnsItem<searchColumnsItem
 		return { textKey, label }
 	}
 
-	simpleInputChecked(config: Omit<baseSetCheckedType, 'closeName' | 'label' | 'text'>) {
+	// slot 专用
+	simpleSlotInputChecked(config: Omit<baseSetCheckedType, 'closeName' | 'labelKey' | 'textKey'>) {
 		const { item, ...attrs } = config
 		const { textKey, label } = this.getSlotLabelTextKey(item)
 		return this.baseSetChecked({ setLabel: () => label, item: item, textKey, closeName: textKey, ...attrs })
 	}
 
-	simpleRangePickerChecked(config: Omit<baseSetCheckedType, 'closeName' | 'label' | 'text'>) {
+	// slot 专用
+	simpleSlotRangePickerChecked(config: Omit<baseSetCheckedType, 'closeName' | 'labelKey' | 'textKey'>) {
 		const { item, ...attrs } = config
 		const { textKey, label } = this.getSlotLabelTextKey(item)
 		return this.baseSetChecked({
 			...attrs,
 			item,
 			setLabel: () => label,
+			setOption: value => {
+				const textData = getFormValueFromName(value, textKey)
+				const data = this.momentToArray(textData)
+				return data.join(',')
+			},
+			closeName: textKey
+		})
+	}
+
+	simpleRangePickerChecked(config: Omit<baseSetCheckedType, 'closeName'>) {
+		const { item, textKey, ...attrs } = config
+		return this.baseSetChecked({
+			...attrs,
+			item,
 			setOption: value => {
 				const textData = getFormValueFromName(value, textKey)
 				const data = this.momentToArray(textData)
