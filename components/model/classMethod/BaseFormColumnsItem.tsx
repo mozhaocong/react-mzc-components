@@ -1,7 +1,7 @@
 import { Button } from 'antd'
 import { ColumnType } from 'antd/lib/table/interface'
-import { isTrue } from 'html-mzc-tool'
-import moment from 'moment/moment'
+import { deepClone, isTrue } from 'html-mzc-tool'
+import moment, { isMoment } from 'moment/moment'
 import React from 'react'
 
 import { columnsItem, ColumnTypeForm, formListPublicProps, formName, formPublicProps, formTablePublicProps } from '../Form/indexType'
@@ -9,6 +9,15 @@ import { getFormValueFromName, setFormNameToValue } from '../Form/uitls/tool'
 
 function momentValueToString(value: any, format = 'YYYY-MM-DD') {
 	return isTrue(value) ? moment(value).format(format) : ''
+}
+
+function dataMomentToTimeData(item: any, format = 'x'): any {
+	return deepClone(item, response => {
+		if (isMoment(response)) {
+			return moment(response).format(format)
+		}
+		return response
+	})
 }
 
 function serialNumber(item: { index: number; pageSize?: number; current?: number; [index: string]: any }): React.ReactElement {
@@ -38,6 +47,7 @@ export class BaseFormColumnsItem<T = columnsItem<formPublicProps>> {
 			: []
 	}
 	momentValueToString = momentValueToString
+	dataMomentToTimeData = dataMomentToTimeData
 }
 
 export class BaseFormListColumnsItem extends BaseFormColumnsItem<columnsItem<formListPublicProps>> {}

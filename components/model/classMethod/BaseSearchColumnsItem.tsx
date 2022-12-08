@@ -233,20 +233,6 @@ export class BaseSearchColumnsItem extends BaseFormColumnsItem<searchColumnsItem
 		})
 	}
 
-	simpleRangePickerChecked(config: Omit<baseSetCheckedType, 'closeName'>) {
-		const { item, textKey, ...attrs } = config
-		return this.baseSetChecked({
-			...attrs,
-			item,
-			setOption: value => {
-				const textData = getFormValueFromName(value, textKey)
-				const data = this.momentToArray(textData)
-				return data.join(',')
-			},
-			closeName: textKey
-		})
-	}
-
 	// 获取 设置 slotComponent 的 相关参数
 	getSlotComponentSearchDataKey(config: { item: tagItemType; name: formName }) {
 		const { name } = config
@@ -277,7 +263,8 @@ export class BaseSearchColumnsItem extends BaseFormColumnsItem<searchColumnsItem
 	simpleRangePickerSearchData(config: { item: tagItemType; name: formName }) {
 		let { item } = config
 		const { mapKey, textData, name } = this.getSlotComponentSearchDataKey(config)
-		const data = this.momentToArray(textData)
+		// const data = this.momentToArray(textData)
+		const data = textData
 		item = setFormNameToValue(item, name, () => {
 			return undefined
 		})
@@ -285,17 +272,18 @@ export class BaseSearchColumnsItem extends BaseFormColumnsItem<searchColumnsItem
 			item = setFormNameToValue(item, mapKey, () => {
 				return data
 			})
-			item = this.setRangePickerSearchParams({ item, nameKey: mapKey })
+			item = this.setBaseRangePickerSearchParams({ item, nameKey: mapKey })
 		}
 		return item
 	}
 
-	setRangePickerSearchParams(config: { item: any; nameKey: string }): any {
+	// 基础 BaseRangePicker 使用
+	setBaseRangePickerSearchParams(config: { item: any; nameKey: string }): any {
 		try {
 			const { item, nameKey } = config
 			if (isTrue(item[nameKey]) && isArray(item[nameKey])) {
-				item[`${nameKey}Start`] = item[nameKey][0]
-				item[`${nameKey}End`] = item[nameKey][1]
+				item[`${nameKey}Start`] = this.dataMomentToTimeData(item[nameKey][0])
+				item[`${nameKey}End`] = this.dataMomentToTimeData(item[nameKey][1])
 				delete item[nameKey]
 			}
 			return item
@@ -303,5 +291,20 @@ export class BaseSearchColumnsItem extends BaseFormColumnsItem<searchColumnsItem
 			const { item } = config
 			return item
 		}
+	}
+
+	// 普通 RangePicker  Checked 使用
+	simpleRangePickerChecked(config: Omit<baseSetCheckedType, 'closeName'>) {
+		const { item, textKey, ...attrs } = config
+		return this.baseSetChecked({
+			...attrs,
+			item,
+			setOption: value => {
+				const textData = getFormValueFromName(value, textKey)
+				const data = this.momentToArray(textData)
+				return data.join(',')
+			},
+			closeName: textKey
+		})
 	}
 }

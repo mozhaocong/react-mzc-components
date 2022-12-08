@@ -48,7 +48,10 @@ const View = () => {
 				propsRef={searchDomRef}
 				listSearch={listSearch}
 				value={value}
-				onChange={setValue}
+				onChange={(value: any) => {
+					console.log('onChange', value)
+					setValue(value)
+				}}
 				columns={columnsData}
 				labelMap={() => {
 					const { test3, test5, test7 } = value

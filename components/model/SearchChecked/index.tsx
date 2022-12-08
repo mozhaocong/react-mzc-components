@@ -105,7 +105,7 @@ const SearchDom: React.FC<SearchDomType> = props => {
 		setDetermineValue({})
 		onChange({})
 		if (propsOnReset) {
-			propsOnSubmit()
+			propsOnReset()
 		}
 	}
 

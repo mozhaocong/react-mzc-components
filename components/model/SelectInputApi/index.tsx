@@ -79,10 +79,9 @@ const View: React.FC<propertiesType> = forwardRef((properties: propertiesType, r
 			//   optionsData = [...optionList, ...filterData]
 			// }
 		}
-		//
-		if (!isTrue(optionsData) && properties.onChange && !isTrue(properties.value)) {
-			properties.onChange(undefined, { value: undefined, label: undefined })
-		}
+		// if (!isTrue(optionsData) && properties.onChange && !isTrue(properties.value)) {
+		//   properties.onChange(undefined, { value: undefined, label: undefined })
+		// }
 		setOptions(optionsData)
 	}
 
@@ -90,8 +89,12 @@ const View: React.FC<propertiesType> = forwardRef((properties: propertiesType, r
 		return debounce(getApi, 300)
 	}, [attributes.value])
 
-	function onBlur(): void {
-		if (attributes?.mode !== 'multiple' && isTrue(attributes.value) && isTrue(changeOptions)) {
+	function onFocus(): void {
+		if (!isTrue(attributes.value)) {
+			setOptions([])
+			return
+		}
+		if (attributes?.mode !== 'multiple' && isTrue(attributes.value) && !isTrue(options) && isTrue(changeOptions)) {
 			// @ts-expect-error
 			setOptions([{ ...changeOptions }])
 		}
@@ -116,7 +119,7 @@ const View: React.FC<propertiesType> = forwardRef((properties: propertiesType, r
 						filterOption: false,
 						onSearch,
 						// onInputKeyDown,
-						onBlur,
+						onFocus,
 						onChange,
 						showArrow: false,
 						notFoundContent: null,
