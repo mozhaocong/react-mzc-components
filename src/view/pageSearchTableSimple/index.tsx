@@ -12,7 +12,9 @@ const { useSearchRef } = SearchTable
 import { getSlotListKey } from '@/view/_module/list/searchListData'
 
 export const defaultSearchSlotLayout = {
-	col: { flex: '360px' }
+	col: { flex: '360px' },
+	labelCol: { flex: '110px' },
+	wrapperCol: { flex: '240px' }
 }
 export const defaultSearchLayout = {
 	col: { flex: '360px' }
@@ -23,7 +25,12 @@ class SearchColumn extends BaseSearchColumnsItem {
 		super()
 		this.setColumns([
 			this.simpleInputSlot({
-				slotList: getSlotListKey([{ label: '母单号' }, { label: 'SPU' }, { label: 'SKU' }]),
+				// slotList: getSlotListKey([{ label: '母单号' }, { label: 'SPU' }, { label: 'SKU' }]),
+				slotList: [
+					{ label: '母单号111111111111', key: '1' },
+					{ label: 'SPU', key: '2' },
+					{ label: 'SKU', key: '3' }
+				],
 				selectSlotOption: defaultSearchSlotLayout,
 				setCheckedValue: (nameValue, item) => {
 					console.log(item)
@@ -50,7 +57,7 @@ class SearchColumn extends BaseSearchColumnsItem {
 			},
 			// ...getSlotConfigData({ name: 'receiptTimeKey' }), // 收货时间
 			// { ...getSlotConfigData({ name: 'receiptTimeKey' })[0], ...defaultSearchSlotLayout }, // 母单号
-			{ label: '商品品牌', name: 'brand', component: () => <Input /> },
+			{ label: '商品品牌', name: 'brand', component: () => <Input />, rules: [{ required: true }] },
 			{ label: '商品品类', name: 'no1', component: () => <Input /> },
 			{ label: '采购数量', name: 'no2', component: () => <Input /> },
 			{

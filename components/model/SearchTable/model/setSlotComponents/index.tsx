@@ -74,7 +74,7 @@ const SlotObject = (item, stateData) => {
 	const selectNaneValue = getFormValueFromName(value, 'selectNane')
 	return (
 		<Row>
-			<Col {...labelCol}>
+			<Col style={{ overflow: 'hidden' }} {...labelCol}>
 				<Form.Item initialValue={select} name={selectName} noStyle rules={[{ required: true, message: 'Province is required' }]}>
 					<Select
 						onChange={() => {

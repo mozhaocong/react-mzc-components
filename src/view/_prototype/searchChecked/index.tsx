@@ -1,60 +1,46 @@
+import { businessOptObject, configBusinessDataOptions } from '@components/business/FormSelect/config'
 import CheckedTag from '@components/model/SearchTable/model/CheckedTag'
-import { Input, Select } from 'antd'
+import { Input } from 'antd'
 import { deepClone, isString } from 'html-mzc-tool'
 import React, { useEffect, useMemo, useState } from 'react'
 
-import { Search } from '@/components'
+import { FormSelect, Search } from '@/components'
+
+import { BaseFormColumnsItem } from '../../../../es'
 
 const { setComponentMapData } = Search
 
 setComponentMapData({ componentsInput: <Input /> })
-const selectObjectMap = {
-	CARGO: '大货采购单',
-	PROCESS: '加工采购单',
-	RETURN_GOODS: '退货单',
-	SAMPLE_GOODS: '样品单'
+
+class datatest extends BaseFormColumnsItem {
+	constructor() {
+		super()
+		this.setColumns([{ labelCol: { span: 4 }, wrapperCol: { span: 4 } }])
+	}
 }
-const optionList = []
-for (const key in selectObjectMap) {
-	optionList.push({ label: selectObjectMap[key], value: key })
-}
+
+// col
 const data: any[] = [
-	['tes1', { props: { allowClear: true }, component: 'input', name: 'test1' }],
-	['tes2', { name: 'test2', props: {}, component: () => <Input /> }]
-	// [
-	// 	{ name: 'test3', component: 'componentsInput', col: { span: 6 }, props: { allowClear: true } },
-	// 	{ name: 'test4', component: 'componentsInput' }
-	// ],
-	// [
-	// 	{
-	// 		name: 'test5',
-	// 		component: () => <Select />,
-	// 		props: {
-	// 			options: optionList
-	// 		},
-	// 		col: { span: 6 }
-	// 	},
-	// 	{ name: 'test6', component: 'componentsInput' }
-	// ],
-	// [
-	// 	{
-	// 		name: 'test7',
-	// 		component: () => <Select />,
-	// 		props: {
-	// 			options: optionList
-	// 		},
-	// 		col: { span: 6 }
-	// 	},
-	// 	{
-	// 		name: 'test8',
-	// 		component: () => <Select />,
-	// 		props: {
-	// 			options: optionList
-	// 		}
-	// 	}
-	// ]
+	['tes1', { props: { allowClear: true }, component: 'input', name: 'test1', labelCol: { span: 4 }, wrapperCol: { span: 4 }, col: { span: 12 } }],
+	['tes2', { name: 'test2', props: {}, component: () => <Input /> }],
+	[
+		{ name: 'test3', component: 'componentsInput', col: { span: 6 }, props: { allowClear: true } },
+		{ name: 'test4', component: 'componentsInput' }
+	],
+	[
+		{ name: 'test5', component: () => <FormSelect prop={'supplementOrderPurchaseType'} />, col: { span: 4 }, props: { allowClear: true } },
+		{ name: 'test6', component: 'componentsInput', col: { span: 4 } }
+	],
+	[
+		{ name: 'test7', component: () => <FormSelect prop={'supplementOrderPurchaseType'} />, col: { span: 6 }, props: { allowClear: true } },
+		{ name: 'test8', component: () => <FormSelect prop={'supplementOrderPurchaseType'} /> }
+	]
 ]
 
+const selectOption = configBusinessDataOptions['supplementOrderPurchaseType']
+// console.log('selectOption', selectOption)
+const selectObjectMap = businessOptObject['supplementOrderPurchaseType']
+// console.log('selectObjectMap', selectObjectMap)
 const SearchDom = () => {
 	const defaultData = { test5: 'CARGO' }
 	const [value, setValue] = useState<ObjectMap>(defaultData)
@@ -100,7 +86,7 @@ const SearchDom = () => {
 
 	return (
 		<div>
-			<Search value={value} onChange={setValue} columns={searchColumns} />
+			<Search col={{ span: 6 }} value={value} onChange={setValue} columns={searchColumns} />
 			<CheckedTag
 				listSearch={[
 					{
