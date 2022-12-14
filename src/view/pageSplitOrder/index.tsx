@@ -4,7 +4,7 @@ import { debounce, deepClone, isTrue } from 'html-mzc-tool'
 import React from 'react'
 
 import { BaseFormColumnsItem, BaseFormTableColumnsItem, Button, Col, HtForm, Input } from '@/components'
-const { FormTable, FormItem, useFormData } = HtForm
+const { FormTable, useFormData } = HtForm
 
 class FormTableColumns1 extends BaseFormTableColumnsItem {
 	constructor() {

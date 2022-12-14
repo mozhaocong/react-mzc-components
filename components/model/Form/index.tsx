@@ -1,3 +1,5 @@
+import './index.less'
+
 import { Form, Row, Spin } from 'antd'
 import { diffFormData, isTrue } from 'html-mzc-tool'
 import React, { useEffect, useRef } from 'react'

@@ -20,6 +20,7 @@ const App = () => {
 		<div>
 			{/*<HtSelect options={configBusinessDataOptions.integralType} />*/}
 			<HtForm
+				labelWrap
 				propsForm={seForm}
 				columns={formData}
 				value={value}

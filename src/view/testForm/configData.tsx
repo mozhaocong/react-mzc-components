@@ -9,7 +9,7 @@ export class formRows {
 	constructor(item) {
 		this.data = [
 			{
-				label: 'Username',
+				label: '11111111111111111111111111111',
 				name: 'name',
 				component: configure => {
 					return <Input {...configure.publicProps} />

@@ -7,7 +7,7 @@ type valeType = Array<string | number>
 type optionsType = { value: string | number; label: string }[]
 type propsType = {
 	allBox?: boolean
-	isRadio?: boolean
+	isRadio?: boolean //单选
 	options: optionsType
 	value?: valeType
 	defaultValue?: valeType
@@ -66,7 +66,14 @@ const View = (props: propsType) => {
 		if (item.value === '') {
 			dataValue = []
 			dataValue.push('')
-		} else if (!dataValue.includes(item.value)) {
+		} else if (dataValue.includes(item.value)) {
+			dataValue = dataValue.filter(filterItem => {
+				return filterItem != item.value
+			})
+			if (!isTrue(dataValue)) {
+				dataValue = ['']
+			}
+		} else {
 			if (isRadio) {
 				dataValue = [item.value]
 			} else {
