@@ -2,7 +2,7 @@ import './index.less'
 
 import { Form, Row, Spin } from 'antd'
 import { diffFormData, isTrue } from 'html-mzc-tool'
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useMemo, useRef } from 'react'
 
 import FormItem from './components/formItem'
 import FormList from './components/formList'
@@ -134,10 +134,24 @@ export default _Form as typeof _Form & {
 	getFormValueFromName: typeof getFormValueFromName
 	setFormExtraData: typeof setFormExtraData
 	formDataToParameters: typeof formDataToParameters
+	ShowAmount: typeof ShowAmount
 }
 
 const ShowText = props => {
-	return <div>{props.value}</div>
+	const { value, ...attrs } = props
+	return <div {...{ style: { overflow: 'hidden' }, ...attrs }}>{value}</div>
+}
+
+const ShowAmount = props => {
+	const { value, ...attrs } = props
+	const showData = useMemo(() => {
+		try {
+			return value?.toFixed(2) || '0.00'
+		} catch (e) {
+			return '0.00'
+		}
+	}, [value])
+	return <div {...attrs}>{showData}</div>
 }
 // 大写是组件 小写是方法
 // @ts-ignore
@@ -150,6 +164,8 @@ _Form.FormItem = FormItem
 _Form.FormTable = FormTable
 // @ts-ignore
 _Form.ShowText = ShowText
+// @ts-ignore
+_Form.ShowAmount = ShowAmount
 // @ts-ignore
 _Form.setFormNameToValue = setFormNameToValue
 // @ts-ignore
