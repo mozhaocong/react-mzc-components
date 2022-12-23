@@ -139,7 +139,7 @@ export default _Form as typeof _Form & {
 
 const ShowText = props => {
 	const { value, ...attrs } = props
-	return <div {...{ style: { overflow: 'hidden' }, ...attrs }}>{value}</div>
+	return <div {...{ style: { overflow: 'hidden', wordBreak: 'break-all' }, ...attrs }}>{value}</div>
 }
 
 const ShowAmount = props => {

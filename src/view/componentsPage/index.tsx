@@ -1,4 +1,4 @@
-import { Button, Card, Divider } from 'antd'
+import { Button, Card, Divider, Pagination } from 'antd'
 import React, { useState } from 'react'
 
 import { FormBasic, FormRadio, FormSelect, Timeline } from '@/components'
@@ -45,6 +45,9 @@ const View = () => {
 			</Card>
 			<Card title='FormRadio'>
 				<FormRadio prop={'baseStatus'} />
+			</Card>
+			<Card title='Pagination'>
+				<Pagination showQuickJumper defaultCurrent={2} total={1} />
 			</Card>
 		</div>
 	)

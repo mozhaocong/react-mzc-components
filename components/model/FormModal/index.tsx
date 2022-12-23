@@ -7,9 +7,10 @@ import { _FormType } from '../Form/indexType'
 import Modal from '../Modal'
 const { useFormData } = HtForm
 interface propertiesType {
-	formConfig: Omit<_FormType, 'onFinish' | 'value'> & {
+	formConfig: Partial<Omit<_FormType, 'onFinish' | 'value'>> & {
 		onFinish?: (formValue: ObjectMap, value?: ObjectMap) => Promise<boolean>
 		defaultValue?: ObjectMap
+		render?: (item: any) => React.ReactElement
 	}
 	modalConfig?: Omit<ModalProps, 'open' | 'onCancel' | 'okButtonProps'>
 }
@@ -17,16 +18,15 @@ const { createElement } = Modal
 
 let _FormModal: React.FC<propertiesType & createElementProps> = properties => {
 	const { getContainer, createResolve, createReject, formConfig, modalConfig } = properties
-	const { onFinish: propertiesOnFinish, defaultValue = {}, ...propertiesFormAttributes } = formConfig
+	const { onFinish: propertiesOnFinish, defaultValue = {}, render, ...propertiesFormAttributes } = formConfig
 	const { ...attributes } = useFormData(defaultValue)
-	const openState = useRef<string>()
-	const formValueData = useRef<ObjectMap>()
+	const formValueData = useRef<ObjectMap | boolean>()
 	const [loading, setLoading] = useState(false)
 	const { setValue, value } = attributes
 	const [open, setOpen] = useAsyncState(true, item => {
 		if (!item) {
-			if (openState.current === 'onCancel') {
-				createReject?.(true)
+			if (!formValueData.current) {
+				createReject?.(false)
 			} else {
 				createResolve?.(formValueData.current)
 			}
@@ -41,14 +41,13 @@ let _FormModal: React.FC<propertiesType & createElementProps> = properties => {
 			setLoading(false)
 		}
 		if (state) {
-			openState.current = 'onFinish'
 			formValueData.current = { formValue: item, value }
 			setOpen(false)
 		}
 	}
 
 	function onCancel(): void {
-		openState.current = 'onCancel'
+		formValueData.current = false
 		setOpen(false)
 	}
 
@@ -56,7 +55,12 @@ let _FormModal: React.FC<propertiesType & createElementProps> = properties => {
 		<Modal
 			{...{ maskClosable: true, ...modalConfig, getContainer, open, onCancel }}
 			okButtonProps={{ htmlType: 'submit', form: 'formModal', loading }}>
-			<HtForm {...{ col: { span: 24 }, ...propertiesFormAttributes, fId: 'formModal', ...attributes, onFinish, onChange: setValue }} />
+			{render ? (
+				render({ formValueData, setOpen })
+			) : (
+				// @ts-ignore
+				<HtForm {...{ col: { span: 24 }, ...propertiesFormAttributes, fId: 'formModal', ...attributes, onFinish, onChange: setValue }} />
+			)}
 		</Modal>
 	)
 }

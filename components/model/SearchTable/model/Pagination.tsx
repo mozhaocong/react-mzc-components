@@ -19,7 +19,8 @@ export default (
 					showTotal={total => `总条数 ${total}`}
 					pageSize={props.pageSize || 10}
 					showSizeChanger
-					showQuickJumper
+					showQuickJumper={true}
+					pageSizeOptions={[50, 100, 150]}
 					onChange={(current, pageSize) => {
 						if (props.onChange) {
 							props.onChange({ current, pageSize })
