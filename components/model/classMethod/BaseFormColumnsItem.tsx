@@ -19,6 +19,27 @@ function dataMomentToTimeData(item: any, format = 'x'): any {
 		return response
 	})
 }
+function dataMomentToTimeStartOf(item: any, type = 'day', format = 'x'): any {
+	return deepClone(item, response => {
+		if (isMoment(response)) {
+			return moment(response)
+				.startOf(type as any)
+				.format(format)
+		}
+		return response
+	})
+}
+
+function dataMomentToTimeEndOf(item: any, type = 'day', format = 'x'): any {
+	return deepClone(item, response => {
+		if (isMoment(response)) {
+			return moment(response)
+				.endOf(type as any)
+				.format(format)
+		}
+		return response
+	})
+}
 
 function serialNumber(item: { index: number; pageSize?: number; current?: number; [index: string]: any }): React.ReactElement {
 	let { index, current, pageSize } = item
@@ -48,6 +69,8 @@ export class BaseFormColumnsItem<T = columnsItem<formPublicProps>> {
 	}
 	momentValueToString = momentValueToString
 	dataMomentToTimeData = dataMomentToTimeData
+	dataMomentToTimeStartOf = dataMomentToTimeStartOf
+	dataMomentToTimeEndOf = dataMomentToTimeEndOf
 }
 
 export class BaseFormListColumnsItem extends BaseFormColumnsItem<columnsItem<formListPublicProps>> {}

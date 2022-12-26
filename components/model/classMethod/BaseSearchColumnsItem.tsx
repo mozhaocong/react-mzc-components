@@ -282,8 +282,8 @@ export class BaseSearchColumnsItem extends BaseFormColumnsItem<searchColumnsItem
 		try {
 			const { item, nameKey } = config
 			if (isTrue(item[nameKey]) && isArray(item[nameKey])) {
-				item[`${nameKey}Start`] = this.dataMomentToTimeData(item[nameKey][0])
-				item[`${nameKey}End`] = this.dataMomentToTimeData(item[nameKey][1])
+				item[`${nameKey}Start`] = this.dataMomentToTimeStartOf(item[nameKey][0])
+				item[`${nameKey}End`] = this.dataMomentToTimeEndOf(item[nameKey][1])
 				delete item[nameKey]
 			}
 			return item
