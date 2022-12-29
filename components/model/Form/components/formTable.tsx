@@ -1,6 +1,6 @@
 import './formTable.less'
 
-import { Table } from 'antd'
+import { Col, Table } from 'antd'
 import { isArray, isFunctionOfOther, isObject, isString, isTrue } from 'html-mzc-tool'
 import React, { useEffect, useMemo, useState } from 'react'
 
@@ -10,7 +10,7 @@ import { getFormName, getFormValueFromName } from '../uitls/tool'
 import FormItem from './formItem'
 
 const _FormTable = (props: _FormTableType) => {
-	const { value, columns, formName, rowKey, isForm = true, ...attrs } = props
+	const { value, columns, formName, rowKey, isForm = true, tableConfig = {}, ...attrs } = props
 	const [data, setData] = useState([])
 	const [formValue, setFormValue] = useState([])
 	useEffect(() => {
@@ -58,7 +58,7 @@ const _FormTable = (props: _FormTableType) => {
 		const formValueData = getFormValueFromName(value, formName)
 		const { valueData, setValue, publicProps, valueOtherData } = attrs
 		return columns.map(item => {
-			const { dataIndex, title, rules } = item
+			const { dataIndex, title, rules, formItemConfig = {} } = item
 			if (isTrue(title)) {
 				item.title = () => setRulesTitle(title, rules)
 			}
@@ -83,6 +83,7 @@ const _FormTable = (props: _FormTableType) => {
 					}
 					return (
 						<FormItem
+							{...formItemConfig}
 							col={{ span: 24 }}
 							labelCol={{ span: 0 }}
 							wrapperCol={{ span: 24 }}
@@ -99,7 +100,11 @@ const _FormTable = (props: _FormTableType) => {
 
 	const config = {
 		render() {
-			return <Table columns={tableColumns} dataSource={data} pagination={false} />
+			const render = <Table {...tableConfig} columns={tableColumns} dataSource={data} pagination={false} />
+			if (isForm) {
+				return <Col span={24}>{render}</Col>
+			}
+			return render
 		}
 	}
 

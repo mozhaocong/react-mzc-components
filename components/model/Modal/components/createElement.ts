@@ -10,16 +10,25 @@ declare global {
 }
 
 let uuid = 0
+let dataList = []
 export function createElement(item: React.ReactElement) {
 	return new Promise((resolve, reject) => {
 		const element = document.createElement('div')
 		function createResolve(item?) {
+			dataList = dataList.filter(filterItem => {
+				const { id } = filterItem
+				return element.id != id
+			})
 			element.remove()
 			root.unmount()
 			resolve(item ?? true)
 		}
 
 		function createReject(item) {
+			dataList = dataList.filter(filterItem => {
+				const { id } = filterItem
+				return element.id != id
+			})
 			element.remove()
 			root.unmount()
 			reject(item ?? true)
@@ -36,6 +45,15 @@ export function createElement(item: React.ReactElement) {
 			createReject
 		})
 		const root = createRoot(element)
+		dataList.push({ id: element.id, element, root })
 		root.render(list)
 	})
+}
+export function closeAllElement() {
+	dataList.forEach(forItem => {
+		const { element, root } = forItem
+		element.remove()
+		root.unmount()
+	})
+	dataList = []
 }

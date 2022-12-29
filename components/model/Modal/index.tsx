@@ -3,7 +3,7 @@ import { ModalFuncProps, ModalProps } from 'antd/lib/modal/Modal'
 import { isTrue } from 'html-mzc-tool'
 import React, { useEffect, useState } from 'react'
 
-import { createElement } from './components/createElement'
+import { closeAllElement, createElement } from './components/createElement'
 
 type createModal = {
 	destroy: () => void
@@ -138,3 +138,4 @@ const View = (props: ModalProps) => {
 export { View as default }
 View.createModal = createModal
 View.createElement = createElement
+View.closeAllElement = closeAllElement

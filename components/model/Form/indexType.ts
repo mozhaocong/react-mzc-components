@@ -3,6 +3,7 @@ import { FormItemProps } from 'antd/lib/form/FormItem'
 import { FormInstance } from 'antd/lib/form/hooks/useForm'
 import { ColProps } from 'antd/lib/grid/col'
 import { ColumnType } from 'antd/lib/table/interface'
+import { TableProps } from 'antd/lib/table/Table'
 import { GetRowKey } from 'rc-table/lib/interface'
 import React from 'react'
 
@@ -35,11 +36,13 @@ export interface _FormTableType extends Omit<_FormType, 'columns'> {
 	isForm?: boolean // 是否返回带用form 的组件
 	columns: Array<ColumnTypeForm<formTablePublicProps>>
 	formName: formName
+	tableConfig?: TableProps<any>
 }
 
 export interface ColumnTypeForm<T> extends Omit<ColumnType<unknown>, 'render'>, Pick<FormItemProps, 'rules'> {
 	dataIndex?: any
 	render?: (item: T) => React.ReactElement
+	formItemConfig?: ObjectMap
 }
 
 export interface formPublicProps {
