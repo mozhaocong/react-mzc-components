@@ -139,19 +139,20 @@ export default _Form as typeof _Form & {
 
 const ShowText = props => {
 	const { value, ...attrs } = props
-	return <div {...{ style: { overflow: 'hidden', wordBreak: 'break-all' }, ...attrs }}>{value}</div>
+	return <div {...{ style: { overflow: 'hidden', wordBreak: 'break-all' }, ...attrs }}>{value || '-'}</div>
 }
 
 const ShowAmount = props => {
 	const { value, ...attrs } = props
 	const showData = useMemo(() => {
+		if (!isTrue(value)) return '-'
 		try {
 			return value?.toFixed(2) || '0.00'
 		} catch (e) {
 			return '0.00'
 		}
 	}, [value])
-	return <div {...attrs}>{showData}</div>
+	return <div {...attrs}>{showData || '-'}</div>
 }
 // 大写是组件 小写是方法
 // @ts-ignore

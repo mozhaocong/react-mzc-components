@@ -13,7 +13,8 @@ class formData {
 				component: configure => <Input {...configure.publicProps} />
 			},
 			{
-				render(configure) {
+				label: '1',
+				component: configure => {
 					return (
 						<FormList
 							{...configure}
@@ -24,7 +25,8 @@ class formData {
 									component: item => {
 										console.log(item)
 										return <Input />
-									}
+									},
+									rules: [{ required: true }]
 								},
 								{
 									render(item) {
@@ -55,11 +57,24 @@ const View = () => {
 		test: [{}]
 	})
 
+	function onFinish(item) {
+		console.log(item)
+	}
 	return (
 		<div>
 			<div> FormAddFormList</div>
-			<HtForm columns={new formData().data} value={value} onChange={setValue} setValue={setValue} valueData={valueData} />
+			<HtForm
+				fId={'FormAddFormList'}
+				onFinish={onFinish}
+				columns={new formData().data}
+				value={value}
+				onChange={setValue}
+				setValue={setValue}
+				valueData={valueData}
+			/>
 			<Button
+				form={'FormAddFormList'}
+				htmlType={'submit'}
 				onClick={() => {
 					console.log('value', value)
 				}}>

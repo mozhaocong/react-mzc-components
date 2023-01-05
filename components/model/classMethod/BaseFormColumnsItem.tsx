@@ -76,8 +76,9 @@ export class BaseFormColumnsItem<T = columnsItem<formPublicProps>> {
 export class BaseFormListColumnsItem extends BaseFormColumnsItem<columnsItem<formListPublicProps>> {}
 
 export class BaseFormTableColumnsItem extends BaseFormColumnsItem<ColumnTypeForm<formTablePublicProps>> {
-	actionButton(item: formTablePublicProps, name: formName): React.ReactElement {
+	actionButton(item: formTablePublicProps, name: formName, itemConfig?: { onAdd?: any; onDelete?: any }): React.ReactElement {
 		const { value, index, setValue, valueData } = item
+		const { onAdd, onDelete } = itemConfig || {}
 		const data = getFormValueFromName(value, name)
 		return (
 			<>
@@ -91,6 +92,7 @@ export class BaseFormTableColumnsItem extends BaseFormColumnsItem<ColumnTypeForm
 									return data
 								})
 							)
+							onDelete?.()
 						}}>
 						删除
 					</Button>
@@ -105,6 +107,7 @@ export class BaseFormTableColumnsItem extends BaseFormColumnsItem<ColumnTypeForm
 									return data
 								})
 							)
+							onAdd?.()
 						}}>
 						添加行
 					</Button>
