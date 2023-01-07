@@ -93,7 +93,7 @@ let _Form = (props: _FormType) => {
 							}
 						}
 					}}>
-					<Row style={{ margin: 0 }}>
+					<Row className={'form-row'} style={{ margin: 0 }}>
 						{columns.map((item, index) => {
 							const { labelAlign: itemLabelAlign, col: itemCol, name, ...columnAttrs } = item
 							return (

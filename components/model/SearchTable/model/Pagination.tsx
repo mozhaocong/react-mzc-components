@@ -9,8 +9,9 @@ export default (
 	}
 ) => {
 	if (!props.total) return ''
+	const styleData: any = { textAlign: 'right', padding: '8px 8px 0', borderTop: '1px solid #EEE', position: 'sticky', bottom: 0, background: '#FFF' }
 	return (
-		<div style={{ textAlign: 'right', margin: '8px' }}>
+		<div style={styleData}>
 			<Spin spinning={props.loading ?? false}>
 				<Pagination
 					size='small'

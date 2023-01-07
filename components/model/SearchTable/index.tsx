@@ -2,7 +2,7 @@ import './index.less'
 
 import { Button, Spin, Table } from 'antd'
 import { TableProps } from 'antd/lib/table/Table'
-import { debounce, deepClone, isArray, isTrue, objectFilterNull } from 'html-mzc-tool'
+import { deepClone, isArray, isTrue, objectFilterNull } from 'html-mzc-tool'
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 
 import HtForm from '../Form'
@@ -62,7 +62,7 @@ let View = (props: searchTableType) => {
 	// search slotList 的数据
 	const [selectSlotValueOther, setSelectSlotValueOther] = useState([])
 	const tableRef = useRef()
-	const [tableY, setTableY] = useState(100)
+	// const [tableY, setTableY] = useState(100)
 
 	function onFinish(values) {
 		const data = objectFilterNull(values)
@@ -192,31 +192,32 @@ let View = (props: searchTableType) => {
 		setValue(value)
 	}
 
-	useEffect(() => {
-		if (tableSlot || !tableRef?.current) return
-		function setTest() {
-			// @ts-ignore
-			const y = tableRef?.current?.querySelector('.table-dom').clientHeight - tableRef?.current?.querySelector('.ant-table-header').clientHeight
-			setTableY(y)
-		}
-		const debounceTest = debounce(setTest, 100)
-
-		const resizeObserver = new ResizeObserver(() => {
-			debounceTest()
-		})
-		// @ts-ignore
-		const documentData = tableRef?.current?.querySelector('.table-dom')
-		// start observing a DOM node
-		resizeObserver.observe(documentData)
-		return () => {
-			resizeObserver.unobserve(documentData)
-		}
-	}, [tableRef])
+	// useEffect(() => {
+	// 	if (tableSlot || !tableRef?.current) return
+	// 	function setTest() {
+	// 		// @ts-ignore
+	// 		const y = tableRef?.current?.querySelector('.table-dom').clientHeight - tableRef?.current?.querySelector('.ant-table-header').clientHeight
+	// 		setTableY(y)
+	// 	}
+	// 	const debounceTest = debounce(setTest, 100)
+	//
+	// 	const resizeObserver = new ResizeObserver(() => {
+	// 		debounceTest()
+	// 	})
+	// 	// @ts-ignore
+	// 	const documentData = tableRef?.current?.querySelector('.table-dom')
+	// 	// start observing a DOM node
+	// 	resizeObserver.observe(documentData)
+	// 	return () => {
+	// 		resizeObserver.unobserve(documentData)
+	// 	}
+	// }, [tableRef])
 
 	return (
 		<div ref={tableRef} className={'search-table-components'}>
 			<div className={'search-search-block'}>
 				<Search
+					onReset={onReset}
 					loading={propsLoading ?? loading}
 					fId={fId}
 					value={value}
@@ -248,7 +249,7 @@ let View = (props: searchTableType) => {
 					tableSlot()
 				) : (
 					<div className={'table-dom'}>
-						<Table loading={propsLoading ?? loading} pagination={false} dataSource={dataSource} {...{ scroll: { y: tableY }, ...propsTable }} />
+						<Table loading={propsLoading ?? loading} pagination={false} dataSource={dataSource} {...{ sticky: true, ...propsTable }} />
 					</div>
 				)}
 				<Pagination />

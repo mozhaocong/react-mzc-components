@@ -9,6 +9,8 @@ import { searchPurchase } from '@/api/scm/purchase'
 import { BaseSearchColumnsItem, BaseTableColumns, FormSelect, Input, MinMaxInput, SearchTable } from '@/components'
 const { useSearchRef } = SearchTable
 
+import { mockDataSource } from 'html-mzc-tool'
+
 import { getSlotListKey } from '@/view/_module/list/searchListData'
 
 export const defaultSearchSlotLayout = {
@@ -126,37 +128,36 @@ const Index: React.FC = () => {
 	)
 
 	return (
-		<div>
-			<SearchTable
-				searchRef={searchRef}
-				search={{
-					...defaultSearchLayout,
-					fId: 'searchTest',
-					columns: new SearchColumn().data
-				}}
-				onLoadingChange={setLoading}
-				slot={SearchTableSlot}
-				// tableSlot={() => <div>123456</div>}
-				table={{ columns: new TableColumns().data, rowKey: 'no' }}
-				useRequest={{
-					apiRequest: searchPurchase,
-					defaultParams: {
-						test1: 1
-					},
-					onSuccess: (item, response) => {
-						return item?.data?.data
-					},
-					onCallBack: () => {
-						// setLoading(false)
-					},
-					setSearchData: item => {
-						// setLoading(true)
-						return setSearchData(item)
-					}
-				}}
-				checkedListSearch={checkedListSearch}
-			/>
-		</div>
+		<SearchTable
+			searchRef={searchRef}
+			search={{
+				...defaultSearchLayout,
+				fId: 'searchTest',
+				columns: new SearchColumn().data
+			}}
+			onLoadingChange={setLoading}
+			slot={SearchTableSlot}
+			// tableSlot={() => <div>123456</div>}
+			table={{ columns: new TableColumns().data, rowKey: 'no' }}
+			useRequest={{
+				apiRequest: searchPurchase,
+				defaultParams: {
+					test1: 1
+				},
+				onSuccess: (item, response) => {
+					console.log('onSuccess', item)
+					return mockDataSource(new TableColumns().data, 50)
+				},
+				onCallBack: () => {
+					// setLoading(false)
+				},
+				setSearchData: item => {
+					// setLoading(true)
+					return setSearchData(item)
+				}
+			}}
+			checkedListSearch={checkedListSearch}
+		/>
 	)
 }
 
