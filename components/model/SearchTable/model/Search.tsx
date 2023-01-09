@@ -19,6 +19,7 @@ const Search: React.FC<SearchType> = props => {
 	const [divHeight, setDivHeight] = useState(100)
 	const formRef = useRef<any>()
 	const [putAway, setPutAway] = useState(true)
+
 	useEffect(() => {
 		if (!formRef?.current) return
 		function setTest() {
@@ -60,24 +61,26 @@ const Search: React.FC<SearchType> = props => {
 	}, [formRef])
 
 	const columnsList = useMemo(() => {
-		const data = deepClone(columns)
+		const data = deepClone(columns) || []
 		data.splice(location, 0, {
-			col: { flex: '200px' },
-			label: '测试',
+			col: { flex: 'auto' },
 			customRender: () => {
 				return (
-					<div>
-						{putAway ? <DownOutlined onClick={() => setPutAway(false)} /> : <UpOutlined onClick={() => setPutAway(true)} />}
-						<Button loading={loading} htmlType={'submit'} form={fId}>
-							搜索
-						</Button>
-						<Button loading={loading} onClick={onReset}>
-							重置
-						</Button>
+					<div style={{ justifyContent: 'flex-end', display: 'flex' }}>
+						<div style={{ width: '200px', display: 'flex', justifyContent: 'space-evenly', alignItems: 'center' }}>
+							{putAway ? <DownOutlined onClick={() => setPutAway(false)} /> : <UpOutlined onClick={() => setPutAway(true)} />}
+							<Button type={'primary'} loading={loading} htmlType={'submit'}>
+								搜索
+							</Button>
+							<Button loading={loading} onClick={onReset}>
+								重置
+							</Button>
+						</div>
 					</div>
 				)
 			}
 		})
+
 		return data
 	}, [location, columns, putAway])
 
@@ -91,7 +94,6 @@ const Search: React.FC<SearchType> = props => {
 	return (
 		<div ref={formRef} style={searchStyle}>
 			<HtForm {...{ value, columns: columnsList, ...attrs }} />
-			<div>{location}</div>
 		</div>
 	)
 }

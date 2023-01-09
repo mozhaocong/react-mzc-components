@@ -1,6 +1,6 @@
 import './index.less'
 
-import { Button, Spin, Table } from 'antd'
+import { Spin, Table } from 'antd'
 import { TableProps } from 'antd/lib/table/Table'
 import { deepClone, isArray, isTrue, objectFilterNull } from 'html-mzc-tool'
 import React, { useEffect, useMemo, useRef, useState } from 'react'
@@ -33,7 +33,9 @@ type searchTableType = {
 		onCallBack?: () => void // 接口请求完成 回调函数
 		defaultParams?: ObjectMap
 		setSearchData?: (item: ObjectMap) => ObjectMap
+		onChangeSearchData?: (item: any) => void // search数据onChange事件
 	}
+
 	searchRef?: { current: any }
 	slot?: React.ReactElement
 	loading?: boolean
@@ -53,7 +55,15 @@ let View = (props: searchTableType) => {
 		tableSlot
 	} = props
 	const { onFinish: propsOnFinish, columns, fId, defaultValue = {}, ...searchAttrs } = propsSearch || {}
-	const { apiRequest, onSuccess, defaultParams = {}, setSearchData: propsSetSearchData, onCallBack, manual = true } = propsUseRequest || {}
+	const {
+		apiRequest,
+		onSuccess,
+		defaultParams = {},
+		setSearchData: propsSetSearchData,
+		onCallBack,
+		manual = true,
+		onChangeSearchData
+	} = propsUseRequest || {}
 
 	const { value, valueData, setValue, valueOtherData } = useFormData(defaultValue)
 	const [dataSource, setDataSource] = useState([])
@@ -111,8 +121,9 @@ let View = (props: searchTableType) => {
 			if (propsSetSearchData) {
 				data = propsSetSearchData(data)
 			}
-
-			return objectFilterNull(data)
+			const returnData = objectFilterNull(data)
+			onChangeSearchData?.(returnData)
+			return returnData
 		}
 	})
 
@@ -232,14 +243,14 @@ let View = (props: searchTableType) => {
 				<Spin spinning={propsLoading ?? loading}>
 					<div className={'search-checkedTag-button-block'}>
 						<CheckedTag listSearch={listSearch} />
-						<div className={'search-button-block'}>
-							<Button loading={loading} htmlType={'submit'} form={fId}>
-								搜索
-							</Button>
-							<Button loading={loading} onClick={onReset}>
-								重置
-							</Button>
-						</div>
+						{/*<div className={'search-button-block'}>*/}
+						{/*	<Button loading={loading} htmlType={'submit'} form={fId}>*/}
+						{/*		搜索*/}
+						{/*	</Button>*/}
+						{/*	<Button loading={loading} onClick={onReset}>*/}
+						{/*		重置*/}
+						{/*	</Button>*/}
+						{/*</div>*/}
 					</div>
 				</Spin>
 			</div>
