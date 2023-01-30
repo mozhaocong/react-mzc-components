@@ -44,8 +44,7 @@ class SearchColumn extends BaseSearchColumnsItem {
 				slotList: getSlotListKey([{ label: '收货时间' }, { label: '质检时间' }, { label: '入库时间' }, { label: '退货时间' }]),
 				selectSlotOption: defaultSearchSlotLayout
 			}),
-			{ label: '数量', name: 'nub', component: () => <MinMaxInput /> },
-
+			// { label: '数量', name: 'nub', component: () => <MinMaxInput /> },
 			// { ...getSlotConfigData({ name: 'purchaseParentOrderNoKey' })[0], ...defaultSearchSlotLayout }, // 母单号
 			// ...getSlotConfigData({ name: 'purchaseParentOrderNoKey' }),
 			{

@@ -22,7 +22,7 @@ module.exports = {
 		]
 	],
 	plugins: [
-		// ['import', { libraryName: 'antd', style: 'css' }, 'ant'],
+		['import', { libraryName: 'antd', style: 'css' }, 'ant'],
 		[
 			'import',
 			{
