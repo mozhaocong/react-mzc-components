@@ -1,4 +1,4 @@
-import 'antd/dist/antd.css'
+// import 'antd/dist/antd.css'
 import 'moment/locale/zh-cn'
 
 import { axiosInit, isTrue } from 'html-mzc-tool'

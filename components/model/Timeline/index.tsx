@@ -1,59 +1,44 @@
 import './index.less'
 
+import { Timeline } from 'antd'
 import { TimelineProps } from 'antd/lib/timeline/Timeline'
 import { isTrue } from 'html-mzc-tool'
 import React, { CSSProperties } from 'react'
 interface timelineProps extends TimelineProps {
 	value: { title: string; time: string; person: string; content?: string }[]
-	reverse?: boolean
 	style?: CSSProperties
 }
 
 const View = (props: timelineProps) => {
 	const { style = {} } = props
-	function extendLine(type: boolean) {
-		return !!props.reverse === type ? (
-			<div className={'extend-line'}>
-				<div className={'timeline-line'} />
-			</div>
-		) : (
-			<></>
-		)
-	}
 
+	const timeContentStyle = {
+		fontSize: '12px',
+		color: '#646566',
+		lineHeight: '22px'
+	}
 	return (
-		<div
-			className={'timeline-components'}
+		<Timeline
 			style={{
 				width: '300px',
 				...style
 			}}>
-			{extendLine(true)}
 			{props.value.map((item, index) => {
 				const { title, person, time, content } = item
 				return (
-					<div className={'timeline-block'} key={index}>
-						<div className={`timeline-ico `}>
-							<div className={`timeline-line-top ${props.reverse ? 'timeline-line-top-reverse' : ''}`} />
-							<div className={`ico-block ${!index ? 'current-ico-block' : ''}`} />
-							<div className={'timeline-line'} />
-						</div>
-						<div className={`timeline-content-area ${props.reverse ? 'timeline-content-area-reverse' : ''}`}>
-							<div className={'content-block'}>
-								<div className={'content-title-time'}>
-									<span>{title}</span>
-									<span>
-										{person} {time}
-									</span>
-								</div>
-								{isTrue(content) && <div>{content}</div>}
+					<Timeline.Item key={index}>
+						<div>
+							<div style={{ fontSize: '14px', fontWeight: '500' }}>
+								<span style={{ color: '#262626' }}>{title}</span>
+								<span style={{ color: '#186D5A' }}>【{person}】</span>
 							</div>
+							<div style={timeContentStyle}>{time}</div>
+							{isTrue(content) && <div style={timeContentStyle}>{content}</div>}
 						</div>
-					</div>
+					</Timeline.Item>
 				)
 			})}
-			{extendLine(false)}
-		</div>
+		</Timeline>
 	)
 }
 export default React.memo(View)

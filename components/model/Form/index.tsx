@@ -21,6 +21,7 @@ let _Form = (props: _FormType) => {
 		col = { span: 8 },
 		labelAlign = 'right',
 		style,
+		className,
 		onChange,
 		propsForm,
 		form: propsFormRef,
@@ -71,7 +72,7 @@ let _Form = (props: _FormType) => {
 	}, [value])
 
 	return (
-		<div style={style}>
+		<div style={style} className={className}>
 			<Spin spinning={loading ?? false}>
 				<Form
 					{...{ labelCol, wrapperCol, ...attrs, fields }}
@@ -137,13 +138,20 @@ export default _Form as typeof _Form & {
 	ShowAmount: typeof ShowAmount
 }
 
-const ShowText = props => {
-	const { value, ...attrs } = props
-	return <div {...{ style: { overflow: 'hidden', wordBreak: 'break-all' }, ...attrs }}>{value || '-'}</div>
+type showType = { after?: string; before?: string; value?: any; [index: string]: any }
+const ShowText: React.FC<showType> = props => {
+	const { after = '', before = '', value, ...attrs } = props
+	return (
+		<div {...{ style: { overflow: 'hidden', wordBreak: 'break-all' }, ...attrs }}>
+			{before}
+			{value || '-'}
+			{after}
+		</div>
+	)
 }
 
-const ShowAmount = props => {
-	const { value, ...attrs } = props
+const ShowAmount: React.FC<showType> = props => {
+	const { after = '', before = '', value, ...attrs } = props
 	const showData = useMemo(() => {
 		if (!isTrue(value)) return '-'
 		try {
@@ -152,7 +160,13 @@ const ShowAmount = props => {
 			return '0.00'
 		}
 	}, [value])
-	return <div {...attrs}>{showData || '-'}</div>
+	return (
+		<div {...attrs}>
+			{before}
+			{showData || '-'}
+			{after}
+		</div>
+	)
 }
 // 大写是组件 小写是方法
 // @ts-ignore

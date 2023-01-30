@@ -1,7 +1,9 @@
-import { InputNumber } from 'antd'
+import './index.less'
+
+import { SwapRightOutlined } from '@ant-design/icons'
+import { Input, InputNumber } from 'antd'
 import { isEmpty, isNil } from 'ramda'
 import React, { Component } from 'react'
-
 type props = {
 	onChange?: (item: any) => void
 	value?: ObjectMap
@@ -67,24 +69,36 @@ export default class minMaxInput extends Component<props> {
 		}
 		const { minValue, maxValue } = value
 		return (
-			<div style={style}>
-				<InputNumber
-					disabled={disabled}
-					value={minValue}
-					style={{ width: width ?? '80px' }}
-					onBlur={this.minMaxBlur}
-					onChange={this.mixChange}
-					{...{ min: 0, ...minProp }}
-				/>
-				<span style={{ margin: '0 10px' }}>至</span>
-				<InputNumber
-					value={maxValue}
-					disabled={disabled}
-					style={{ width: width ?? '80px' }}
-					onBlur={this.minMaxBlur}
-					onChange={this.maxChange}
-					{...{ min: 1, ...maxProp }}
-				/>
+			<div style={style} className={'min-max-input'}>
+				<Input.Group compact>
+					<InputNumber
+						disabled={disabled}
+						value={minValue}
+						style={{ width: width ?? '80px' }}
+						onBlur={this.minMaxBlur}
+						onChange={this.mixChange}
+						{...{ min: 0, ...minProp }}
+					/>
+					<Input
+						style={{
+							width: 30,
+							borderLeft: 0,
+							borderRight: 0,
+							pointerEvents: 'none'
+						}}
+						addonBefore={<SwapRightOutlined />}
+						disabled={true}
+					/>
+					{/*<span style={{ margin: '0 10px' }}>至</span>*/}
+					<InputNumber
+						value={maxValue}
+						disabled={disabled}
+						style={{ width: width ?? '80px', borderLeft: 0 }}
+						onBlur={this.minMaxBlur}
+						onChange={this.maxChange}
+						{...{ min: 1, ...maxProp }}
+					/>
+				</Input.Group>
 			</div>
 		)
 	}

@@ -1,13 +1,16 @@
 import { Button, Card, Divider, Pagination } from 'antd'
 import React, { useState } from 'react'
 
-import { FormBasic, FormRadio, FormSelect, Timeline } from '@/components'
+import { FormBasic, FormRadio, FormSelect, MinMaxInput, Timeline } from '@/components'
 
 const View = () => {
 	const [reverse, setReverse] = useState(false)
 
 	return (
 		<div>
+			<Card title={'MinMaxInput'}>
+				<MinMaxInput />
+			</Card>
 			<Card title='Timeline'>
 				<Timeline
 					reverse={reverse}

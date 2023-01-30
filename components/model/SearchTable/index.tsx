@@ -33,6 +33,7 @@ type searchTableType = {
 		onCallBack?: () => void // 接口请求完成 回调函数
 		defaultParams?: ObjectMap
 		setSearchData?: (item: ObjectMap) => ObjectMap
+		getSearchData?: (item: ObjectMap) => void
 	}
 	searchRef?: { current: any }
 	slot?: React.ReactElement
@@ -53,7 +54,15 @@ let View = (props: searchTableType) => {
 		tableSlot
 	} = props
 	const { onFinish: propsOnFinish, columns, fId, defaultValue = {}, ...searchAttrs } = propsSearch || {}
-	const { apiRequest, onSuccess, defaultParams = {}, setSearchData: propsSetSearchData, onCallBack, manual = true } = propsUseRequest || {}
+	const {
+		apiRequest,
+		onSuccess,
+		defaultParams = {},
+		setSearchData: propsSetSearchData,
+		onCallBack,
+		manual = true,
+		getSearchData
+	} = propsUseRequest || {}
 
 	const { value, valueData, setValue, valueOtherData } = useFormData(defaultValue)
 	const [dataSource, setDataSource] = useState([])
@@ -111,8 +120,9 @@ let View = (props: searchTableType) => {
 			if (propsSetSearchData) {
 				data = propsSetSearchData(data)
 			}
-
-			return objectFilterNull(data)
+			const returnData = objectFilterNull(data)
+			getSearchData?.(returnData)
+			return returnData
 		}
 	})
 

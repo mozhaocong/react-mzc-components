@@ -7,8 +7,8 @@ import React from 'react'
 import { columnsItem, ColumnTypeForm, formListPublicProps, formName, formPublicProps, formTablePublicProps } from '../Form/indexType'
 import { getFormValueFromName, setFormNameToValue } from '../Form/uitls/tool'
 
-function momentValueToString(value: any, format = 'YYYY-MM-DD') {
-	return isTrue(value) ? moment(value).format(format) : ''
+function momentValueToString(value: any, format = 'YYYY-MM-DD hh:mm:ss') {
+	return isTrue(value) ? moment(value * 1).format(format) : ''
 }
 
 function dataMomentToTimeData(item: any, format = 'x'): any {
@@ -76,13 +76,14 @@ export class BaseFormColumnsItem<T = columnsItem<formPublicProps>> {
 export class BaseFormListColumnsItem extends BaseFormColumnsItem<columnsItem<formListPublicProps>> {}
 
 export class BaseFormTableColumnsItem extends BaseFormColumnsItem<ColumnTypeForm<formTablePublicProps>> {
-	actionButton(item: formTablePublicProps, name: formName, itemConfig?: { onAdd?: any; onDelete?: any }): React.ReactElement {
+	actionButton(item: formTablePublicProps, name: formName, itemConfig?: { onAdd?: any; onDelete?: any; firstDelete?: boolean }): React.ReactElement {
 		const { value, index, setValue, valueData } = item
-		const { onAdd, onDelete } = itemConfig || {}
+		const { onAdd, onDelete, firstDelete } = itemConfig || {}
 		const data = getFormValueFromName(value, name)
+		const showDelete = data.length !== 1 || isTrue(firstDelete)
 		return (
 			<>
-				{data.length !== 1 && (
+				{showDelete && (
 					<Button
 						type={'link'}
 						onClick={() => {
