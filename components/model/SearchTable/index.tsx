@@ -239,19 +239,7 @@ let View = (props: searchTableType) => {
 					onFinish={onFinish}
 					{...{ ...searchAttrs }}
 				/>
-				<Spin spinning={propsLoading ?? loading}>
-					<div className={'search-checkedTag-button-block'}>
-						<CheckedTag listSearch={listSearch} />
-						<div className={'search-button-block'}>
-							<Button loading={loading} htmlType={'submit'} form={fId}>
-								搜索
-							</Button>
-							<Button loading={loading} onClick={onReset}>
-								重置
-							</Button>
-						</div>
-					</div>
-				</Spin>
+				<CheckedTag className={'search-checkedTag-button-block'} listSearch={listSearch} />
 			</div>
 			<div className={'search-table-block'}>
 				{slot}

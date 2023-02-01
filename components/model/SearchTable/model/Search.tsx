@@ -1,5 +1,6 @@
-import { debounce, isTrue } from 'html-mzc-tool'
-import { filter } from 'ramda'
+import { DoubleLeftOutlined, DoubleRightOutlined } from '@ant-design/icons'
+import { Button, Col, Input } from 'antd'
+import { debounce, isString, isTrue } from 'html-mzc-tool'
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 
 import HtForm from '../../Form'
@@ -35,18 +36,28 @@ const useResizeObserver = (props: { domRef: any; callBack: () => void; wait?: nu
 }
 
 const Search: React.FC<SearchType> = props => {
-	const { value, columns, ...attrs } = props
+	const { value, columns: propsColumns, onReset, ...attrs } = props
 	const divRef = useRef<any>(undefined)
 	const isInt = useRef<boolean>(true)
+	const [moreButton, setMoreButton] = useState(false)
+	const moreIndex = useRef<number>(0)
+	const columns = useMemo(() => {
+		return propsColumns.map(mapItem => {
+			const { label } = mapItem
+			const data: any = {}
+			if (isTrue(label) && isString(label)) {
+				data.label = <Input readOnly value={label} />
+			}
+			return { ...mapItem, ...data }
+		})
+	}, [propsColumns])
 	const [columnsData, setColumnsData] = useState(columns)
 
 	useResizeObserver({
 		domRef: divRef.current,
 		callBack: () => {
-			// console.log('12312')
 			isInt.current = true
 			setColumnsData(columns)
-			// getDomWidth()
 		}
 	})
 
@@ -54,45 +65,85 @@ const Search: React.FC<SearchType> = props => {
 		if (isInt.current) {
 			getDomWidth()
 		}
-	}, [columnsData, isInt])
+	}, [columnsData])
+
+	useEffect(() => {
+		setColumnsData(setMoreButtonList())
+	}, [moreButton])
+	function setMoreButtonList(): any[] {
+		const index = moreIndex.current
+		const pushData = {
+			render: () => {
+				return (
+					<Col flex={'auto'} style={{ display: 'flex', justifyContent: 'end', minWidth: '300px' }}>
+						<div style={{ display: 'flex' }}>
+							<div style={{ marginRight: '12px', height: '32px', display: 'flex', alignItems: 'center', transform: 'rotate(-90deg)' }}>
+								{moreButton ? (
+									<DoubleRightOutlined
+										style={{ fontSize: '24px' }}
+										onClick={() => {
+											setMoreButton(!moreButton)
+										}}
+									/>
+								) : (
+									<DoubleLeftOutlined
+										style={{ fontSize: '24px' }}
+										onClick={() => {
+											setMoreButton(!moreButton)
+										}}
+									/>
+								)}
+							</div>
+
+							<Button htmlType={'submit'} style={{ marginRight: '12px' }} type={'primary'}>
+								搜索
+							</Button>
+							<Button
+								onClick={() => {
+									onReset?.()
+								}}>
+								重置
+							</Button>
+						</div>
+					</Col>
+				)
+			}
+		}
+		if (!moreButton) {
+			const filterData = columns.filter((filterItem, filterIndex) => {
+				return filterIndex < index - 1
+			})
+			return [...filterData, pushData]
+		} else {
+			const list = [...columns]
+			list.splice(index - 1, 0, pushData)
+			return list
+		}
+	}
 
 	function getDomWidth() {
 		const divWidth = divRef.current.clientWidth
 		const formItemAll = divRef.current?.querySelectorAll('.ant-form-item')
-		console.log('formItemAll', formItemAll, divWidth)
 		let formItemWidth = 0
-		const buttonWidth = 200
+		const buttonWidth = 300
 		let index = 0
 		for (const formItemAllElement of formItemAll) {
 			formItemWidth += formItemAllElement.clientWidth
 			index += 1
-			console.log(index, divWidth, formItemWidth)
 			if (divWidth < buttonWidth + formItemWidth) {
 				break
 			}
-			// console.log('index', index)
-			// console.log('formItemWidth', formItemWidth)
 		}
 		isInt.current = false
-		console.log('index', index)
-		const filterData = columns.filter((filterItem, filterIndex) => {
-			return filterIndex < index - 1
-		})
-		setColumnsData([
-			...filterData,
-			{
-				render: () => {
-					return <div>测试</div>
-				}
-			}
-		])
-		// divRef.current.
+		moreIndex.current = index
+		const dataList = setMoreButtonList()
+		setColumnsData(dataList)
 	}
 
 	return (
 		// @ts-ignore
 		<div className={'search-consent'} style={{ width: '100%' }} ref={divRef}>
-			<HtForm {...{ value, columns: columnsData, ...attrs }} />
+			<HtForm {...{ value, columns: columnsData, ...attrs }} colon={false} />
 		</div>
 	)
 }

@@ -80,7 +80,13 @@ class TableColumns extends BaseTableColumns {
 	constructor() {
 		super()
 		this.setColumns([
-			{ title: '样品需求单号', dataIndex: 'a1' },
+			{
+				title: '样品需求单号',
+				dataIndex: 'a1',
+				render: () => {
+					return <Button type={'link'}>1</Button>
+				}
+			},
 			{ title: '赫特SPU款号', dataIndex: 'a2' },
 			{ title: '采购数量', dataIndex: 'a3' },
 			{ title: '下单时间', dataIndex: 'a4' },

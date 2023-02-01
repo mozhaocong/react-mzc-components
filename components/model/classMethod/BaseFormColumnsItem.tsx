@@ -76,17 +76,40 @@ export class BaseFormColumnsItem<T = columnsItem<formPublicProps>> {
 export class BaseFormListColumnsItem extends BaseFormColumnsItem<columnsItem<formListPublicProps>> {}
 
 export class BaseFormTableColumnsItem extends BaseFormColumnsItem<ColumnTypeForm<formTablePublicProps>> {
-	actionButton(item: formTablePublicProps, name: formName, itemConfig?: { onAdd?: any; onDelete?: any; firstDelete?: boolean }): React.ReactElement {
+	actionButton(
+		item: formTablePublicProps,
+		name: formName,
+		itemConfig?: {
+			onAdd?: any
+			onDelete?: any
+			firstDelete?: boolean
+			showDelete?: boolean
+			hiddenDelete?: boolean
+			showAdd?: boolean
+			hiddenAdd?: boolean
+			buttonType?: 'link' | 'text' | 'ghost' | 'default' | 'primary' | 'dashed'
+		}
+	): React.ReactElement {
 		const { value, index, setValue, valueData } = item
-		const { onAdd, onDelete, firstDelete } = itemConfig || {}
+		const {
+			onAdd,
+			onDelete,
+			showDelete: showDeleteConfig = false,
+			showAdd: showAddConfig = false,
+			hiddenAdd = false,
+			hiddenDelete = false,
+			buttonType = 'link'
+		} = itemConfig || {}
 		const data = getFormValueFromName(value, name)
-		const showDelete = data.length !== 1 || isTrue(firstDelete)
+		const showDelete = data.length !== 1 || isTrue(showDeleteConfig)
+		const showAdd = data.length === index + 1 || isTrue(showAddConfig)
 		return (
 			<>
-				{showDelete && (
+				{showDelete && !hiddenDelete && (
 					<Button
-						type={'link'}
+						type={buttonType}
 						onClick={() => {
+							if (!isTrue(index)) return
 							data.splice(index, 1)
 							setValue(
 								setFormNameToValue(valueData.value, name, () => {
@@ -98,9 +121,9 @@ export class BaseFormTableColumnsItem extends BaseFormColumnsItem<ColumnTypeForm
 						删除
 					</Button>
 				)}
-				{data.length === index + 1 && (
+				{showAdd && !hiddenAdd && (
 					<Button
-						type={'link'}
+						type={buttonType}
 						onClick={() => {
 							data.push({})
 							setValue(

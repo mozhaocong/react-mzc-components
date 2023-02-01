@@ -18,8 +18,8 @@ type getTagType = tagItemType & columnType & { nameData: any }
 
 export type tagItemType = listSearchType
 
-const CheckedTag = (props: { listSearch: listSearchType[] }) => {
-	const { listSearch } = props
+const CheckedTag = (props: { listSearch: listSearchType[]; [index: string]: any }) => {
+	const { listSearch, ...attrs } = props
 	const listTag = useMemo(() => {
 		const data = []
 		listSearch.forEach(item => {
@@ -71,13 +71,15 @@ const CheckedTag = (props: { listSearch: listSearchType[] }) => {
 		onClose(data, name)
 	}
 
-	return (
-		<div>
+	return isTrue(listTag) ? (
+		<div {...attrs}>
 			<span className={'checked-span'}>全部结果 {'>'}</span>
 			{listTag.map((item, index) => {
 				return <Fragment key={index}>{getTag(item)}</Fragment>
 			})}
 		</div>
+	) : (
+		<></>
 	)
 }
 
