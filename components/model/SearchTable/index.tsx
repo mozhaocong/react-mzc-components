@@ -228,7 +228,7 @@ let View = (props: searchTableType) => {
 			<div className={'search-search-block'}>
 				<Search
 					onReset={onReset}
-					loading={propsLoading ?? loading}
+					// loading={propsLoading ?? loading}
 					fId={fId}
 					value={value}
 					valueData={valueData}

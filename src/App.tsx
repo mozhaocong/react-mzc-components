@@ -1,4 +1,6 @@
 // @ts-ignore
+import 'antd/dist/antd.css'
+
 import { Button, ConfigProvider } from 'antd'
 import zhCN from 'antd/es/locale/zh_CN'
 import { isTrue } from 'html-mzc-tool'

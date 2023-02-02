@@ -7,7 +7,7 @@ import HtForm from '../../Form'
 import { _FormType } from '../../Form/indexType'
 
 interface SearchType extends _FormType {
-	loading: boolean
+	loading?: boolean
 	fId: string
 	onReset: any
 }
@@ -127,12 +127,17 @@ const Search: React.FC<SearchType> = props => {
 		let formItemWidth = 0
 		const buttonWidth = 300
 		let index = 0
+		let isEnd = true
 		for (const formItemAllElement of formItemAll) {
 			formItemWidth += formItemAllElement.clientWidth
 			index += 1
 			if (divWidth < buttonWidth + formItemWidth) {
+				isEnd = false
 				break
 			}
+		}
+		if (isEnd) {
+			index += 1
 		}
 		isInt.current = false
 		moreIndex.current = index
@@ -142,7 +147,7 @@ const Search: React.FC<SearchType> = props => {
 
 	return (
 		// @ts-ignore
-		<div className={'search-consent'} style={{ width: '100%' }} ref={divRef}>
+		<div className={`search-consent ${isInt.current && !moreButton ? 'hide-height' : ''}`} style={{ width: '100%' }} ref={divRef}>
 			<HtForm {...{ value, columns: columnsData, ...attrs }} colon={false} />
 		</div>
 	)
