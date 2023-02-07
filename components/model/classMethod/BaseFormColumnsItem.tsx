@@ -7,7 +7,7 @@ import React from 'react'
 import { columnsItem, ColumnTypeForm, formListPublicProps, formName, formPublicProps, formTablePublicProps } from '../Form/indexType'
 import { getFormValueFromName, setFormNameToValue } from '../Form/uitls/tool'
 
-function momentValueToString(value: any, format = 'YYYY-MM-DD hh:mm:ss') {
+function momentValueToString(value: any, format = 'YYYY-MM-DD HH:mm:ss') {
 	return isTrue(value) ? moment(value * 1).format(format) : ''
 }
 
@@ -101,11 +101,15 @@ export class BaseFormTableColumnsItem extends BaseFormColumnsItem<ColumnTypeForm
 			buttonType = 'link'
 		} = itemConfig || {}
 		const data = getFormValueFromName(value, name)
-		const showDelete = data.length !== 1 || isTrue(showDeleteConfig)
-		const showAdd = data.length === index + 1 || isTrue(showAddConfig)
+		let showDelete = data.length !== 1 || showDeleteConfig
+		if (hiddenDelete) {
+			showDelete = false
+		}
+		console.log('showDelete', showDelete)
+		const showAdd = data.length === index + 1 || showAddConfig
 		return (
 			<>
-				{showDelete && !hiddenDelete && (
+				{showDelete && (
 					<Button
 						type={buttonType}
 						onClick={() => {

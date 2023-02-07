@@ -55,12 +55,16 @@ let _FormModal: React.FC<propertiesType & createElementProps> = properties => {
 		<Modal
 			{...{ maskClosable: true, ...modalConfig, getContainer, open, onCancel }}
 			okButtonProps={{ htmlType: 'submit', form: 'formModal', loading }}>
-			{render ? (
-				render({ formValueData, setOpen })
-			) : (
-				// @ts-ignore
-				<HtForm {...{ col: { span: 24 }, ...propertiesFormAttributes, fId: 'formModal', ...attributes, onFinish, onChange: setValue }} />
-			)}
+			<div style={{ maxHeight: '50vh', overflow: 'auto' }}>
+				{render ? (
+					render({ formValueData, setOpen })
+				) : (
+					// @ts-ignore
+					<HtForm
+						{...{ col: { span: 24 }, labelAlign: 'left', ...propertiesFormAttributes, fId: 'formModal', ...attributes, onFinish, onChange: setValue }}
+					/>
+				)}
+			</div>
 		</Modal>
 	)
 }

@@ -40,6 +40,7 @@ const Search: React.FC<SearchType> = props => {
 	const divRef = useRef<any>(undefined)
 	const isInt = useRef<boolean>(true)
 	const [moreButton, setMoreButton] = useState(false)
+	const [showMore, seSHowMore] = useState(true)
 	const moreIndex = useRef<number>(0)
 	const columns = useMemo(() => {
 		return propsColumns.map(mapItem => {
@@ -77,23 +78,25 @@ const Search: React.FC<SearchType> = props => {
 				return (
 					<Col flex={'auto'} style={{ display: 'flex', justifyContent: 'end', minWidth: '300px' }}>
 						<div style={{ display: 'flex' }}>
-							<div style={{ marginRight: '12px', height: '32px', display: 'flex', alignItems: 'center', transform: 'rotate(-90deg)' }}>
-								{moreButton ? (
-									<DoubleRightOutlined
-										style={{ fontSize: '24px' }}
-										onClick={() => {
-											setMoreButton(!moreButton)
-										}}
-									/>
-								) : (
-									<DoubleLeftOutlined
-										style={{ fontSize: '24px' }}
-										onClick={() => {
-											setMoreButton(!moreButton)
-										}}
-									/>
-								)}
-							</div>
+							{showMore && (
+								<div style={{ marginRight: '12px', height: '32px', display: 'flex', alignItems: 'center', transform: 'rotate(-90deg)' }}>
+									{moreButton ? (
+										<DoubleRightOutlined
+											style={{ fontSize: '24px' }}
+											onClick={() => {
+												setMoreButton(!moreButton)
+											}}
+										/>
+									) : (
+										<DoubleLeftOutlined
+											style={{ fontSize: '24px' }}
+											onClick={() => {
+												setMoreButton(!moreButton)
+											}}
+										/>
+									)}
+								</div>
+							)}
 
 							<Button htmlType={'submit'} style={{ marginRight: '12px' }} type={'primary'}>
 								搜索
@@ -137,7 +140,10 @@ const Search: React.FC<SearchType> = props => {
 			}
 		}
 		if (isEnd) {
+			seSHowMore(false)
 			index += 1
+		} else {
+			seSHowMore(true)
 		}
 		isInt.current = false
 		moreIndex.current = index
