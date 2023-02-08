@@ -94,18 +94,17 @@ export class BaseFormTableColumnsItem extends BaseFormColumnsItem<ColumnTypeForm
 		const {
 			onAdd,
 			onDelete,
-			showDelete: showDeleteConfig = false,
+			showDelete: showDeleteConfig = true,
 			showAdd: showAddConfig = false,
 			hiddenAdd = false,
 			hiddenDelete = false,
 			buttonType = 'link'
 		} = itemConfig || {}
 		const data = getFormValueFromName(value, name)
-		let showDelete = data.length !== 1 || showDeleteConfig
+		let showDelete = showDeleteConfig
 		if (hiddenDelete) {
 			showDelete = false
 		}
-		console.log('showDelete', showDelete)
 		const showAdd = data.length === index + 1 || showAddConfig
 		return (
 			<>

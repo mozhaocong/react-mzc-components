@@ -4,6 +4,7 @@ import { isTrue } from 'html-mzc-tool'
 import React, { useEffect, useState } from 'react'
 
 import { closeAllElement, createElement } from './components/createElement'
+import { createSetReact, CreteSetReactDom, setReactCreateValue } from './components/createSetReact'
 
 type createModal = {
 	destroy: () => void
@@ -139,3 +140,6 @@ export { View as default }
 View.createModal = createModal
 View.createElement = createElement
 View.closeAllElement = closeAllElement
+View.createSetReact = createSetReact
+View.setReactCreateValue = setReactCreateValue
+View.CreteSetReactDom = CreteSetReactDom
