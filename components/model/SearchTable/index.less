@@ -38,15 +38,33 @@
     }
   }
   .search-table-block{
+    flex: 1;
     margin: 12px 0 0;
     padding: 12px 0 0 ;
     background: #fff;
     display: flex;
     flex-direction: column;
     .table-dom{
+      flex: 1;
       .ant-btn-link{
         padding-left: 0;
       }
+    }
+  }
+  .table-pagination{
+    padding: 12px 0 0;
+    position: sticky;
+    background: #ebedf0;
+    height: 56px;
+    bottom: 0;
+    .table-pagination-div{
+      width: 100%;
+      background: #FFF;
+      padding: 0 8px 0 0 ;
+      height: 44px;
+      display: flex;
+      justify-content: right;
+      align-items: center;
     }
   }
 }

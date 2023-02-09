@@ -1,6 +1,6 @@
 {
   "name": "react-mzc-components",
-  "version": "1.4.8",
+  "version": "1.4.91",
   "description": "",
   "scripts": {
     "build": "webpack",
