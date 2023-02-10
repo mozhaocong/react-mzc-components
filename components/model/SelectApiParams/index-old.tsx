@@ -1,4 +1,4 @@
-import { Select } from 'antd'
+import { Select } from '@components/antd'
 import { SelectProps } from 'antd/lib/select'
 import { isTrue } from 'html-mzc-tool'
 import React, { forwardRef, useEffect, useState } from 'react'

@@ -1,4 +1,4 @@
-import { Modal } from 'antd'
+import { Modal } from '@components/antd'
 import { ModalFuncProps, ModalProps } from 'antd/lib/modal/Modal'
 import { isTrue } from 'html-mzc-tool'
 import React, { useEffect, useState } from 'react'

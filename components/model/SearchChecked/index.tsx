@@ -1,6 +1,6 @@
 import './index.less'
 
-import { Button } from 'antd'
+import { Button } from '@components/antd'
 import { deepClone, isFunction, isString, isTrue } from 'html-mzc-tool'
 import React, { useEffect, useMemo, useState } from 'react'
 

@@ -1,6 +1,6 @@
 import './formTable.less'
 
-import { Col, Table } from 'antd'
+import { Col, Table } from '@components/antd'
 import { isArray, isFunctionOfOther, isObject, isString, isTrue } from 'html-mzc-tool'
 import React, { useEffect, useMemo, useState } from 'react'
 

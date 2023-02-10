@@ -1,4 +1,4 @@
-import { Col, Form, Input, Row } from 'antd'
+import { Col, Form, Input, Row } from '@components/antd'
 import { deepClone, isString } from 'html-mzc-tool'
 import React, { cloneElement, useMemo } from 'react'
 

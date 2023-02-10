@@ -1,4 +1,4 @@
-import { Tag } from 'antd'
+import { Tag } from '@components/antd'
 import { deepClone, isNumber, isString, isTrue } from 'html-mzc-tool'
 import React, { Fragment, useMemo } from 'react'
 

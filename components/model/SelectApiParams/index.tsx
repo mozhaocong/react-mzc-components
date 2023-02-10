@@ -1,4 +1,4 @@
-import { Select } from 'antd'
+import { Select } from '@components/antd'
 import { SelectProps } from 'antd/lib/select'
 import { isNil } from 'ramda'
 import React, { forwardRef, useMemo } from 'react'

@@ -1,4 +1,4 @@
-import { Col, Form, Row, Select } from 'antd'
+import { Col, Form, Row, Select } from '@components/antd'
 import { arrayGetData, deepClone, isArray, isTrue } from 'html-mzc-tool'
 import React from 'react'
 

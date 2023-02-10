@@ -1,4 +1,4 @@
-import { Button } from 'antd'
+import { Button } from '@components/antd'
 import { ColumnType } from 'antd/lib/table/interface'
 import { deepClone, isTrue } from 'html-mzc-tool'
 import moment, { isMoment } from 'moment/moment'

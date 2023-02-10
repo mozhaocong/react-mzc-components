@@ -1,4 +1,4 @@
-import { Tag } from 'antd'
+import { Tag } from '@components/antd'
 import React from 'react'
 
 export { BaseSearchColumnsItem } from '../classMethod/BaseSearchColumnsItem'

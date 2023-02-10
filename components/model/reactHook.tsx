@@ -1,4 +1,4 @@
-import { Spin } from 'antd'
+import { Spin } from '@components/antd'
 import { isTrue } from 'html-mzc-tool'
 import React, { useEffect, useMemo, useState } from 'react'
 

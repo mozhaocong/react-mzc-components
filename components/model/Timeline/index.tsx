@@ -1,6 +1,6 @@
 import './index.less'
 
-import { Timeline } from 'antd'
+import { Timeline } from '@components/antd'
 import { TimelineProps } from 'antd/lib/timeline/Timeline'
 import { isTrue } from 'html-mzc-tool'
 import React, { CSSProperties } from 'react'

@@ -1,4 +1,4 @@
-import { Select, Spin } from 'antd'
+import { Select, Spin } from '@components/antd'
 import { SelectProps } from 'antd/lib/select'
 import { arrayGetDataList, debounce, isTrue } from 'html-mzc-tool'
 import React, { forwardRef, useEffect, useMemo, useState } from 'react'

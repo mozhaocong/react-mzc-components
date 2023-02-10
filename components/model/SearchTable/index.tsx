@@ -1,6 +1,6 @@
 import './index.less'
 
-import { Button, Spin, Table } from 'antd'
+import { Button, Spin, Table } from '@components/antd'
 import { TableProps } from 'antd/lib/table/Table'
 import { deepClone, isArray, isTrue, objectFilterNull } from 'html-mzc-tool'
 import React, { useEffect, useMemo, useRef, useState } from 'react'

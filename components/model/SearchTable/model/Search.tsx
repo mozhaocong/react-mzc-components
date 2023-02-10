@@ -1,5 +1,5 @@
 import { DoubleLeftOutlined, DoubleRightOutlined } from '@ant-design/icons'
-import { Button, Col, Input } from 'antd'
+import { Button, Col, Input } from '@components/antd'
 import { debounce, isString, isTrue } from 'html-mzc-tool'
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 

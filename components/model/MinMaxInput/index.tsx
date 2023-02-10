@@ -1,7 +1,7 @@
 import './index.less'
 
 import { SwapRightOutlined } from '@ant-design/icons'
-import { Input, InputNumber } from 'antd'
+import { Input, InputNumber } from '@components/antd'
 import { isEmpty, isNil } from 'ramda'
 import React, { Component } from 'react'
 type props = {

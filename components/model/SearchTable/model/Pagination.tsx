@@ -1,4 +1,4 @@
-import { Pagination, Spin } from 'antd'
+import { Pagination, Spin } from '@components/antd'
 import React from 'react'
 
 export default (

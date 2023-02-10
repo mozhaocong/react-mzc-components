@@ -1,4 +1,4 @@
-import { Col, Form } from 'antd'
+import { Col, Form } from '@components/antd'
 import { isFunctionOfOther, isObject, isString, isTrue } from 'html-mzc-tool'
 import React, { cloneElement } from 'react'
 
