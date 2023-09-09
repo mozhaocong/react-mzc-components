@@ -133,7 +133,7 @@ const View = (props: ModalProps) => {
 		}
 	}, [props.open])
 
-	return <Modal {...{ wrapClassName, title: '弹窗', ...attrs }}>{children}</Modal>
+	return <Modal {...{ wrapClassName, title: '弹窗', maskClosable: false, ...attrs }}>{children}</Modal>
 }
 
 export { View as default }

@@ -53,7 +53,7 @@ let _FormModal: React.FC<propertiesType & createElementProps> = properties => {
 
 	return (
 		<Modal
-			{...{ maskClosable: true, ...modalConfig, getContainer, open, onCancel }}
+			{...{ maskClosable: false, ...modalConfig, getContainer, open, onCancel }}
 			okButtonProps={{ htmlType: 'submit', form: 'formModal', loading }}>
 			<div style={{ maxHeight: '50vh', overflow: 'auto' }}>
 				{render ? (
